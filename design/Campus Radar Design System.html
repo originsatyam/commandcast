@@ -1,0 +1,3254 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset=utf8>
+  <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <style>
+    :root {
+      color-scheme: light;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff;
+      color: #000
+    }
+
+    img {
+      max-width: 100%
+    }
+
+    [hidden]:not([hidden=until-found i]) {
+      display: none !important
+    }
+  </style>
+</head>
+
+<body>
+  <title>Campus Radar Design System</title>
+  <meta name="claude:viewport-fit-sides" content="cover">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+  <style>
+    /* Layout concept: an app-shell document. Sticky index on a tinted canvas, content on one large rounded white panel, like the product itself. */
+    :root {
+      --canvas: #F6F7FA;
+      --panel: #FFFFFF;
+      --muted: #F2F4F7;
+      --muted-2: #E8EBF0;
+      --line: #E7EAF0;
+      --line-strong: #D0D4DC;
+      --ink: #14171F;
+      --ink-2: #373F51;
+      --ink-3: #5F6779;
+      --ink-4: #8B92A1;
+      --primary: #222834;
+      --primary-hover: #14171F;
+      --on-primary: #FFFFFF;
+      --violet: #5B47E0;
+      --violet-soft: #F0EEFF;
+      --violet-ink: #4A38C8;
+      --ok: #0E7A4E;
+      --ok-soft: #E6F5EE;
+      --warn: #8A5300;
+      --warn-soft: #FFF1D6;
+      --crit: #C42B35;
+      --crit-soft: #FDECEE;
+      --badge: #D1343E;
+      --on-badge: #FFFFFF;
+      --spot: #171B25;
+      --on-spot: #F2F4F7;
+      --shadow-pop: 0 18px 40px -14px rgba(20, 23, 31, 0.22), 0 0 0 1px var(--line);
+
+      --f-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+      --f-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+      --s-1: 4px;
+      --s-2: 8px;
+      --s-3: 12px;
+      --s-4: 16px;
+      --s-5: 24px;
+      --s-6: 32px;
+      --s-7: 48px;
+      --s-8: 64px;
+      --s-9: 96px;
+      --r-1: 8px;
+      --r-2: 12px;
+      --r-3: 20px;
+      --r-4: 28px;
+      --r-pill: 999px;
+      --dur-1: 120ms;
+      --dur-2: 200ms;
+      --dur-3: 320ms;
+      --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --canvas: #0B0D12;
+        --panel: #11141B;
+        --muted: #1A1E27;
+        --muted-2: #232834;
+        --line: #222732;
+        --line-strong: #343B49;
+        --ink: #F2F4F7;
+        --ink-2: #CBD0DA;
+        --ink-3: #9AA2B3;
+        --ink-4: #6E7687;
+        --primary: #F2F4F7;
+        --primary-hover: #FFFFFF;
+        --on-primary: #14171F;
+        --violet: #A99BFF;
+        --violet-soft: #1E1B3F;
+        --violet-ink: #C3BAFF;
+        --ok: #4CC38A;
+        --ok-soft: #0F2A20;
+        --warn: #F0B94F;
+        --warn-soft: #2B2210;
+        --crit: #FF8A90;
+        --crit-soft: #3A1519;
+        --badge: #E5484D;
+        --on-badge: #FFFFFF;
+        --spot: #1B2030;
+        --on-spot: #F2F4F7;
+        --shadow-pop: 0 18px 40px -14px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--line);
+        color-scheme: dark;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --canvas: #0B0D12;
+      --panel: #11141B;
+      --muted: #1A1E27;
+      --muted-2: #232834;
+      --line: #222732;
+      --line-strong: #343B49;
+      --ink: #F2F4F7;
+      --ink-2: #CBD0DA;
+      --ink-3: #9AA2B3;
+      --ink-4: #6E7687;
+      --primary: #F2F4F7;
+      --primary-hover: #FFFFFF;
+      --on-primary: #14171F;
+      --violet: #A99BFF;
+      --violet-soft: #1E1B3F;
+      --violet-ink: #C3BAFF;
+      --ok: #4CC38A;
+      --ok-soft: #0F2A20;
+      --warn: #F0B94F;
+      --warn-soft: #2B2210;
+      --crit: #FF8A90;
+      --crit-soft: #3A1519;
+      --badge: #E5484D;
+      --on-badge: #FFFFFF;
+      --spot: #1B2030;
+      --on-spot: #F2F4F7;
+      --shadow-pop: 0 18px 40px -14px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--line);
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: var(--f-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      font-feature-settings: "tnum" 1, "ss01" 0;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      padding-block: 0;
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      padding-right: max(16px, env(safe-area-inset-right, 0px));
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0 0 auto;
+      height: env(safe-area-inset-top, 0px);
+      z-index: 40;
+      background: var(--canvas);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    ul,
+    ol,
+    dl,
+    dd,
+    figure {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+      color: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-underline-offset: 3px;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 2px;
+    }
+
+    .ic {
+      width: 18px;
+      height: 18px;
+      flex: none;
+    }
+
+    .ic-sm {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Type scale */
+    .t-display {
+      font-weight: 500;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      text-wrap: balance;
+    }
+
+    .t-h1 {
+      font-weight: 500;
+      font-size: clamp(1.875rem, 4vw, 2.5rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+
+    .t-h2 {
+      font-weight: 500;
+      font-size: 1.75rem;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+
+    .t-h3 {
+      font-weight: 500;
+      font-size: 1.25rem;
+      line-height: 1.3;
+      letter-spacing: -0.012em;
+    }
+
+    .t-lead {
+      font-size: 1.125rem;
+      line-height: 1.55;
+      color: var(--ink-3);
+      max-width: 62ch;
+    }
+
+    .t-body {
+      font-size: 0.9375rem;
+      line-height: 1.55;
+    }
+
+    .t-small {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .t-label {
+      font-weight: 500;
+      font-size: 0.71875rem;
+      line-height: 1.3;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    .mono {
+      font-family: var(--f-mono);
+      font-size: 0.8125rem;
+    }
+
+    .dim {
+      color: var(--ink-3);
+    }
+
+    /* Shell */
+    .shell {
+      display: grid;
+      grid-template-columns: 252px minmax(0, 1fr);
+      max-width: 1400px;
+      margin: 0 auto;
+      gap: 0 24px;
+    }
+
+    .side {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      align-self: start;
+      max-height: calc(100dvh - env(safe-area-inset-top, 0px));
+      overflow-y: auto;
+      padding: 24px 0 24px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      scrollbar-width: thin;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 1.125rem;
+      letter-spacing: -0.03em;
+      text-decoration: none;
+      padding-inline: 8px;
+    }
+
+    .brand svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .who {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-inline: 8px;
+      font-size: 0.9375rem;
+      color: var(--ink-2);
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #C9D3FF, #F3C9E8);
+      flex: none;
+    }
+
+    .idx {
+      display: grid;
+      gap: 2px;
+    }
+
+    .idx a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 12px;
+      border-radius: var(--r-2);
+      border: 1px solid transparent;
+      text-decoration: none;
+      color: var(--ink-3);
+      font-size: 0.9375rem;
+      transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+    }
+
+    .idx a:hover {
+      background: var(--muted);
+      color: var(--ink);
+    }
+
+    .idx a[aria-current="true"] {
+      background: var(--panel);
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .idx .grp {
+      margin: 14px 12px 4px;
+    }
+
+    .side-foot {
+      display: grid;
+      gap: 8px;
+    }
+
+    .main {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--r-4) var(--r-4) 0 0;
+      margin-top: 8px;
+      padding: 64px clamp(20px, 5vw, 64px) 120px;
+      min-width: 0;
+    }
+
+    .main>section {
+      padding-top: var(--s-9);
+      scroll-margin-top: 24px;
+    }
+
+    .main>section:first-child {
+      padding-top: 0;
+    }
+
+    .head {
+      display: grid;
+      gap: 14px;
+      margin-bottom: var(--s-6);
+    }
+
+    .sub {
+      margin-top: var(--s-7);
+      display: grid;
+      gap: var(--s-4);
+    }
+
+    .sub>.t-small {
+      color: var(--ink-3);
+      max-width: 64ch;
+    }
+
+    @media (max-width: 900px) {
+      .shell {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+      }
+
+      .side {
+        position: sticky;
+        z-index: 30;
+        max-height: none;
+        overflow: visible;
+        background: var(--canvas);
+        padding: 10px 0;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 4px 12px;
+      }
+
+      .who,
+      .side-foot .hint {
+        display: none;
+      }
+
+      .idx {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        display: flex;
+        overflow-x: auto;
+        gap: 4px;
+        margin-inline: -4px;
+        scrollbar-width: none;
+      }
+
+      .idx::-webkit-scrollbar {
+        display: none;
+      }
+
+      .idx a {
+        white-space: nowrap;
+        padding: 7px 12px;
+        flex: none;
+      }
+
+      .idx .grp {
+        display: none;
+      }
+
+      .side-foot {
+        grid-row: 1;
+        grid-column: 2;
+      }
+
+      .main {
+        padding-top: 40px;
+        border-radius: var(--r-3) var(--r-3) 0 0;
+      }
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 40px;
+      padding: 0 18px;
+      border-radius: var(--r-pill);
+      border: 1px solid transparent;
+      font-weight: 500;
+      font-size: 0.9375rem;
+      letter-spacing: -0.005em;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-lg {
+      height: 48px;
+      padding: 0 24px;
+      font-size: 1rem;
+    }
+
+    .btn-sm {
+      height: 32px;
+      padding: 0 14px;
+      font-size: 0.8125rem;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+
+    .btn-primary:hover,
+    .btn-primary.is-hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--panel);
+      color: var(--ink-2);
+      border-color: var(--line-strong);
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary.is-hover {
+      background: var(--muted);
+    }
+
+    .btn-tonal {
+      background: var(--muted);
+      color: var(--ink);
+    }
+
+    .btn-tonal:hover,
+    .btn-tonal.is-hover {
+      background: var(--muted-2);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink-2);
+    }
+
+    .btn-ghost:hover,
+    .btn-ghost.is-hover {
+      background: var(--muted);
+    }
+
+    .btn.is-focus {
+      outline: 2px solid var(--ink);
+      outline-offset: 2px;
+    }
+
+    .btn:disabled {
+      background: var(--muted);
+      color: var(--ink-4);
+      border-color: transparent;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border-radius: 50%;
+      border: 1px solid var(--line-strong);
+      background: var(--panel);
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--ink-2);
+      transition: background var(--dur-1) var(--ease);
+    }
+
+    .icon-btn:hover {
+      background: var(--muted);
+    }
+
+    .icon-btn[aria-pressed="true"] {
+      color: var(--ink);
+      background: var(--muted);
+    }
+
+    .icon-btn[aria-pressed="true"] .bm path {
+      fill: currentColor;
+    }
+
+    .icon-btn.sm {
+      width: 32px;
+      height: 32px;
+    }
+
+    /* Pills, tabs, chips */
+    .seg {
+      display: inline-flex;
+      padding: 4px;
+      border-radius: var(--r-pill);
+      background: var(--muted);
+      gap: 2px;
+    }
+
+    .seg button {
+      height: 36px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: var(--r-pill);
+      background: transparent;
+      color: var(--ink-3);
+      font-weight: 500;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+    }
+
+    .seg button[aria-selected="true"] {
+      background: var(--panel);
+      color: var(--ink);
+      box-shadow: 0 0 0 1px var(--line), 0 1px 2px rgba(20, 23, 31, 0.06);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 40px;
+      padding: 0 16px;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink-2);
+      font-weight: 500;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease);
+    }
+
+    .pill:hover {
+      border-color: var(--line-strong);
+    }
+
+    .pill[aria-pressed="true"] {
+      background: var(--muted);
+      border-color: transparent;
+      color: var(--ink);
+    }
+
+    .pill .ck {
+      display: none;
+    }
+
+    .pill[aria-pressed="true"] .ck {
+      display: block;
+    }
+
+    .pill.sm {
+      height: 32px;
+      padding: 0 12px;
+      font-size: 0.8125rem;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 24px;
+      padding: 0 10px;
+      border-radius: var(--r-pill);
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+      background: var(--muted);
+      color: var(--ink-2);
+    }
+
+    .badge.ok {
+      background: var(--ok-soft);
+      color: var(--ok);
+    }
+
+    .badge.warn {
+      background: var(--warn-soft);
+      color: var(--warn);
+    }
+
+    .badge.crit {
+      background: var(--crit-soft);
+      color: var(--crit);
+    }
+
+    .badge.violet {
+      background: var(--violet-soft);
+      color: var(--violet-ink);
+    }
+
+    .badge.line {
+      background: transparent;
+      box-shadow: inset 0 0 0 1px var(--line-strong);
+      color: var(--ink-3);
+    }
+
+    .count {
+      display: inline-grid;
+      place-items: center;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: var(--r-pill);
+      background: var(--badge);
+      color: var(--on-badge);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Inputs */
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--ink-2);
+    }
+
+    .input {
+      width: 100%;
+      height: 48px;
+      padding: 0 18px;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--line-strong);
+      background: var(--panel);
+      font-size: 0.9375rem;
+    }
+
+    .input::placeholder {
+      color: var(--ink-3);
+    }
+
+    .input:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 1px;
+    }
+
+    .input[aria-invalid="true"] {
+      border-color: var(--crit);
+    }
+
+    .help {
+      font-size: 0.8125rem;
+      color: var(--ink-3);
+      padding-inline: 6px;
+    }
+
+    .help.err {
+      color: var(--crit);
+    }
+
+    .search {
+      position: relative;
+    }
+
+    .search .ic {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-2);
+    }
+
+    .search .input {
+      padding-left: 48px;
+      height: 56px;
+      font-size: 1rem;
+    }
+
+    /* Cards and stage */
+    .stage {
+      background: var(--canvas);
+      border: 1px solid var(--line);
+      border-radius: var(--r-3);
+      padding: clamp(16px, 3vw, 32px);
+      min-width: 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--s-5);
+      align-items: start;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--s-4);
+      align-items: start;
+    }
+
+    .grid-2>*,
+    .grid-3>* {
+      min-width: 0;
+    }
+
+    .rows>div {
+      display: grid;
+      gap: 4px;
+      padding-block: var(--s-4);
+      border-top: 1px solid var(--line);
+    }
+
+    .rows>div:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .rows p {
+      color: var(--ink-3);
+      max-width: 62ch;
+    }
+
+    .hero {
+      display: grid;
+      gap: var(--s-5);
+    }
+
+    .hero .kick {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .promises {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--s-4);
+      margin-top: var(--s-4);
+    }
+
+    .promises>div {
+      background: var(--canvas);
+      border-radius: var(--r-3);
+      padding: 20px;
+      display: grid;
+      gap: 6px;
+      align-content: start;
+    }
+
+    .promises p {
+      color: var(--ink-3);
+    }
+
+    /* Source analysis */
+    .tbl {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--r-3);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 12px 18px;
+      border-top: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    thead th {
+      border-top: 0;
+      background: var(--canvas);
+    }
+
+    td.dim {
+      color: var(--ink-3);
+    }
+
+    .fontbox {
+      display: grid;
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--r-3);
+      overflow: hidden;
+    }
+
+    .fontrow {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 16px;
+      padding: 20px 24px;
+      border-top: 1px solid var(--line);
+      align-items: baseline;
+    }
+
+    .fontrow:first-child {
+      border-top: 0;
+    }
+
+    .fontrow .nm {
+      display: grid;
+      gap: 4px;
+    }
+
+    .fontrow .sample {
+      font-size: clamp(1.5rem, 3.4vw, 2.25rem);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      font-weight: 500;
+      overflow-wrap: anywhere;
+      min-width: 0;
+    }
+
+    .fontrow.pick {
+      background: var(--canvas);
+    }
+
+    @media (max-width: 640px) {
+      .fontrow {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+    }
+
+    .wts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      font-size: 1.125rem;
+      letter-spacing: -0.01em;
+    }
+
+    /* Swatches */
+    .sw-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    .sw {
+      text-align: left;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--r-3);
+      padding: 8px;
+      cursor: pointer;
+      display: grid;
+      gap: 10px;
+    }
+
+    .sw:hover {
+      border-color: var(--line-strong);
+    }
+
+    .sw .c {
+      height: 56px;
+      border-radius: 12px;
+      box-shadow: inset 0 0 0 1px rgba(127, 127, 127, 0.18);
+    }
+
+    .sw .m {
+      padding: 0 6px 6px;
+      display: grid;
+      gap: 1px;
+      min-width: 0;
+    }
+
+    .sw .n {
+      font-weight: 500;
+      font-size: 0.8125rem;
+    }
+
+    .sw .h {
+      color: var(--ink-3);
+    }
+
+    .sw .r {
+      color: var(--ink-3);
+      font-size: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .contrast {
+      border: 1px solid var(--line);
+      border-radius: var(--r-3);
+      overflow: hidden;
+    }
+
+    .c-row {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) auto auto;
+      gap: 14px;
+      align-items: center;
+      padding: 10px 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .c-row:first-child {
+      border-top: 0;
+    }
+
+    .c-sample {
+      width: 40px;
+      height: 32px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-weight: 500;
+      box-shadow: inset 0 0 0 1px rgba(127, 127, 127, 0.2);
+    }
+
+    /* Type scale */
+    .scale {
+      border: 1px solid var(--line);
+      border-radius: var(--r-3);
+      overflow: hidden;
+    }
+
+    .scale-row {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 16px;
+      padding: 18px 24px;
+      border-top: 1px solid var(--line);
+      align-items: baseline;
+    }
+
+    .scale-row:first-child {
+      border-top: 0;
+    }
+
+    .scale-row .cap {
+      display: grid;
+      gap: 2px;
+    }
+
+    .scale-row .s {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 640px) {
+      .scale-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+    }
+
+    /* Space */
+    .sp {
+      display: grid;
+      gap: 8px;
+    }
+
+    .sp-row {
+      display: grid;
+      grid-template-columns: 56px 48px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .sp-bar {
+      height: 12px;
+      border-radius: 4px;
+      background: var(--ink);
+      opacity: 0.8;
+    }
+
+    .shapes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+    }
+
+    .shape {
+      display: grid;
+      gap: 8px;
+    }
+
+    .shape .b {
+      height: 80px;
+      background: var(--panel);
+      border: 1px solid var(--line-strong);
+    }
+
+    .shape .b.pop {
+      border: 0;
+      box-shadow: var(--shadow-pop);
+    }
+
+    .motion {
+      display: grid;
+      gap: 14px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .track {
+      height: 8px;
+      border-radius: var(--r-pill);
+      background: var(--muted);
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      width: 100%;
+      background: var(--ink);
+      border-radius: var(--r-pill);
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform var(--d) var(--ease);
+    }
+
+    .go .fill {
+      transform: scaleX(1);
+    }
+
+    /* Sidebar demo */
+    .nav-demo {
+      width: 100%;
+      max-width: 300px;
+      background: var(--canvas);
+      border: 1px solid var(--line);
+      border-radius: var(--r-3);
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .nav-demo .idx a {
+      color: var(--ink-2);
+    }
+
+    .nav-demo .idx a .ic {
+      color: var(--ink-3);
+    }
+
+    .nav-demo .idx a .trail {
+      margin-left: auto;
+      color: var(--ink-3);
+    }
+
+    .nav-demo .idx a.violet {
+      color: var(--violet-ink);
+    }
+
+    .nav-demo .idx a.violet .ic {
+      color: var(--violet);
+    }
+
+    .promo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: var(--r-2);
+      background: var(--panel);
+      box-shadow: 0 0 0 1px var(--line);
+      font-size: 0.9375rem;
+    }
+
+    .promo .gem {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: conic-gradient(from 200deg, #C9B8FF, #FFD9B8, #B8E6FF, #C9B8FF);
+      flex: none;
+    }
+
+    /* Composer-style search */
+    .composer {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--r-4);
+      padding: 20px 20px 16px;
+      display: grid;
+      gap: 24px;
+      box-shadow: 0 1px 2px rgba(20, 23, 31, 0.03);
+    }
+
+    .composer .ph {
+      font-size: clamp(1.25rem, 2.6vw, 1.625rem);
+      letter-spacing: -0.02em;
+      color: var(--ink-3);
+      line-height: 1.25;
+    }
+
+    .composer .ph b {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .composer-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .composer-tools .grow {
+      flex: 1;
+    }
+
+    /* Opportunity card */
+    .opp {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--r-4);
+      padding: 20px;
+      display: grid;
+      gap: 16px;
+      min-width: 0;
+      transition: border-color var(--dur-2) var(--ease);
+    }
+
+    .opp:hover {
+      border-color: var(--line-strong);
+    }
+
+    .opp[data-state="closed"] {
+      background: var(--canvas);
+    }
+
+    .opp[data-state="closed"] .opp-title {
+      color: var(--ink-3);
+    }
+
+    .opp-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tile {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--muted);
+      display: grid;
+      place-items: center;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--ink-2);
+      flex: none;
+      letter-spacing: 0;
+    }
+
+    .opp-org {
+      display: grid;
+      gap: 1px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .opp-org b {
+      font-weight: 500;
+      font-size: 0.9375rem;
+      line-height: 1.3;
+    }
+
+    .opp-org span {
+      font-size: 0.8125rem;
+      color: var(--ink-3);
+    }
+
+    .opp-title {
+      font-weight: 500;
+      font-size: 1.25rem;
+      line-height: 1.25;
+      letter-spacing: -0.015em;
+      text-wrap: balance;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      height: 28px;
+      padding: 0 12px;
+      border-radius: var(--r-pill);
+      background: var(--muted);
+      font-size: 0.8125rem;
+      color: var(--ink-2);
+    }
+
+    .fit {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 0.8125rem;
+      color: var(--ink-3);
+    }
+
+    .facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 24px;
+      font-size: 0.875rem;
+    }
+
+    .facts div {
+      display: flex;
+      gap: 6px;
+    }
+
+    .facts dt {
+      color: var(--ink-3);
+    }
+
+    .facts dd {
+      font-weight: 500;
+    }
+
+    .opp-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .deadline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink-2);
+    }
+
+    .deadline.urgent {
+      background: var(--warn-soft);
+      color: var(--warn);
+      height: 28px;
+      padding: 0 12px 0 10px;
+      border-radius: var(--r-pill);
+    }
+
+    .deadline.quiet {
+      color: var(--ink-3);
+      font-weight: 400;
+    }
+
+    .foot-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .src {
+      font-size: 0.75rem;
+      color: var(--ink-3);
+      overflow-wrap: anywhere;
+    }
+
+    .proof {
+      display: flex;
+      align-items: center;
+      gap: 4px 12px;
+      flex-wrap: wrap;
+    }
+
+    .opp.compact {
+      padding: 16px;
+      gap: 12px;
+      border-radius: var(--r-3);
+    }
+
+    .opp.compact .opp-title {
+      font-size: 1.0625rem;
+    }
+
+    .notes-list {
+      display: grid;
+    }
+
+    .notes-list li {
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr);
+      gap: 12px;
+      padding-block: 12px;
+      border-top: 1px solid var(--line);
+      font-size: 0.875rem;
+      color: var(--ink-3);
+    }
+
+    .notes-list li:first-child {
+      border-top: 0;
+    }
+
+    .notes-list b {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .notes-list .n {
+      font-family: var(--f-mono);
+      font-size: 0.75rem;
+      padding-top: 2px;
+      color: var(--ink-4);
+    }
+
+    /* Spotlight card */
+    .spot {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--r-4);
+      background: var(--spot);
+      color: var(--on-spot);
+      padding: 20px;
+      min-height: 260px;
+      display: grid;
+      align-content: space-between;
+      gap: 24px;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    .spot::before {
+      content: "";
+      position: absolute;
+      inset: auto -20% -40% 30%;
+      height: 90%;
+      background: radial-gradient(closest-side, rgba(124, 99, 255, 0.55), rgba(124, 99, 255, 0) 70%), radial-gradient(closest-side at 70% 30%, rgba(255, 168, 120, 0.35), rgba(255, 168, 120, 0) 70%);
+      pointer-events: none;
+    }
+
+    .spot>* {
+      position: relative;
+    }
+
+    .spot-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .spot .pillw {
+      display: inline-flex;
+      align-items: center;
+      height: 28px;
+      padding: 0 12px;
+      border-radius: var(--r-pill);
+      background: rgba(255, 255, 255, 0.12);
+      font-size: 0.8125rem;
+      font-weight: 500;
+    }
+
+    .spot h4 {
+      font-weight: 500;
+      font-size: 1.5rem;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      text-wrap: balance;
+      margin-bottom: 6px;
+    }
+
+    .spot p {
+      color: rgba(242, 244, 247, 0.7);
+      font-size: 0.9375rem;
+    }
+
+    .spot-foot {
+      display: flex;
+      gap: 32px;
+    }
+
+    .spot-foot div {
+      display: grid;
+      gap: 2px;
+    }
+
+    .spot-foot b {
+      font-weight: 500;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .spot-foot span {
+      font-size: 0.8125rem;
+      color: rgba(242, 244, 247, 0.6);
+    }
+
+    /* Progress dock */
+    .dock {
+      background: var(--panel);
+      border-radius: var(--r-4);
+      box-shadow: var(--shadow-pop);
+      width: 100%;
+      max-width: 420px;
+      overflow: hidden;
+    }
+
+    .dock-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 14px 18px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: -0.015em;
+    }
+
+    .dock-head .chev {
+      margin-left: auto;
+      transition: transform var(--dur-2) var(--ease);
+    }
+
+    .dock-head[aria-expanded="true"] .chev {
+      transform: rotate(180deg);
+    }
+
+    .ring {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      flex: none;
+      display: grid;
+      place-items: center;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .ring svg {
+      position: absolute;
+      inset: 0;
+      transform: rotate(-90deg);
+    }
+
+    .ring .bg {
+      stroke: var(--muted-2);
+    }
+
+    .ring .fg {
+      stroke: var(--ink);
+      stroke-linecap: round;
+    }
+
+    .dock-body {
+      padding: 0 18px 18px;
+      display: grid;
+      gap: 0;
+    }
+
+    .todo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-block: 12px;
+      border-top: 1px solid var(--line);
+      font-size: 0.9375rem;
+    }
+
+    .todo .box {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid var(--line-strong);
+      display: grid;
+      place-items: center;
+      flex: none;
+    }
+
+    .todo.done {
+      color: var(--ink-3);
+    }
+
+    .todo.done .box {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--panel);
+    }
+
+    .todo .go {
+      margin-left: auto;
+      color: var(--ink-3);
+      font-size: 0.8125rem;
+    }
+
+    /* Trending list */
+    .list-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--r-4);
+      padding: 20px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .list-card .t-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .li {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr) auto;
+      gap: 12px;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+      align-items: start;
+    }
+
+    .li:first-of-type {
+      border-top: 0;
+    }
+
+    .li .ico {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--muted);
+      display: grid;
+      place-items: center;
+      color: var(--ink-2);
+    }
+
+    .li b {
+      display: block;
+      font-weight: 500;
+      font-size: 0.9375rem;
+      line-height: 1.3;
+    }
+
+    .li span {
+      display: block;
+      font-size: 0.8125rem;
+      color: var(--ink-3);
+    }
+
+    .li .when {
+      font-size: 0.8125rem;
+      color: var(--ink-3);
+      white-space: nowrap;
+    }
+
+    .li .when.urgent {
+      color: var(--warn);
+      font-weight: 500;
+    }
+
+    /* Tracker and stepper */
+    .trk {
+      border: 1px solid var(--line);
+      border-radius: var(--r-3);
+      overflow: hidden;
+    }
+
+    .trk-row {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr) auto auto;
+      gap: 12px 16px;
+      align-items: center;
+      padding: 14px 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .trk-row:first-child {
+      border-top: 0;
+    }
+
+    .trk-row b {
+      font-weight: 500;
+      display: block;
+      font-size: 0.9375rem;
+      line-height: 1.3;
+    }
+
+    .trk-row small {
+      color: var(--ink-3);
+      font-size: 0.8125rem;
+    }
+
+    @media (max-width: 600px) {
+      .trk-row {
+        grid-template-columns: 36px minmax(0, 1fr) auto;
+      }
+
+      .trk-row .deadline {
+        grid-column: 2 / -1;
+      }
+    }
+
+    .stepper {
+      display: flex;
+      min-width: 440px;
+    }
+
+    .step {
+      flex: 1;
+      display: grid;
+      gap: 8px;
+      justify-items: start;
+      position: relative;
+      min-width: 0;
+      font-size: 0.8125rem;
+      color: var(--ink-3);
+    }
+
+    .step::before {
+      content: "";
+      position: absolute;
+      top: 7px;
+      left: 18px;
+      right: 4px;
+      height: 2px;
+      background: var(--line-strong);
+    }
+
+    .step:last-child::before {
+      display: none;
+    }
+
+    .step .d {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--line-strong);
+      background: var(--panel);
+      position: relative;
+      z-index: 1;
+    }
+
+    .step.done .d {
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .step.done::before {
+      background: var(--ink);
+    }
+
+    .step.now .d {
+      border-color: var(--ink);
+      box-shadow: 0 0 0 4px var(--muted-2);
+    }
+
+    .step.done,
+    .step.now {
+      color: var(--ink);
+    }
+
+    .step.now {
+      font-weight: 500;
+    }
+
+    /* Empty, toast */
+    .empty {
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--r-4);
+      padding: 32px 24px;
+      display: grid;
+      gap: 12px;
+      justify-items: start;
+      background: var(--panel);
+    }
+
+    .empty p {
+      color: var(--ink-3);
+      max-width: 44ch;
+    }
+
+    .toast {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--ink);
+      color: var(--panel);
+      border-radius: var(--r-pill);
+      padding: 8px 8px 8px 22px;
+      box-shadow: var(--shadow-pop);
+      font-size: 0.9375rem;
+    }
+
+    .toast button {
+      border: 0;
+      background: rgba(127, 127, 127, 0.25);
+      color: inherit;
+      font-weight: 500;
+      height: 36px;
+      padding: 0 16px;
+      border-radius: var(--r-pill);
+      cursor: pointer;
+    }
+
+    /* App mock */
+    .mock-wrap {
+      container-type: inline-size;
+    }
+
+    .mock {
+      display: grid;
+      grid-template-columns: 200px minmax(0, 1fr) 280px;
+      gap: 0 20px;
+      background: var(--canvas);
+      border: 1px solid var(--line);
+      border-radius: var(--r-4);
+      padding: 16px 16px 0;
+      overflow: hidden;
+      align-items: start;
+    }
+
+    .mock .m-side {
+      display: grid;
+      gap: 10px;
+      padding-bottom: 16px;
+    }
+
+    .mock .m-feed {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px 20px 0 0;
+      padding: 20px;
+      display: grid;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .mock .m-rail {
+      display: grid;
+      gap: 16px;
+      padding-bottom: 16px;
+      min-width: 0;
+    }
+
+    .mock .idx a {
+      padding: 8px 10px;
+      font-size: 0.875rem;
+    }
+
+    @container (max-width: 880px) {
+      .mock {
+        grid-template-columns: minmax(0, 1fr) 260px;
+      }
+
+      .mock .m-side {
+        display: none;
+      }
+    }
+
+    @container (max-width: 620px) {
+      .mock {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .mock .m-rail {
+        display: none;
+      }
+    }
+
+    /* Dos and don'ts */
+    .say {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 8px;
+      padding-block: 10px;
+      border-top: 1px solid var(--line);
+      font-size: 0.9375rem;
+    }
+
+    .say.no span:last-child {
+      color: var(--ink-3);
+      text-decoration: line-through;
+      text-decoration-color: var(--line-strong);
+    }
+
+    .say .t-label {
+      padding-top: 3px;
+    }
+
+    .say.yes .t-label {
+      color: var(--ok);
+    }
+
+    .say.no .t-label {
+      color: var(--crit);
+    }
+
+    .mentor {
+      display: grid;
+    }
+
+    .mentor li {
+      display: grid;
+      gap: 4px;
+      padding-block: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    .mentor li:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .mentor b {
+      font-weight: 500;
+      font-size: 1.125rem;
+      letter-spacing: -0.012em;
+    }
+
+    .mentor p {
+      color: var(--ink-3);
+      max-width: 66ch;
+    }
+
+    /* Code */
+    .code {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: var(--r-3);
+      background: var(--canvas);
+    }
+
+    .code .btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 24px;
+      overflow-x: auto;
+      font-family: var(--f-mono);
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--ink-2);
+      max-height: 460px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      * {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-mark" viewBox="0 0 28 28">
+      <rect width="28" height="28" rx="9" fill="var(--primary)" />
+      <circle cx="14" cy="14" r="8" fill="none" stroke="var(--on-primary)" stroke-width="1.6" />
+      <circle cx="14" cy="14" r="3.6" fill="none" stroke="var(--on-primary)" stroke-width="1.6" />
+      <circle cx="19.2" cy="8.8" r="2.1" fill="var(--on-primary)" />
+    </symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24">
+      <path class="bm" d="M6.5 4h11v16.5L12 16.8 6.5 20.5z" fill="none" stroke="currentColor" stroke-width="1.6"
+        stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+        stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-verified" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8" />
+      <path d="M8 12.5l2.7 2.7L16 9.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+        stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8" />
+      <path d="M12 7v5.2l3.2 1.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7" />
+      <path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+    </symbol>
+    <symbol id="i-out" viewBox="0 0 24 24">
+      <path d="M8 16L16.5 7.5M9.5 7.5h7v7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+        stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24">
+      <path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+        stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24">
+      <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+        stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24">
+      <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+    </symbol>
+    <symbol id="i-home" viewBox="0 0 24 24">
+      <path d="M4 10.5L12 4l8 6.5V20H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+      <path d="M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="1.6" />
+    </symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24">
+      <rect x="4" y="4" width="6.5" height="6.5" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.6" />
+      <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.6" />
+      <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.6" />
+      <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.6" />
+    </symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24">
+      <path d="M6 17V11a6 6 0 1112 0v6l1.5 2h-15z" fill="none" stroke="currentColor" stroke-width="1.6"
+        stroke-linejoin="round" />
+      <path d="M10 21h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+    </symbol>
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" />
+      <circle cx="12" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="1.6" />
+      <path d="M6.5 18c1.3-2.2 3.2-3.2 5.5-3.2s4.2 1 5.5 3.2" fill="none" stroke="currentColor" stroke-width="1.6"
+        stroke-linecap="round" />
+    </symbol>
+    <symbol id="i-ring" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.6" />
+      <circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6" />
+    </symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24">
+      <path d="M4 8h9M17 8h3M4 16h3M11 16h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+      <circle cx="15" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.7" />
+      <circle cx="9" cy="16" r="2" fill="none" stroke="currentColor" stroke-width="1.7" />
+    </symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24">
+      <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" fill="none" stroke="currentColor"
+        stroke-width="1.5" stroke-linejoin="round" />
+      <path d="M18.5 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z" fill="currentColor" />
+    </symbol>
+    <symbol id="i-book" viewBox="0 0 24 24">
+      <path d="M5 5.5A1.5 1.5 0 016.5 4H19v14H6.5A1.5 1.5 0 005 19.5z M5 19.5A1.5 1.5 0 006.5 21H19" fill="none"
+        stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-img" viewBox="0 0 24 24">
+      <rect x="4" y="5" width="16" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.6" />
+      <circle cx="9" cy="10" r="1.6" fill="currentColor" />
+      <path d="M5 17l4.5-4.5 3.5 3.5 2.5-2.5L20 16" fill="none" stroke="currentColor" stroke-width="1.6"
+        stroke-linejoin="round" />
+    </symbol>
+  </svg>
+
+  <div class="shell">
+    <aside class="side" aria-label="Design system index">
+      <a class="brand" href="#top"><svg aria-hidden="true">
+          <use href="#i-mark" />
+        </svg>Campus Radar</a>
+      <div class="who"><span class="avatar" aria-hidden="true"></span>Design system v0.2</div>
+      <nav class="idx" id="idx">
+        <a href="#top" data-sec="top"><svg class="ic">
+            <use href="#i-home" />
+          </svg>Overview</a>
+        <a href="#source" data-sec="source"><svg class="ic">
+            <use href="#i-search" />
+          </svg>Source and font</a>
+        <a href="#color" data-sec="color"><svg class="ic">
+            <use href="#i-ring" />
+          </svg>Color</a>
+        <a href="#type" data-sec="type"><svg class="ic">
+            <use href="#i-book" />
+          </svg>Type</a>
+        <a href="#shape" data-sec="shape"><svg class="ic">
+            <use href="#i-grid" />
+          </svg>Shape and motion</a>
+        <a href="#components" data-sec="components"><svg class="ic">
+            <use href="#i-plus" />
+          </svg>Components</a>
+        <a href="#patterns" data-sec="patterns"><svg class="ic">
+            <use href="#i-home" />
+          </svg>App shell</a>
+        <a href="#trust" data-sec="trust"><svg class="ic">
+            <use href="#i-verified" />
+          </svg>Trust and voice</a>
+        <a href="#notes" data-sec="notes"><svg class="ic">
+            <use href="#i-spark" />
+          </svg>Mentor notes</a>
+        <a href="#tokens" data-sec="tokens"><svg class="ic">
+            <use href="#i-sliders" />
+          </svg>Tokens</a>
+      </nav>
+      <div class="side-foot"><button class="btn btn-primary btn-block" id="themeBtn" type="button">Dark mode</button>
+      </div>
+    </aside>
+
+    <main class="main" id="top">
+      <!-- OVERVIEW -->
+      <section class="hero" id="hero" aria-labelledby="h-top">
+        <p class="t-label kick">Campus Radar &middot; Design system v0.2 &middot; Working name</p>
+        <h1 class="t-display" id="h-top">Quiet surfaces. Clear answers.</h1>
+        <p class="t-lead">A calm, modern product language for finding opportunities that fit a student. Soft canvas, big
+          rounded surfaces, one neutral typeface and almost no color, so the deadline and the proof of trust are the
+          things you notice.</p>
+        <div class="promises">
+          <div>
+            <h2 class="t-h3">Relevant</h2>
+            <p class="t-small">Filtered by degree, year, location, eligibility and experience.</p>
+          </div>
+          <div>
+            <h2 class="t-h3">Trustworthy</h2>
+            <p class="t-small">Source link, eligibility, deadline and last-verified date on every card.</p>
+          </div>
+          <div>
+            <h2 class="t-h3">Never lose track</h2>
+            <p class="t-small">Saved items, application status and deadline reminders.</p>
+          </div>
+        </div>
+        <p class="t-small dim">What changed from v0.1: no mono labels or hairline boxes, no blue accent. Large radii,
+          pill controls, a single typeface and a neutral navy primary, based on a close read of Contra. All listings and
+          organisations here are made-up sample data.</p>
+      </section>
+
+      <!-- SOURCE -->
+      <section id="source" aria-labelledby="h-source">
+        <div class="head">
+          <p class="t-label">Reference</p>
+          <h2 class="t-h1" id="h-source">What Contra actually uses</h2>
+          <p class="t-lead">I scraped contra.com and read your two screenshots. The scrape gives exact values for the
+            public site. The in-app details come from your screenshots, so treat those as close approximations.</p>
+        </div>
+        <div class="tbl">
+          <table>
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Finding</th>
+                <th>How I know</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Heading typeface</td>
+                <td><b>GT Standard L</b> (Grilli Type), fallback Arial</td>
+                <td class="dim">Scraped</td>
+              </tr>
+              <tr>
+                <td>Body typeface</td>
+                <td><b>GT Standard M</b>, fallback Arial</td>
+                <td class="dim">Scraped</td>
+              </tr>
+              <tr>
+                <td>Sizes on the site</td>
+                <td>H1 58px, body 19px, label 12px</td>
+                <td class="dim">Scraped</td>
+              </tr>
+              <tr>
+                <td>Weights</td>
+                <td>Mostly regular and medium. Headings are light-looking, tightly tracked, never bold.</td>
+                <td class="dim">Read from screenshots</td>
+              </tr>
+              <tr>
+                <td>Primary button</td>
+                <td>Navy <span class="mono">#222834</span>, white text, 24px radius (a pill)</td>
+                <td class="dim">Scraped</td>
+              </tr>
+              <tr>
+                <td>Secondary button</td>
+                <td>White, <span class="mono">#373F51</span> text, <span class="mono">#D0D4DC</span> border, pill</td>
+                <td class="dim">Scraped</td>
+              </tr>
+              <tr>
+                <td>Ink and fills</td>
+                <td>Text <span class="mono">#14171F</span>, soft fill <span class="mono">#F2F4F7</span>, white ground,
+                  8px spacing base</td>
+                <td class="dim">Scraped</td>
+              </tr>
+              <tr>
+                <td>App patterns</td>
+                <td>Tinted canvas with one large white panel, 12px nav items, pill tabs, big rounded cards, uppercase
+                  tracked section labels, coral count badge, a violet accent kept for premium moments, a floating
+                  progress dock</td>
+                <td class="dim">Read from screenshots</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="sub">
+          <h3 class="t-h2">The font question</h3>
+          <p class="t-small">GT Standard is a licensed face and is not on Google Fonts, so I cannot ship it here. It is
+            a neutral grotesque with slightly open, friendly shapes. Of the three you named, Geist is the nearest in
+            feel and has the best tabular numerals, which matters for deadlines. Type your own text below to compare.
+          </p>
+          <div class="field"><label for="specText">Sample text</label><input class="input" id="specText" type="text"
+              value="Closes 2 Nov · ₹25,000 / month"></div>
+          <div class="fontbox">
+            <div class="fontrow pick">
+              <div class="nm"><b>Geist</b><span class="badge ok" style="width:fit-content">Chosen</span></div>
+              <div class="sample" data-spec style="font-family:'Geist',sans-serif">Closes 2 Nov · ₹25,000 / month</div>
+            </div>
+            <div class="fontrow">
+              <div class="nm"><b>Inter</b><span class="t-small dim">Safe, a bit generic</span></div>
+              <div class="sample" data-spec style="font-family:'Inter',sans-serif">Closes 2 Nov · ₹25,000 / month</div>
+            </div>
+            <div class="fontrow">
+              <div class="nm"><b>SF Pro</b><span class="t-small dim">Only renders on Apple devices, otherwise falls
+                  back</span></div>
+              <div class="sample" data-spec
+                style="font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',system-ui,sans-serif">Closes 2 Nov
+                · ₹25,000 / month</div>
+            </div>
+          </div>
+          <p class="t-small dim">When you have budget, license GT Standard from Grilli Type and swap the single <span
+              class="mono">--f-sans</span> token. Nothing else changes.</p>
+        </div>
+      </section>
+
+      <!-- COLOR -->
+      <section id="color" aria-labelledby="h-color">
+        <div class="head">
+          <p class="t-label">Foundations</p>
+          <h2 class="t-h1" id="h-color">Color</h2>
+          <p class="t-lead">Cool greys with a faint blue lean, a navy primary and almost nothing else. Click a swatch to
+            copy its value. The button at the bottom of the index switches the whole page.</p>
+        </div>
+        <div id="swatches" style="display:grid;gap:32px"></div>
+        <div class="sub">
+          <h3 class="t-h2">Contrast, live</h3>
+          <p class="t-small">Computed from the active theme's tokens. Text needs 4.5 or higher.</p>
+          <div class="contrast" id="contrast"></div>
+        </div>
+        <div class="sub">
+          <h3 class="t-h2">Rules</h3>
+          <div class="rows">
+            <div>
+              <h4 class="t-h3">Navy is the action color</h4>
+              <p>Primary buttons and the Create button use it. In dark mode it flips to near-white, so a primary action
+                is always the highest-contrast thing on screen.</p>
+            </div>
+            <div>
+              <h4 class="t-h3">Violet is for "this fits you"</h4>
+              <p>Only the fit line and match moments use it. If violet appears anywhere else it stops meaning anything.
+              </p>
+            </div>
+            <div>
+              <h4 class="t-h3">Green, amber and red are listing state</h4>
+              <p>Verified, closing within 7 days, error. Always with an icon or words, never color alone.</p>
+            </div>
+            <div>
+              <h4 class="t-h3">No borders on top of borders</h4>
+              <p>Use a fill step (canvas, panel, muted) before reaching for a line. One hairline per surface.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TYPE -->
+      <section id="type" aria-labelledby="h-type">
+        <div class="head">
+          <p class="t-label">Foundations</p>
+          <h2 class="t-h1" id="h-type">Type</h2>
+          <p class="t-lead">One family, Geist. Hierarchy comes from size, tight tracking on large text and a few
+            weights, not from changing fonts.</p>
+        </div>
+        <div class="wts" aria-label="Weights in use">
+          <span style="font-weight:400">Regular 400 &middot; reading</span>
+          <span style="font-weight:500">Medium 500 &middot; titles, UI</span>
+          <span style="font-weight:600">Semibold 600 &middot; tiny badges only</span>
+        </div>
+        <div class="sub">
+          <div class="scale">
+            <div class="scale-row">
+              <div class="cap mono"><span>display</span><span class="dim">64 / 1.0 &middot; 500 &middot; -4%</span>
+              </div>
+              <div class="s t-display" style="font-size:clamp(2rem,6vw,4rem)">Find what fits</div>
+            </div>
+            <div class="scale-row">
+              <div class="cap mono"><span>h1</span><span class="dim">40 / 1.08 &middot; 500 &middot; -3%</span></div>
+              <div class="s t-h1">Open to you this month</div>
+            </div>
+            <div class="scale-row">
+              <div class="cap mono"><span>h2</span><span class="dim">28 / 1.15 &middot; 500 &middot; -2%</span></div>
+              <div class="s t-h2">Closing in the next 7 days</div>
+            </div>
+            <div class="scale-row">
+              <div class="cap mono"><span>h3 and card title</span><span class="dim">20 / 1.25 &middot; 500 &middot;
+                  -1.5%</span></div>
+              <div class="s t-h3">Summer Research Intern, Computer Vision</div>
+            </div>
+            <div class="scale-row">
+              <div class="cap mono"><span>lead</span><span class="dim">18 / 1.55 &middot; 400</span></div>
+              <div class="s t-lead">Applications are handled on the organisation's own site.</div>
+            </div>
+            <div class="scale-row">
+              <div class="cap mono"><span>body</span><span class="dim">15 / 1.55 &middot; 400</span></div>
+              <div class="s t-body">Open to B.Tech and B.E. students in their second or third year. No prior experience
+                needed.</div>
+            </div>
+            <div class="scale-row">
+              <div class="cap mono"><span>small</span><span class="dim">13 / 1.5 &middot; 400</span></div>
+              <div class="s t-small">Verified by a person on 24 Oct 2026</div>
+            </div>
+            <div class="scale-row">
+              <div class="cap mono"><span>label</span><span class="dim">11.5 &middot; 500 &middot; caps &middot;
+                  +9%</span></div>
+              <div class="s t-label">Suggested for you</div>
+            </div>
+          </div>
+          <p class="t-small dim">Numerals use tabular figures everywhere (<span class="mono">font-feature-settings:
+              "tnum"</span>) so dates and stipends line up in lists. Geist Mono is only for code and token names.</p>
+        </div>
+      </section>
+
+      <!-- SHAPE -->
+      <section id="shape" aria-labelledby="h-shape">
+        <div class="head">
+          <p class="t-label">Foundations</p>
+          <h2 class="t-h1" id="h-shape">Shape, space and motion</h2>
+          <p class="t-lead">Generous radii and an 8px grid give the soft, modern feel. Depth comes from fill steps, with
+            one shadow reserved for floating things.</p>
+        </div>
+        <div class="grid-2">
+          <div class="sub" style="margin-top:0">
+            <h3 class="t-h3">Spacing, 4px steps</h3>
+            <div class="sp" id="spList"></div>
+          </div>
+          <div class="sub" style="margin-top:0">
+            <h3 class="t-h3">Radius and depth</h3>
+            <div class="shapes">
+              <div class="shape">
+                <div class="b" style="border-radius:var(--r-1)"></div><span class="mono">r-1 &middot; 8</span><span
+                  class="t-small dim">Tiles, small controls</span>
+              </div>
+              <div class="shape">
+                <div class="b" style="border-radius:var(--r-2)"></div><span class="mono">r-2 &middot; 12</span><span
+                  class="t-small dim">Nav items</span>
+              </div>
+              <div class="shape">
+                <div class="b" style="border-radius:var(--r-3)"></div><span class="mono">r-3 &middot; 20</span><span
+                  class="t-small dim">Panels, compact cards</span>
+              </div>
+              <div class="shape">
+                <div class="b" style="border-radius:var(--r-4)"></div><span class="mono">r-4 &middot; 28</span><span
+                  class="t-small dim">Primary cards</span>
+              </div>
+              <div class="shape">
+                <div class="b" style="border-radius:var(--r-pill)"></div><span class="mono">pill</span><span
+                  class="t-small dim">Buttons, inputs, chips</span>
+              </div>
+              <div class="shape">
+                <div class="b pop" style="border-radius:var(--r-4)"></div><span class="mono">shadow-pop</span><span
+                  class="t-small dim">Dock, menus, toasts only</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sub">
+          <h3 class="t-h3">Motion</h3>
+          <div class="motion go" id="motion">
+            <div class="bar-row"><span class="mono">dur-1 &middot; 120ms</span>
+              <div class="track">
+                <div class="fill" style="--d:var(--dur-1)"></div>
+              </div>
+            </div>
+            <div class="bar-row"><span class="mono">dur-2 &middot; 200ms</span>
+              <div class="track">
+                <div class="fill" style="--d:var(--dur-2)"></div>
+              </div>
+            </div>
+            <div class="bar-row"><span class="mono">dur-3 &middot; 320ms</span>
+              <div class="track">
+                <div class="fill" style="--d:var(--dur-3)"></div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn btn-tonal btn-sm"
+              id="replay" type="button">Replay</button><span class="mono dim">ease cubic-bezier(0.2, 0.7, 0.2, 1)</span>
+          </div>
+          <p class="t-small">120ms for hover, press and toggles. 200ms for toasts and the dock opening. 320ms for
+            sheets. Buttons shrink to 98% on press. Nothing loops, and everything is off under reduced motion.</p>
+        </div>
+      </section>
+
+      <!-- COMPONENTS -->
+      <section id="components" aria-labelledby="h-comp">
+        <div class="head">
+          <p class="t-label">Components</p>
+          <h2 class="t-h1" id="h-comp">Components</h2>
+          <p class="t-lead">Built from the foundations above. The opportunity card does most of the work, so it leads.
+          </p>
+        </div>
+
+        <h3 class="t-h2" style="margin-bottom:16px">Opportunity card</h3>
+        <div class="grid-2">
+          <div class="stage">
+            <article class="opp" data-state="open">
+              <div class="opp-head">
+                <span class="tile">NL</span>
+                <div class="opp-org"><b>Northfield Labs</b><span>Internship &middot; Remote</span></div>
+                <button class="icon-btn" type="button" aria-pressed="true" aria-label="Save opportunity"><svg
+                    class="ic">
+                    <use href="#i-bookmark" />
+                  </svg></button>
+              </div>
+              <h4 class="opp-title">Summer Research Intern, Computer Vision</h4>
+              <div class="tags"><span class="tag">B.Tech or B.E.</span><span class="tag">Year 2 to 3</span><span
+                  class="tag">Python</span><span class="tag">No experience needed</span></div>
+              <dl class="facts">
+                <div>
+                  <dt>Stipend</dt>
+                  <dd>₹25,000 / month</dd>
+                </div>
+                <div>
+                  <dt>Duration</dt>
+                  <dd>8 weeks</dd>
+                </div>
+              </dl>
+              <div class="fit"><span class="badge violet"><svg class="ic ic-sm">
+                    <use href="#i-spark" />
+                  </svg>Fits you</span>Year 3, CSE, Remote</div>
+              <div class="opp-foot">
+                <span class="deadline urgent"><svg class="ic ic-sm">
+                    <use href="#i-clock" />
+                  </svg>Closes 2 Nov &middot; 6 days</span>
+                <div class="foot-actions"><a class="btn btn-primary btn-sm" href="#components">Apply at source<svg
+                      class="ic ic-sm">
+                      <use href="#i-out" />
+                    </svg></a></div>
+              </div>
+              <div class="proof"><span class="badge ok"><svg class="ic ic-sm">
+                    <use href="#i-verified" />
+                  </svg>Verified 3 days ago</span><span class="src">northfieldlabs.example/careers</span></div>
+            </article>
+          </div>
+          <div>
+            <ol class="notes-list">
+              <li><span class="n">1</span><span><b>Organisation row.</b> Monogram tile, name, kind and mode. The save
+                  button sits here so it is reachable with a thumb.</span></li>
+              <li><span class="n">2</span><span><b>Title.</b> The only large text on the card.</span></li>
+              <li><span class="n">3</span><span><b>Eligibility chips.</b> Who can apply, in plain words, before any
+                  description.</span></li>
+              <li><span class="n">4</span><span><b>Fit line.</b> Violet badge plus the criteria that matched. Never a
+                  match percentage, because you cannot yet explain the number.</span></li>
+              <li><span class="n">5</span><span><b>Deadline.</b> Turns into an amber pill inside 7 days and goes quiet
+                  when closed.</span></li>
+              <li><span class="n">6</span><span><b>Proof line.</b> Last-verified badge and the source domain. No source,
+                  no listing.</span></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="sub">
+          <h3 class="t-h2">Card states</h3>
+          <div class="stage">
+            <div class="grid-3">
+              <article class="opp" data-state="open">
+                <div class="opp-head"><span class="tile">KF</span>
+                  <div class="opp-org"><b>Kaveri Foundation</b><span>Scholarship</span></div><button class="icon-btn"
+                    type="button" aria-pressed="false" aria-label="Save opportunity"><svg class="ic">
+                      <use href="#i-bookmark" />
+                    </svg></button>
+                </div>
+                <h4 class="opp-title">Kaveri Merit Scholarship 2026-27</h4>
+                <div class="tags"><span class="tag">Any degree</span><span class="tag">Year 1 to 3</span><span
+                    class="tag">CGPA 8.0+</span></div>
+                <dl class="facts">
+                  <div>
+                    <dt>Award</dt>
+                    <dd>₹60,000 / year</dd>
+                  </div>
+                </dl>
+                <div class="opp-foot"><span class="deadline"><svg class="ic ic-sm">
+                      <use href="#i-clock" />
+                    </svg>Closes 21 Nov &middot; 25 days</span><a class="btn btn-secondary btn-sm"
+                    href="#components">Apply<svg class="ic ic-sm">
+                      <use href="#i-out" />
+                    </svg></a></div>
+                <div class="proof"><span class="badge ok"><svg class="ic ic-sm">
+                      <use href="#i-verified" />
+                    </svg>Verified 9 days ago</span><span class="src">kaveri.example/scholarship</span></div>
+              </article>
+              <article class="opp" data-state="open">
+                <div class="opp-head"><span class="tile">MP</span>
+                  <div class="opp-org"><b>Midland Policy Lab</b><span>Fellowship &middot; Hybrid</span></div><button
+                    class="icon-btn" type="button" aria-pressed="false" aria-label="Save opportunity"><svg class="ic">
+                      <use href="#i-bookmark" />
+                    </svg></button>
+                </div>
+                <h4 class="opp-title">Civic Data Fellowship</h4>
+                <div class="tags"><span class="tag">Final year</span><span class="tag">Any degree</span><span
+                    class="tag">Excel or SQL</span></div>
+                <dl class="facts">
+                  <div>
+                    <dt>Stipend</dt>
+                    <dd>₹18,000 / month</dd>
+                  </div>
+                </dl>
+                <div class="opp-foot"><span class="deadline"><svg class="ic ic-sm">
+                      <use href="#i-clock" />
+                    </svg>Closes 30 Nov &middot; 34 days</span><a class="btn btn-secondary btn-sm"
+                    href="#components">Apply<svg class="ic ic-sm">
+                      <use href="#i-out" />
+                    </svg></a></div>
+                <div class="proof"><span class="badge warn"><svg class="ic ic-sm">
+                      <use href="#i-clock" />
+                    </svg>Re-checking &middot; 19 days</span><span class="src">midlandpolicy.example/fellows</span>
+                </div>
+              </article>
+              <article class="opp" data-state="closed">
+                <div class="opp-head"><span class="tile">MD</span>
+                  <div class="opp-org"><b>Midland Developer Circle</b><span>Hackathon &middot; On campus</span></div>
+                  <span class="badge line">Closed</span>
+                </div>
+                <h4 class="opp-title">Smart Campus Build Weekend</h4>
+                <div class="tags"><span class="tag">Any degree</span><span class="tag">Any year</span><span
+                    class="tag">Teams of 3 to 4</span></div>
+                <div class="opp-foot"><span class="deadline quiet"><svg class="ic ic-sm">
+                      <use href="#i-clock" />
+                    </svg>Closed 18 Oct</span></div>
+                <div class="proof"><span class="src">mdcircle.example/buildweekend</span></div>
+              </article>
+            </div>
+          </div>
+          <p class="t-small">Fresh, past its freshness window, closed. A closed card sinks to the canvas color, loses
+            its apply button and its verified badge, and drops below open ones.</p>
+        </div>
+
+        <div class="sub">
+          <h3 class="t-h2">Search card</h3>
+          <p class="t-small">Takes the place of a plain search bar. It is the shortest path from "I'm a college student"
+            to a relevant list, so it gets the biggest type on the home screen.</p>
+          <div class="stage">
+            <div class="composer">
+              <p class="ph"><b>What are you looking for, Satyam?</b> Research, design, a scholarship.</p>
+              <div class="composer-tools">
+                <button class="pill sm" type="button" aria-pressed="true"><svg class="ic ic-sm ck">
+                    <use href="#i-check" />
+                  </svg>Year 3</button>
+                <button class="pill sm" type="button" aria-pressed="true"><svg class="ic ic-sm ck">
+                    <use href="#i-check" />
+                  </svg>CSE</button>
+                <button class="pill sm" type="button" aria-pressed="false"><svg class="ic ic-sm ck">
+                    <use href="#i-check" />
+                  </svg>Remote</button>
+                <button class="pill sm" type="button" aria-pressed="false"><svg class="ic ic-sm">
+                    <use href="#i-sliders" />
+                  </svg>More filters</button>
+                <span class="grow"></span>
+                <button class="btn btn-primary" type="button">Search</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub">
+          <h3 class="t-h2">Sidebar</h3>
+          <div class="grid-2">
+            <div class="stage">
+              <div class="nav-demo">
+                <a class="brand" href="#components" style="font-size:1.0625rem"><svg aria-hidden="true">
+                    <use href="#i-mark" />
+                  </svg>Campus Radar</a>
+                <div class="who"><span class="avatar" aria-hidden="true"></span>Satyam Manik<svg class="ic ic-sm"
+                    style="margin-left:2px">
+                    <use href="#i-chev" />
+                  </svg></div>
+                <button class="btn btn-primary btn-lg btn-block" type="button"><svg class="ic">
+                    <use href="#i-plus" />
+                  </svg>Add to tracker</button>
+                <nav class="idx" aria-label="Demo navigation">
+                  <a href="#components" class="violet"><svg class="ic">
+                      <use href="#i-spark" />
+                    </svg>Top picks this week</a>
+                  <a href="#components" aria-current="true"><svg class="ic">
+                      <use href="#i-home" />
+                    </svg>Discover</a>
+                  <a href="#components"><svg class="ic">
+                      <use href="#i-bookmark" />
+                    </svg>Saved<span class="trail">3</span></a>
+                  <a href="#components"><svg class="ic">
+                      <use href="#i-grid" />
+                    </svg>Tracker</a>
+                  <a href="#components"><svg class="ic">
+                      <use href="#i-bell" />
+                    </svg>Reminders<span class="count" style="margin-left:auto">2</span></a>
+                  <a href="#components"><svg class="ic">
+                      <use href="#i-user" />
+                    </svg>Profile</a>
+                  <a href="#components"><svg class="ic">
+                      <use href="#i-ring" />
+                    </svg>Profile strength<span class="trail">40%</span></a>
+                </nav>
+                <div class="promo"><span class="gem" aria-hidden="true"></span>Finish your profile for better matches.
+                </div>
+              </div>
+            </div>
+            <div class="rows">
+              <div>
+                <h4 class="t-h3">Active item</h4>
+                <p>A white fill with a one-pixel line on the tinted canvas. No colored bar, no bold text.</p>
+              </div>
+              <div>
+                <h4 class="t-h3">One primary per screen</h4>
+                <p>The navy block button sits under the user row. It is the single filled shape in the sidebar.</p>
+              </div>
+              <div>
+                <h4 class="t-h3">Counts are coral, and only for things that need you</h4>
+                <p>Unread reminders. A saved count is plain grey text, because it is not urgent.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub">
+          <h3 class="t-h2">Buttons, tabs and chips</h3>
+          <div class="stage" style="display:grid;gap:28px">
+            <div style="overflow-x:auto">
+              <div
+                style="display:grid;grid-template-columns:90px repeat(4,minmax(130px,1fr));gap:12px 16px;align-items:center;min-width:640px">
+                <span class="t-label">Variant</span><span class="t-label">Default</span><span
+                  class="t-label">Hover</span><span class="t-label">Focus</span><span class="t-label">Disabled</span>
+                <span class="t-small dim">Primary</span><button class="btn btn-primary"
+                  type="button">Save</button><button class="btn btn-primary is-hover" type="button">Save</button><button
+                  class="btn btn-primary is-focus" type="button">Save</button><button class="btn btn-primary"
+                  type="button" disabled>Save</button>
+                <span class="t-small dim">Secondary</span><button class="btn btn-secondary"
+                  type="button">Apply</button><button class="btn btn-secondary is-hover"
+                  type="button">Apply</button><button class="btn btn-secondary is-focus"
+                  type="button">Apply</button><button class="btn btn-secondary" type="button" disabled>Apply</button>
+                <span class="t-small dim">Tonal</span><button class="btn btn-tonal" type="button">Remind
+                  me</button><button class="btn btn-tonal is-hover" type="button">Remind me</button><button
+                  class="btn btn-tonal is-focus" type="button">Remind me</button><button class="btn btn-tonal"
+                  type="button" disabled>Remind me</button>
+                <span class="t-small dim">Ghost</span><button class="btn btn-ghost" type="button">Clear</button><button
+                  class="btn btn-ghost is-hover" type="button">Clear</button><button class="btn btn-ghost is-focus"
+                  type="button">Clear</button><button class="btn btn-ghost" type="button" disabled>Clear</button>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+              <button class="btn btn-primary btn-lg" type="button">Large 48</button><button class="btn btn-primary"
+                type="button">Default 40</button><button class="btn btn-primary btn-sm" type="button">Small 32</button>
+              <button class="icon-btn" type="button" aria-label="Add"><svg class="ic">
+                  <use href="#i-plus" />
+                </svg></button>
+            </div>
+            <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+              <div class="seg" role="tablist" aria-label="Feed">
+                <button type="button" role="tab" aria-selected="true">For you</button>
+                <button type="button" role="tab" aria-selected="false">All open</button>
+              </div>
+              <button class="pill" type="button" aria-pressed="false"><svg class="ic">
+                  <use href="#i-bookmark" />
+                </svg>3 saved this week</button>
+            </div>
+            <div class="pill-row" id="pillDemo">
+              <button class="pill" type="button" aria-pressed="false"><svg class="ic ic-sm">
+                  <use href="#i-sliders" />
+                </svg>Filters</button>
+              <button class="pill" type="button" aria-pressed="true"><svg class="ic ic-sm ck">
+                  <use href="#i-check" />
+                </svg>Featured</button>
+              <button class="pill" type="button" aria-pressed="false"><svg class="ic ic-sm ck">
+                  <use href="#i-check" />
+                </svg>Engineering</button>
+              <button class="pill" type="button" aria-pressed="false"><svg class="ic ic-sm ck">
+                  <use href="#i-check" />
+                </svg>Design</button>
+              <button class="pill" type="button" aria-pressed="false"><svg class="ic ic-sm ck">
+                  <use href="#i-check" />
+                </svg>Scholarships</button>
+              <button class="pill" type="button" aria-pressed="false"><svg class="ic ic-sm ck">
+                  <use href="#i-check" />
+                </svg>No experience needed</button>
+            </div>
+            <p class="t-small dim">Everything interactive is a pill. Selection is a fill change plus a check, so it
+              never relies on color. The segmented control switches views, pills filter.</p>
+          </div>
+        </div>
+
+        <div class="sub">
+          <h3 class="t-h2">Inputs</h3>
+          <div class="stage grid-2">
+            <div class="field"><label for="in-search">Search</label>
+              <div class="search"><svg class="ic">
+                  <use href="#i-search" />
+                </svg><input class="input" id="in-search" type="search"
+                  placeholder="Search 1,200 verified opportunities"></div>
+            </div>
+            <div class="field"><label for="in-year">Current year</label><input class="input" id="in-year" type="text"
+                value="5th year" aria-invalid="true" aria-describedby="in-year-h">
+              <p class="help err" id="in-year-h">Choose 1st to 4th year, or Postgraduate.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub">
+          <h3 class="t-h2">Spotlight card</h3>
+          <p class="t-small">The one expressive surface. Use it for closing-soon and editor's picks, at most two per
+            screen. A dark ground with a soft glow stands in for photography, which Campus Radar listings will not have.
+          </p>
+          <div class="stage">
+            <div class="grid-2">
+              <article class="spot">
+                <div class="spot-top"><span class="pillw">Closing soon</span><svg class="ic">
+                    <use href="#i-arrow" />
+                  </svg></div>
+                <div>
+                  <h4>Summer Research Intern, Computer Vision</h4>
+                  <p>Northfield Labs &middot; Remote</p>
+                </div>
+                <div class="spot-foot">
+                  <div><b>₹25k</b><span>Stipend per month</span></div>
+                  <div><b>6 days</b><span>Left to apply</span></div>
+                </div>
+              </article>
+              <article class="spot">
+                <div class="spot-top"><span class="pillw">Scholarship</span><svg class="ic">
+                    <use href="#i-arrow" />
+                  </svg></div>
+                <div>
+                  <h4>Kaveri Merit Scholarship 2026-27</h4>
+                  <p>Kaveri Foundation &middot; Any degree</p>
+                </div>
+                <div class="spot-foot">
+                  <div><b>₹60k</b><span>Per year</span></div>
+                  <div><b>25 days</b><span>Left to apply</span></div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub">
+          <h3 class="t-h2">Profile strength dock</h3>
+          <p class="t-small">Borrowed straight from the pattern in your screenshots, and it earns its place here: the
+            more a student tells you, the better the fit line gets. It floats bottom right on desktop and sits above the
+            tab bar on phones.</p>
+          <div class="stage" style="display:grid;place-items:center;padding-block:40px">
+            <div class="dock">
+              <button class="dock-head" id="dockBtn" type="button" aria-expanded="false" aria-controls="dockBody">
+                <span class="ring"><svg viewBox="0 0 48 48" aria-hidden="true">
+                    <circle class="bg" cx="24" cy="24" r="20" fill="none" stroke-width="4" />
+                    <circle class="fg" cx="24" cy="24" r="20" fill="none" stroke-width="4"
+                      stroke-dasharray="50.3 125.7" />
+                  </svg>40%</span>
+                Complete profile<svg class="ic chev">
+                  <use href="#i-chev" />
+                </svg>
+              </button>
+              <div class="dock-body" id="dockBody" hidden>
+                <div class="todo done"><span class="box"><svg class="ic ic-sm">
+                      <use href="#i-check" />
+                    </svg></span>Add your degree and year</div>
+                <div class="todo done"><span class="box"><svg class="ic ic-sm">
+                      <use href="#i-check" />
+                    </svg></span>Add three skills</div>
+                <div class="todo"><span class="box"></span>Choose what you want<span class="go">Internship,
+                    scholarship</span></div>
+                <div class="todo"><span class="box"></span>Set your location<span class="go">Remote, city</span></div>
+                <div class="todo"><span class="box"></span>Turn on deadline reminders</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub">
+          <h3 class="t-h2">Lists, tracker and status</h3>
+          <div class="grid-2">
+            <div class="list-card">
+              <div class="t-label"><span>Closing this week</span><span>View all</span></div>
+              <div class="li"><span class="ico"><svg class="ic">
+                    <use href="#i-clock" />
+                  </svg></span>
+                <div><b>Summer Research Intern</b><span>Northfield Labs &middot; Remote</span></div><span
+                  class="when urgent">6 days</span>
+              </div>
+              <div class="li"><span class="ico"><svg class="ic">
+                    <use href="#i-book" />
+                  </svg></span>
+                <div><b>Open Source Fellowship</b><span>Lantern Studio &middot; Hybrid</span></div><span
+                  class="when urgent">4 days</span>
+              </div>
+              <div class="li"><span class="ico"><svg class="ic">
+                    <use href="#i-spark" />
+                  </svg></span>
+                <div><b>Design Systems Apprentice</b><span>Lantern Studio &middot; On site</span></div><span
+                  class="when">9 days</span>
+              </div>
+            </div>
+            <div class="stack" style="display:grid;gap:16px">
+              <div class="stage" style="display:grid;gap:16px">
+                <div class="pill-row"><span class="badge">Saved</span><span class="badge violet">Applying</span><span
+                    class="badge ok"><svg class="ic ic-sm">
+                      <use href="#i-check" />
+                    </svg>Applied</span><span class="badge warn">Interview</span><span class="badge line">Closed</span>
+                </div>
+                <div style="overflow-x:auto">
+                  <div class="stepper" aria-label="Application progress: Applied">
+                    <div class="step done"><span class="d"></span>Saved</div>
+                    <div class="step done"><span class="d"></span>Applying</div>
+                    <div class="step now"><span class="d"></span>Applied</div>
+                    <div class="step"><span class="d"></span>Interview</div>
+                    <div class="step"><span class="d"></span>Result</div>
+                  </div>
+                </div>
+              </div>
+              <div class="trk">
+                <div class="trk-row"><span class="tile">NL</span>
+                  <div><b>Summer Research Intern</b><small>Northfield Labs</small></div><span
+                    class="badge violet">Applying</span><span class="deadline urgent">2 Nov</span>
+                </div>
+                <div class="trk-row"><span class="tile">KF</span>
+                  <div><b>Kaveri Merit Scholarship</b><small>Kaveri Foundation</small></div><span
+                    class="badge">Saved</span><span class="deadline">21 Nov</span>
+                </div>
+                <div class="trk-row"><span class="tile">LS</span>
+                  <div><b>Product Design Apprentice</b><small>Lantern Studio</small></div><span class="badge ok"><svg
+                      class="ic ic-sm">
+                      <use href="#i-check" />
+                    </svg>Applied</span><span class="deadline quiet">Closed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="t-small">Status is set by the student, never guessed. The stepper is the only place a real sequence
+            appears.</p>
+        </div>
+      </section>
+
+      <!-- PATTERNS -->
+      <section id="patterns" aria-labelledby="h-pat">
+        <div class="head">
+          <p class="t-label">Patterns</p>
+          <h2 class="t-h1" id="h-pat">App shell</h2>
+          <p class="t-lead">The same three-column frame as the product you referenced: navigation, feed, and a rail for
+            what needs attention. It collapses from three columns to one as space runs out.</p>
+        </div>
+        <div class="mock-wrap">
+          <div class="mock">
+            <div class="m-side">
+              <a class="brand" href="#patterns" style="font-size:1rem"><svg aria-hidden="true">
+                  <use href="#i-mark" />
+                </svg>Campus Radar</a>
+              <button class="btn btn-primary btn-block" type="button"><svg class="ic">
+                  <use href="#i-plus" />
+                </svg>Add</button>
+              <nav class="idx" aria-label="Mock navigation">
+                <a href="#patterns" aria-current="true"><svg class="ic">
+                    <use href="#i-home" />
+                  </svg>Discover</a>
+                <a href="#patterns"><svg class="ic">
+                    <use href="#i-bookmark" />
+                  </svg>Saved</a>
+                <a href="#patterns"><svg class="ic">
+                    <use href="#i-grid" />
+                  </svg>Tracker</a>
+                <a href="#patterns"><svg class="ic">
+                    <use href="#i-bell" />
+                  </svg>Reminders<span class="count" style="margin-left:auto">2</span></a>
+                <a href="#patterns"><svg class="ic">
+                    <use href="#i-user" />
+                  </svg>Profile</a>
+              </nav>
+            </div>
+            <div class="m-feed">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+                <div class="seg" role="tablist" aria-label="Mock feed"><button type="button" role="tab"
+                    aria-selected="true">For you</button><button type="button" role="tab" aria-selected="false">All
+                    open</button></div>
+                <span class="t-small dim">14 open match you &middot; by deadline</span>
+              </div>
+              <div class="composer" style="padding:16px;gap:16px">
+                <p class="ph" style="font-size:1.25rem"><b>What are you looking for, Satyam?</b></p>
+                <div class="composer-tools"><button class="pill sm" type="button" aria-pressed="true"><svg
+                      class="ic ic-sm ck">
+                      <use href="#i-check" />
+                    </svg>Year 3</button><button class="pill sm" type="button" aria-pressed="true"><svg
+                      class="ic ic-sm ck">
+                      <use href="#i-check" />
+                    </svg>Remote</button><span class="grow"></span><button class="btn btn-primary btn-sm"
+                    type="button">Search</button></div>
+              </div>
+              <p class="t-label">Suggested for you</p>
+              <article class="opp compact">
+                <div class="opp-head"><span class="tile">NL</span>
+                  <div class="opp-org"><b>Northfield Labs</b><span>Internship &middot; Remote</span></div><button
+                    class="icon-btn sm" type="button" aria-pressed="true" aria-label="Save opportunity"><svg
+                      class="ic ic-sm">
+                      <use href="#i-bookmark" />
+                    </svg></button>
+                </div>
+                <h4 class="opp-title">Summer Research Intern, Computer Vision</h4>
+                <div class="opp-foot" style="padding-top:12px"><span class="deadline urgent"><svg class="ic ic-sm">
+                      <use href="#i-clock" />
+                    </svg>6 days</span><span class="badge ok"><svg class="ic ic-sm">
+                      <use href="#i-verified" />
+                    </svg>Verified 3d</span></div>
+              </article>
+              <article class="opp compact">
+                <div class="opp-head"><span class="tile">KF</span>
+                  <div class="opp-org"><b>Kaveri Foundation</b><span>Scholarship</span></div><button class="icon-btn sm"
+                    type="button" aria-pressed="false" aria-label="Save opportunity"><svg class="ic ic-sm">
+                      <use href="#i-bookmark" />
+                    </svg></button>
+                </div>
+                <h4 class="opp-title">Kaveri Merit Scholarship 2026-27</h4>
+                <div class="opp-foot" style="padding-top:12px"><span class="deadline"><svg class="ic ic-sm">
+                      <use href="#i-clock" />
+                    </svg>25 days</span><span class="badge ok"><svg class="ic ic-sm">
+                      <use href="#i-verified" />
+                    </svg>Verified 9d</span></div>
+              </article>
+            </div>
+            <div class="m-rail">
+              <div class="list-card">
+                <div class="t-label"><span>Closing this week</span></div>
+                <div class="li"><span class="ico"><svg class="ic">
+                      <use href="#i-clock" />
+                    </svg></span>
+                  <div><b>Summer Research Intern</b><span>Northfield Labs</span></div><span
+                    class="when urgent">6d</span>
+                </div>
+                <div class="li"><span class="ico"><svg class="ic">
+                      <use href="#i-book" />
+                    </svg></span>
+                  <div><b>Open Source Fellowship</b><span>Lantern Studio</span></div><span class="when urgent">4d</span>
+                </div>
+              </div>
+              <div class="promo" style="background:var(--panel)"><span class="ring" style="width:40px;height:40px"><svg
+                    viewBox="0 0 48 48" aria-hidden="true">
+                    <circle class="bg" cx="24" cy="24" r="20" fill="none" stroke-width="5" />
+                    <circle class="fg" cx="24" cy="24" r="20" fill="none" stroke-width="5"
+                      stroke-dasharray="50.3 125.7" />
+                  </svg><span style="font-size:0.75rem">40%</span></span>Complete profile</div>
+            </div>
+          </div>
+        </div>
+        <div class="sub">
+          <div class="grid-2">
+            <div class="empty"><span class="t-label">Empty state</span>
+              <h3 class="t-h2">Nothing matches all 4 filters</h3>
+              <p>Remove Remote to see 6 more opportunities for Year 3 CSE students.</p>
+              <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-primary" type="button">Remove
+                  Remote</button><button class="btn btn-ghost" type="button">Clear all</button></div>
+            </div>
+            <div style="display:grid;gap:16px;align-content:start">
+              <div class="toast" role="status"><span>Saved. Reminder set for 3 days before it closes.</span><button
+                  type="button">Undo</button></div>
+              <div class="rows">
+                <div>
+                  <h4 class="t-h3">Empty states offer the smallest fix</h4>
+                  <p>Name the filter costing the most results and show how many come back if it goes.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TRUST -->
+      <section id="trust" aria-labelledby="h-trust">
+        <div class="head">
+          <p class="t-label">Rules</p>
+          <h2 class="t-h1" id="h-trust">Trust and voice</h2>
+          <p class="t-lead">Trust is the product, so the interface enforces it. Write like a well-informed senior would:
+            plain, specific, with the date in the sentence.</p>
+        </div>
+        <div class="tbl">
+          <table>
+            <thead>
+              <tr>
+                <th>Last verified</th>
+                <th>Badge</th>
+                <th>Behaviour</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0 to 14 days</td>
+                <td><span class="badge ok"><svg class="ic ic-sm">
+                      <use href="#i-verified" />
+                    </svg>Verified 3 days ago</span></td>
+                <td class="dim">Shown normally, ranked by deadline.</td>
+              </tr>
+              <tr>
+                <td>15 to 30 days</td>
+                <td><span class="badge warn"><svg class="ic ic-sm">
+                      <use href="#i-clock" />
+                    </svg>Re-checking &middot; 19 days</span></td>
+                <td class="dim">Shown, ranked lower, queued for re-check.</td>
+              </tr>
+              <tr>
+                <td>Over 30 days</td>
+                <td><span class="badge line">Not recently checked</span></td>
+                <td class="dim">Hidden from default results. Still opens from a saved list.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="t-small dim" style="margin-top:12px">Starting windows. Tune them to how often your sources really
+          change. The badge is computed from the date and cannot be set by hand.</p>
+        <div class="sub">
+          <div class="grid-2">
+            <div>
+              <h3 class="t-h3" style="margin-bottom:8px">Required on every listing</h3>
+              <div class="rows" style="font-size:0.9375rem">
+                <div style="padding-block:10px"><b style="font-weight:500">Source link.</b> <span class="dim">No source,
+                    no listing.</span></div>
+                <div style="padding-block:10px"><b style="font-weight:500">Who can apply.</b> <span class="dim">Degree,
+                    year, skills, experience.</span></div>
+                <div style="padding-block:10px"><b style="font-weight:500">Deadline.</b> <span class="dim">Or "Rolling"
+                    with a re-check date.</span></div>
+                <div style="padding-block:10px"><b style="font-weight:500">Last verified.</b> <span class="dim">A
+                    person, a date.</span></div>
+                <div style="padding-block:10px"><b style="font-weight:500">Mode and location.</b> <span
+                    class="dim">Remote, hybrid, on site, city.</span></div>
+              </div>
+            </div>
+            <div>
+              <h3 class="t-h3" style="margin-bottom:8px">Say it like this</h3>
+              <div>
+                <div class="say yes"><span class="t-label">Do</span><span>Closes 2 Nov, 6 days left</span></div>
+                <div class="say no"><span class="t-label">Avoid</span><span>Hurry, closing soon!</span></div>
+                <div class="say yes"><span class="t-label">Do</span><span>Open to 2nd and 3rd year B.Tech</span></div>
+                <div class="say no"><span class="t-label">Avoid</span><span>Perfect for you</span></div>
+                <div class="say yes"><span class="t-label">Do</span><span>Nothing matches all 4 filters</span></div>
+                <div class="say no"><span class="t-label">Avoid</span><span>Oops, no results</span></div>
+              </div>
+              <p class="t-small dim" style="margin-top:12px">Dates read "2 Nov". Money reads ₹25,000 / month. No
+                exclamation marks. Buttons start with a verb.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NOTES -->
+      <section id="notes" aria-labelledby="h-notes">
+        <div class="head">
+          <p class="t-label">Mentor notes</p>
+          <h2 class="t-h1" id="h-notes">Straight talk</h2>
+        </div>
+        <ol class="mentor">
+          <li><b>Why v0.1 felt generic.</b>
+            <p>It used the standard recipe: mono labels, hairline boxes, 8px corners, a blue accent. Nothing in it said
+              "product". The new version gets its personality from three things only: large radii, pill controls, and
+              restraint with color.</p>
+          </li>
+          <li><b>I could not get the exact font.</b>
+            <p>Contra's public site uses GT Standard, which is licensed. Geist is the closest free option. I read the
+              in-app weights off your screenshots, so confirm them against the real app in your browser's inspector if
+              you need them exact.</p>
+          </li>
+          <li><b>Do not copy their imagery strategy.</b>
+            <p>Contra's cards lean on photography and portfolios. Your listings will be text. That is why I added
+              monogram tiles and the dark spotlight card. Without them, big radii on text-only cards look empty.</p>
+          </li>
+          <li><b>Do not copy their name, wordmark or logo.</b>
+            <p>This system borrows proportions and patterns, not identity. Campus Radar gets its own mark, and you
+              should keep it that way.</p>
+          </li>
+          <li><b>Build five things first.</b>
+            <p>Opportunity card, search card, pill filter, verified badge and the sidebar. Test with five students
+              before touching anything else.</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- TOKENS -->
+      <section id="tokens" aria-labelledby="h-tokens">
+        <div class="head">
+          <p class="t-label">Reference</p>
+          <h2 class="t-h1" id="h-tokens">Tokens</h2>
+          <p class="t-lead">Paste into the site stylesheet and build from these names.</p>
+        </div>
+        <div class="code">
+          <button class="btn btn-secondary btn-sm" id="copyTokens" type="button">Copy CSS</button>
+          <pre id="tokenCode">:root {
+  /* surfaces */
+  --canvas: #F6F7FA;  --panel: #FFFFFF;  --muted: #F2F4F7;  --muted-2: #E8EBF0;
+  --line: #E7EAF0;    --line-strong: #D0D4DC;
+  /* ink */
+  --ink: #14171F;  --ink-2: #373F51;  --ink-3: #5F6779;  --ink-4: #8B92A1;
+  /* action */
+  --primary: #222834;  --primary-hover: #14171F;  --on-primary: #FFFFFF;
+  /* fit (violet) */
+  --violet: #5B47E0;  --violet-soft: #F0EEFF;  --violet-ink: #4A38C8;
+  /* state */
+  --ok: #0E7A4E;    --ok-soft: #E6F5EE;
+  --warn: #8A5300;  --warn-soft: #FFF1D6;
+  --crit: #C42B35;  --crit-soft: #FDECEE;
+  --badge: #D1343E; --on-badge: #FFFFFF;
+  --spot: #171B25;  --on-spot: #F2F4F7;
+  --shadow-pop: 0 18px 40px -14px rgba(20,23,31,.22), 0 0 0 1px var(--line);
+
+  /* type: swap for GT Standard when licensed */
+  --f-sans: 'Geist', 'Inter', -apple-system, 'SF Pro Text', system-ui, sans-serif;
+  --f-mono: 'Geist Mono', ui-monospace, Menlo, monospace;
+
+  /* space, shape, motion */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px;
+  --r-1: 8px; --r-2: 12px; --r-3: 20px; --r-4: 28px; --r-pill: 999px;
+  --dur-1: 120ms; --dur-2: 200ms; --dur-3: 320ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+:root[data-theme="dark"] {
+  --canvas: #0B0D12;  --panel: #11141B;  --muted: #1A1E27;  --muted-2: #232834;
+  --line: #222732;    --line-strong: #343B49;
+  --ink: #F2F4F7;  --ink-2: #CBD0DA;  --ink-3: #9AA2B3;  --ink-4: #6E7687;
+  --primary: #F2F4F7;  --primary-hover: #FFFFFF;  --on-primary: #14171F;
+  --violet: #A99BFF;  --violet-soft: #1E1B3F;  --violet-ink: #C3BAFF;
+  --ok: #4CC38A;    --ok-soft: #0F2A20;
+  --warn: #F0B94F;  --warn-soft: #2B2210;
+  --crit: #FF8A90;  --crit-soft: #3A1519;
+  --badge: #E5484D;
+  --spot: #1B2030;
+}</pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      function cssVar(n) { return getComputedStyle(root).getPropertyValue(n).trim(); }
+      function rgb(h) { h = h.replace('#', ''); return [0, 2, 4].map(function (i) { return parseInt(h.substr(i, 2), 16); }); }
+      function lum(c) { var f = function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); }
+      function ratio(a, b) { var x = lum(rgb(a)), y = lum(rgb(b)); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+
+      var groups = [
+        { t: 'Surfaces', i: [['--canvas', 'App background'], ['--panel', 'Cards and the main panel'], ['--muted', 'Pills, tags, selected fill'], ['--muted-2', 'Hover on muted, ring track'], ['--line', 'Hairlines'], ['--line-strong', 'Inputs, secondary buttons']] },
+        { t: 'Ink', i: [['--ink', 'Titles and primary text'], ['--ink-2', 'Strong secondary text'], ['--ink-3', 'Captions, hints'], ['--ink-4', 'Disabled only']] },
+        { t: 'Action and fit', i: [['--primary', 'Primary button, Create'], ['--on-primary', 'Text on primary'], ['--violet', 'Fit moments, icon'], ['--violet-soft', 'Fit badge fill'], ['--violet-ink', 'Text on fit badge']] },
+        { t: 'State', i: [['--ok', 'Verified, applied'], ['--ok-soft', 'Verified fill'], ['--warn', 'Closing within 7 days'], ['--warn-soft', 'Warning fill'], ['--crit', 'Errors'], ['--crit-soft', 'Error fill'], ['--badge', 'Unread count']] }
+      ];
+      var host = document.getElementById('swatches');
+      groups.forEach(function (g) {
+        var w = document.createElement('div'); w.style.display = 'grid'; w.style.gap = '12px';
+        var h = document.createElement('h3'); h.className = 't-h3'; h.textContent = g.t; w.appendChild(h);
+        var grid = document.createElement('div'); grid.className = 'sw-grid';
+        g.i.forEach(function (it) {
+          var b = document.createElement('button'); b.type = 'button'; b.className = 'sw'; b.dataset.v = it[0];
+          b.innerHTML = '<span class="c" style="background:var(' + it[0] + ')"></span><span class="m"><span class="n">' + it[0].slice(2) + '</span><span class="h mono"></span><span class="r">' + it[1] + '</span></span>';
+          b.addEventListener('click', function () { copyText(cssVar(it[0]).toUpperCase(), b.querySelector('.n'), it[0].slice(2)); });
+          grid.appendChild(b);
+        });
+        w.appendChild(grid); host.appendChild(w);
+      });
+
+      var pairs = [
+        ['--ink', '--panel', 'Primary text'], ['--ink-2', '--panel', 'Strong secondary text'], ['--ink-3', '--panel', 'Caption on panel'],
+        ['--ink-3', '--muted', 'Caption on muted fill'], ['--ink-3', '--canvas', 'Caption on canvas'], ['--on-primary', '--primary', 'Primary button'],
+        ['--violet-ink', '--violet-soft', 'Fit badge'], ['--ok', '--ok-soft', 'Verified badge'], ['--warn', '--warn-soft', 'Closing-soon pill'],
+        ['--crit', '--crit-soft', 'Error badge'], ['--crit', '--panel', 'Field error text'], ['--on-badge', '--badge', 'Unread count']
+      ];
+      var cHost = document.getElementById('contrast');
+      function renderContrast() {
+        cHost.innerHTML = '';
+        pairs.forEach(function (p) {
+          var fg = cssVar(p[0]), bg = cssVar(p[1]), r = ratio(fg, bg);
+          var tone = r >= 4.5 ? 'ok' : 'crit', lab = r >= 7 ? 'AAA' : (r >= 4.5 ? 'AA' : 'Fail');
+          var row = document.createElement('div'); row.className = 'c-row';
+          row.innerHTML = '<span class="c-sample" style="background:' + bg + ';color:' + fg + '">Aa</span><span class="t-small">' + p[2] + '<br><span class="mono dim">' + p[0].slice(2) + ' on ' + p[1].slice(2) + '</span></span><span class="mono">' + r.toFixed(1) + ' : 1</span><span class="badge ' + tone + '">' + lab + '</span>';
+          cHost.appendChild(row);
+        });
+      }
+      function isDark() { var t = root.getAttribute('data-theme'); if (t) return t === 'dark'; return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches); }
+      function renderAll() {
+        document.querySelectorAll('.sw').forEach(function (el) { el.querySelector('.h').textContent = cssVar(el.dataset.v).toUpperCase(); });
+        renderContrast();
+        document.getElementById('themeBtn').textContent = isDark() ? 'Light mode' : 'Dark mode';
+      }
+      document.getElementById('themeBtn').addEventListener('click', function () { root.setAttribute('data-theme', isDark() ? 'light' : 'dark'); renderAll(); });
+      if (window.matchMedia) { var mq = window.matchMedia('(prefers-color-scheme: dark)'); if (mq.addEventListener) mq.addEventListener('change', renderAll); }
+
+      var sp = [['s-1', 4], ['s-2', 8], ['s-3', 12], ['s-4', 16], ['s-5', 24], ['s-6', 32], ['s-7', 48], ['s-8', 64]];
+      var spH = document.getElementById('spList');
+      sp.forEach(function (s) { var r = document.createElement('div'); r.className = 'sp-row'; r.innerHTML = '<span class="mono">' + s[0] + '</span><span class="mono dim">' + s[1] + '</span><span class="sp-bar" style="width:' + s[1] + 'px"></span>'; spH.appendChild(r); });
+
+      function fallback(t) { try { var ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); var ok = document.execCommand('copy'); document.body.removeChild(ta); return ok; } catch (e) { return false; } }
+      function copyText(text, el, orig) {
+        function done(ok) { if (!el) return; el.textContent = ok ? 'Copied' : 'Select and copy'; setTimeout(function () { el.textContent = orig; }, 1200); }
+        try { navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(fallback(text)); }); } catch (e) { done(fallback(text)); }
+      }
+      var ct = document.getElementById('copyTokens');
+      ct.addEventListener('click', function () { copyText(document.getElementById('tokenCode').textContent, ct, 'Copy CSS'); });
+
+      document.querySelectorAll('.pill[aria-pressed], .icon-btn[aria-pressed]').forEach(function (b) {
+        b.addEventListener('click', function () { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); });
+      });
+      document.querySelectorAll('.seg').forEach(function (s) {
+        s.querySelectorAll('button').forEach(function (b) {
+          b.addEventListener('click', function () { s.querySelectorAll('button').forEach(function (o) { o.setAttribute('aria-selected', o === b ? 'true' : 'false'); }); });
+        });
+      });
+
+      var dockBtn = document.getElementById('dockBtn'), dockBody = document.getElementById('dockBody');
+      dockBtn.addEventListener('click', function () { var open = dockBtn.getAttribute('aria-expanded') === 'true'; dockBtn.setAttribute('aria-expanded', open ? 'false' : 'true'); dockBody.hidden = open; });
+
+      var spec = document.getElementById('specText');
+      spec.addEventListener('input', function () { var v = spec.value || ' '; document.querySelectorAll('[data-spec]').forEach(function (e) { e.textContent = v; }); });
+
+      var motion = document.getElementById('motion');
+      document.getElementById('replay').addEventListener('click', function () {
+        var f = motion.querySelectorAll('.fill'); f.forEach(function (x) { x.style.transition = 'none'; }); motion.classList.remove('go'); void motion.offsetWidth; f.forEach(function (x) { x.style.transition = ''; }); motion.classList.add('go');
+      });
+
+      var links = document.querySelectorAll('#idx a');
+      var secs = ['hero', 'source', 'color', 'type', 'shape', 'components', 'patterns', 'trust', 'notes', 'tokens'].map(function (id) { return document.getElementById(id); });
+      function setCur(id) { if (id === 'hero') id = 'top'; links.forEach(function (a) { a.setAttribute('aria-current', a.dataset.sec === id ? 'true' : 'false'); }); }
+      setCur('top');
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) setCur(e.target.id); }); }, { rootMargin: '-20% 0px -70% 0px' });
+        secs.forEach(function (s) { if (s) io.observe(s); });
+      }
+
+      renderAll();
+    })();
+  </script>
+
+</body>
+
+</html>

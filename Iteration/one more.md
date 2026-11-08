@@ -1,0 +1,9 @@
+![alt text](<image copy 2.png>) ![alt text](<image copy.png>)
+
+You need to address the responsiveness issue; it is very important. Additionally, there is a spacing problem on the right side. When the collapsible is opened, the spacing is incorrect, and when it is closed, there are several issues. Resolve these problems properly.  
+
+Because we are using FireCrawl, and TinyFish, we can also use prompts. In the profile section, users can upload a resume and adjust optional preferences. A prompt option should also be available. The prompt’s limitation is that any student or opportunity seeker can mention it. According to the prompt, data will be extracted and results provided. In short, as we use Fire, Crawl, and Tiny Fish, reliability and accuracy must be maintained; prompts will improve this. A personalized prompt can handle everything on its own. The prompt limit should be 2000 words, no more. This is very important. Additionally, there should be an “overwise” option so we can type a prompt, match it with its brief, and update it accordingly. This is something to consider. cover edge cases all possible edge case ok
+
+overall responsive design adaptive to mobile tablet desktop laptop 
+
+There is an important aspect I forgot: the sound effects. They are numerous, but this one is particularly crucial. It has become slightly more complex. Also, the animation transitions for a smooth experience and interaction need some improvement and a better finish. Sound effects are very important, and adding a few more would enhance the result. As I mentioned regarding the voice‑over, it is also essential. Anyone looking for an opportunity should be able to accomplish it through the voice‑over. That element must also be responsive and interactive, so we need to cover it thoroughly to provide a good experience. wispr flow like ok 

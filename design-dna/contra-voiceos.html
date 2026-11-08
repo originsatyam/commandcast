@@ -1,0 +1,4693 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design DNA — Contra × VoiceOS</title>
+  <meta name="description"
+    content="A measured reference extraction of two design systems: Contra and VoiceOS. Colour, type, space, surface, components, motion, voice, and free typeface stand-ins.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&family=Archivo:wdth,wght@75..125,400..700&family=Instrument+Sans:wdth,wght@75..100,400..700&family=Inter:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300..800&family=Newsreader:opsz,wght@6..72,300..600&family=Lora:wght@400..600&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ==========================================================================
+   DESIGN DNA — doc shell
+   The shell is deliberately neutral: system type, warm paper, hairline rules.
+   Every specimen inside a .canvas renders in the site's own native theme.
+   ========================================================================== */
+    :root {
+      --paper: #F5F4EF;
+      --panel: #FFFFFF;
+      --ink: #111110;
+      --ink-2: #4B4B45;
+      --ink-3: #6A6A62;
+      --rule: #DCDAD2;
+      --rule-soft: #E9E7DF;
+      --wash: #EDEBE4;
+      --wash-2: #F9F8F4;
+      --focus: #111110;
+      --contra: #C6D93F;
+      --voiceos: #0A84FF;
+      --warn: #8A5A00;
+      --warn-bg: #FBF1DC;
+      --ok: #1F6B3A;
+      --r-doc: 14px;
+    }
+
+    html[data-theme="dark"] {
+      --paper: #0F0F0E;
+      --panel: #171716;
+      --ink: #F3F2EB;
+      --ink-2: #B5B4AA;
+      --ink-3: #8A897F;
+      --rule: #2C2C29;
+      --rule-soft: #232320;
+      --wash: #1C1C1A;
+      --wash-2: #141413;
+      --focus: #F3F2EB;
+      --warn: #F0C674;
+      --warn-bg: #2A2418;
+      --ok: #8FD3A8;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    ::selection {
+      background: var(--ink);
+      color: var(--paper)
+    }
+
+    a {
+      color: inherit
+    }
+
+    img {
+      max-width: 100%;
+      display: block
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: 0;
+      cursor: pointer
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p {
+      margin: 0
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 3px;
+      border-radius: 3px
+    }
+
+    .mono {
+      font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace
+    }
+
+    .wrap {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 36px
+    }
+
+    @media (max-width:720px) {
+      .wrap {
+        padding: 0 20px
+      }
+    }
+
+    /* ---------- top bar ---------- */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--paper);
+      background: color-mix(in srgb, var(--paper) 88%, transparent);
+      backdrop-filter: blur(12px) saturate(1.2);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .topbar-in {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      height: 64px
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+      flex: none
+    }
+
+    .brand-mark {
+      width: 26px;
+      height: 26px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 2px
+    }
+
+    .brand-mark i {
+      display: block;
+      border-radius: 1px;
+      background: var(--ink)
+    }
+
+    .brand-mark i:nth-child(2) {
+      background: var(--contra)
+    }
+
+    .brand-mark i:nth-child(3) {
+      background: var(--voiceos)
+    }
+
+    .brand-mark i:nth-child(4) {
+      background: transparent;
+      border: 1px solid var(--ink-3)
+    }
+
+    .brand-txt {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1
+    }
+
+    .brand-txt b {
+      font-size: 14px;
+      font-weight: 650;
+      letter-spacing: -0.01em
+    }
+
+    .brand-txt span {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-top: 3px
+    }
+
+    .spacer {
+      flex: 1
+    }
+
+    .tabs {
+      display: flex;
+      gap: 2px;
+      padding: 3px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      background: var(--panel)
+    }
+
+    .tab {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 550;
+      letter-spacing: -0.005em;
+      color: var(--ink-2);
+      transition: background-color .16s ease, color .16s ease;
+    }
+
+    .tab .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .35;
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 35%, transparent)
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--ink);
+      color: var(--paper)
+    }
+
+    .tab[aria-selected="true"] .dot {
+      opacity: 1;
+      box-shadow: none
+    }
+
+    .tab[data-view-btn="contra"][aria-selected="true"] .dot {
+      background: var(--contra)
+    }
+
+    .tab[data-view-btn="voiceos"][aria-selected="true"] .dot {
+      background: var(--voiceos)
+    }
+
+    .tab[data-view-btn="compare"][aria-selected="true"] .dot {
+      background: var(--paper)
+    }
+
+    .tab:hover:not([aria-selected="true"]) {
+      background: var(--wash)
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--panel);
+      flex: none;
+      transition: background-color .16s ease, border-color .16s ease;
+    }
+
+    .icon-btn:hover {
+      background: var(--wash)
+    }
+
+    .icon-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6
+    }
+
+    html[data-theme="dark"] .icon-sun {
+      display: none
+    }
+
+    html:not([data-theme="dark"]) .icon-moon {
+      display: none
+    }
+
+    @media (max-width:860px) {
+      .brand-txt span {
+        display: none
+      }
+
+      .tab {
+        padding: 7px 11px;
+        font-size: 12px
+      }
+
+      .tab .dot {
+        display: none
+      }
+    }
+
+    @media (max-width:600px) {
+      .topbar-in {
+        height: 58px;
+        gap: 10px
+      }
+
+      .brand-txt b {
+        font-size: 12px
+      }
+
+      .tab {
+        padding: 6px 9px;
+        font-size: 11px
+      }
+    }
+
+    @media (max-width:520px) {
+      .topbar-in {
+        gap: 8px
+      }
+
+      .brand-txt {
+        display: none
+      }
+
+      .tabs {
+        gap: 0;
+        padding: 2px
+      }
+
+      .tab {
+        padding: 6px 8px;
+        font-size: 11px;
+        letter-spacing: 0
+      }
+    }
+
+    /* ---------- intro ---------- */
+    .intro {
+      padding: 64px 0 40px;
+      border-bottom: 1px solid var(--rule)
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 56px;
+      align-items: end
+    }
+
+    @media (max-width:1000px) {
+      .intro-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        align-items: start
+      }
+    }
+
+    .kicker {
+      font-family: "DM Mono", monospace;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-3)
+    }
+
+    .intro h1 {
+      margin-top: 16px;
+      font-size: clamp(42px, 6.4vw, 84px);
+      line-height: .96;
+      letter-spacing: -0.042em;
+      font-weight: 600;
+    }
+
+    .intro h1 em {
+      font-style: normal;
+      color: var(--ink-3)
+    }
+
+    .intro .lede {
+      margin-top: 22px;
+      max-width: 640px;
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--ink-2);
+    }
+
+    .intro .lede b {
+      color: var(--ink);
+      font-weight: 600
+    }
+
+    .meta {
+      border-top: 1px solid var(--rule);
+      margin-top: 6px
+    }
+
+    .meta-row {
+      display: flex;
+      gap: 14px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--rule-soft);
+      font-size: 12.5px;
+      line-height: 1.45
+    }
+
+    .meta-row dt {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      width: 82px;
+      flex: none;
+      padding-top: 2px
+    }
+
+    .meta-row dd {
+      margin: 0;
+      color: var(--ink-2)
+    }
+
+    .intro-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px
+    }
+
+    .pill-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      text-decoration: none;
+      background: var(--panel);
+      transition: background-color .16s ease, border-color .16s ease;
+    }
+
+    .pill-link:hover {
+      background: var(--wash);
+      border-color: var(--ink-3)
+    }
+
+    .pill-link svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.7
+    }
+
+    /* ---------- workspace ---------- */
+    .workspace {
+      display: grid;
+      grid-template-columns: 206px minmax(0, 1fr);
+      gap: 64px;
+      padding-bottom: 96px
+    }
+
+    @media (max-width:1080px) {
+      .workspace {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0
+      }
+    }
+
+    .toc {
+      position: sticky;
+      top: 88px;
+      align-self: start;
+      max-height: calc(100vh - 112px);
+      overflow: auto;
+      padding: 36px 0 24px;
+      min-width: 0
+    }
+
+    .view,
+    .sec,
+    .grid-2,
+    .grid-3,
+    .duo,
+    .motion-row {
+      min-width: 0
+    }
+
+    .toc[hidden] {
+      display: none
+    }
+
+    .toc-label {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 12px
+    }
+
+    .toc a {
+      display: flex;
+      gap: 10px;
+      padding: 7px 0;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--ink-2);
+      border-left: 1px solid transparent;
+      padding-left: 12px;
+      margin-left: -13px;
+      transition: color .15s ease, border-color .15s ease;
+    }
+
+    .toc a .n {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      color: var(--ink-3);
+      padding-top: 2px;
+      width: 14px;
+      flex: none
+    }
+
+    .toc a:hover {
+      color: var(--ink)
+    }
+
+    .toc a[aria-current="true"] {
+      color: var(--ink);
+      font-weight: 600;
+      border-left-color: var(--ink)
+    }
+
+    .toc a[aria-current="true"] .n {
+      color: var(--ink)
+    }
+
+    @media (max-width:1080px) {
+      .toc {
+        position: static;
+        max-height: none;
+        overflow: visible;
+        padding: 18px 0 0;
+        border-bottom: 1px solid var(--rule)
+      }
+
+      .toc-label {
+        display: none
+      }
+
+      .toc-list {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        max-width: 100%;
+        padding-bottom: 16px;
+        scrollbar-width: none
+      }
+
+      .toc-list::-webkit-scrollbar {
+        display: none
+      }
+
+      .toc a {
+        white-space: nowrap;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        padding: 6px 11px;
+        margin: 0;
+        background: var(--panel);
+        font-size: 12px
+      }
+
+      .toc a[aria-current="true"] {
+        background: var(--ink);
+        color: var(--paper);
+        border-color: var(--ink)
+      }
+
+      .toc a[aria-current="true"] .n {
+        color: var(--paper)
+      }
+
+      .toc a .n {
+        display: none
+      }
+    }
+
+    /* ---------- sections ---------- */
+    .view[hidden] {
+      display: none
+    }
+
+    .sec {
+      padding: 64px 0 8px;
+      border-top: 1px solid var(--rule);
+      scroll-margin-top: 92px
+    }
+
+    .sec:first-child {
+      border-top: 0;
+      padding-top: 44px
+    }
+
+    .sec-head {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      gap: 18px;
+      margin-bottom: 30px
+    }
+
+    .sec-num {
+      font-family: "DM Mono", monospace;
+      font-size: 11px;
+      letter-spacing: .06em;
+      color: var(--ink-3);
+      padding-top: 8px
+    }
+
+    .sec h2 {
+      font-size: clamp(26px, 3.1vw, 38px);
+      line-height: 1.08;
+      letter-spacing: -0.032em;
+      font-weight: 600;
+      max-width: 22ch
+    }
+
+    .sec .dek {
+      margin-top: 12px;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--ink-2);
+      max-width: 70ch
+    }
+
+    @media (max-width:640px) {
+      .sec-head {
+        grid-template-columns: 1fr;
+        gap: 6px
+      }
+
+      .sec-num {
+        padding-top: 0
+      }
+    }
+
+    .prose p {
+      font-size: 15px;
+      line-height: 1.62;
+      color: var(--ink-2);
+      max-width: 70ch
+    }
+
+    .prose p+p {
+      margin-top: 12px
+    }
+
+    .prose strong {
+      color: var(--ink);
+      font-weight: 600
+    }
+
+    .prose em {
+      font-style: italic
+    }
+
+    .prose code {
+      font-family: "DM Mono", monospace;
+      font-size: .88em;
+      background: var(--wash);
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: var(--ink)
+    }
+
+    .subhead {
+      font-family: "DM Mono", monospace;
+      font-size: 10.5px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin: 38px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .subhead::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--rule)
+    }
+
+    /* ---------- generic blocks ---------- */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px
+    }
+
+    @media (max-width:900px) {
+      .grid-3 {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media (max-width:760px) {
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .card {
+      border: 1px solid var(--rule);
+      border-radius: var(--r-doc);
+      background: var(--panel);
+      padding: 22px
+    }
+
+    .card h3 {
+      font-size: 15px;
+      letter-spacing: -0.012em;
+      font-weight: 600;
+      margin-bottom: 8px
+    }
+
+    .card p {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--ink-2)
+    }
+
+    .card .tagline {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 10px
+    }
+
+    ul.clean {
+      margin: 0;
+      padding: 0;
+      list-style: none
+    }
+
+    ul.clean li {
+      position: relative;
+      padding-left: 16px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--ink-2);
+      margin-bottom: 7px
+    }
+
+    ul.clean li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .55em;
+      width: 5px;
+      height: 5px;
+      border-radius: 1px;
+      background: var(--ink-3)
+    }
+
+    ul.clean li b {
+      color: var(--ink);
+      font-weight: 600
+    }
+
+    ol.steps {
+      margin: 0;
+      padding-left: 18px
+    }
+
+    ol.steps li {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--ink-2);
+      margin-bottom: 6px;
+      padding-left: 4px
+    }
+
+    .note {
+      border-left: 2px solid var(--ink);
+      padding: 2px 0 2px 16px;
+      margin-top: 22px;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--ink-2);
+      max-width: 76ch
+    }
+
+    .note b {
+      color: var(--ink)
+    }
+
+    .flag {
+      border: 1px solid var(--rule);
+      border-color: color-mix(in srgb, var(--warn) 32%, transparent);
+      background: var(--warn-bg);
+      color: var(--ink);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 18px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .flag b {
+      color: var(--warn)
+    }
+
+    .flag .mono {
+      font-size: 11px
+    }
+
+    /* tables */
+    .table-scroll {
+      overflow-x: auto;
+      border: 1px solid var(--rule);
+      border-radius: var(--r-doc);
+      background: var(--panel)
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 13px
+    }
+
+    caption {
+      text-align: left;
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      padding: 14px 16px 0
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--rule-soft);
+      vertical-align: top;
+      line-height: 1.45
+    }
+
+    thead th {
+      font-family: "DM Mono", monospace;
+      font-size: 9.5px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      font-weight: 500;
+      border-bottom: 1px solid var(--rule);
+      white-space: nowrap
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0
+    }
+
+    td .mono,
+    th .mono {
+      font-size: 11.5px
+    }
+
+    td.num {
+      font-family: "DM Mono", monospace;
+      font-size: 11.5px;
+      white-space: nowrap;
+      color: var(--ink)
+    }
+
+    td.dim {
+      color: var(--ink-2)
+    }
+
+    .pass {
+      color: var(--ok);
+      font-weight: 600
+    }
+
+    .fail {
+      color: #B4462F;
+      font-weight: 600
+    }
+
+    html[data-theme="dark"] .fail {
+      color: #F08A72
+    }
+
+    .ratio {
+      font-family: "DM Mono", monospace;
+      font-size: 11.5px
+    }
+
+    /* callout pair */
+    .pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--rule);
+      border-radius: var(--r-doc);
+      overflow: hidden;
+      background: var(--panel)
+    }
+
+    @media (max-width:760px) {
+      .pair {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .pair>div {
+      padding: 20px
+    }
+
+    .pair>div+div {
+      border-left: 1px solid var(--rule)
+    }
+
+    @media (max-width:760px) {
+      .pair>div+div {
+        border-left: 0;
+        border-top: 1px solid var(--rule)
+      }
+    }
+
+    .pair h4 {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 8px
+    }
+
+    .pair p {
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--ink-2)
+    }
+
+    .pair .yes {
+      color: var(--ok);
+      font-weight: 600
+    }
+
+    .pair .no {
+      color: #B4462F;
+      font-weight: 600
+    }
+
+    /* ---------- swatches ---------- */
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
+      gap: 12px
+    }
+
+    .swatch {
+      border: 1px solid var(--rule);
+      border-radius: 11px;
+      overflow: hidden;
+      background: var(--panel);
+      text-align: left;
+      padding: 0;
+      display: block;
+      width: 100%;
+      transition: transform .16s ease, box-shadow .16s ease
+    }
+
+    .swatch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .07)
+    }
+
+    .swatch-chip {
+      height: 78px;
+      position: relative;
+      border-bottom: 1px solid var(--rule-soft)
+    }
+
+    .swatch-chip .hex {
+      position: absolute;
+      left: 9px;
+      bottom: 7px;
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .03em;
+      padding: 2px 5px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, .78);
+      color: #111;
+      backdrop-filter: blur(4px)
+    }
+
+    .swatch-body {
+      padding: 10px 11px 12px
+    }
+
+    .swatch-body b {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 600;
+      line-height: 1.2
+    }
+
+    .swatch-body span {
+      display: block;
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .04em;
+      color: var(--ink-3);
+      margin-top: 4px
+    }
+
+    .swatch-body em {
+      display: block;
+      font-style: normal;
+      font-size: 11px;
+      color: var(--ink-2);
+      margin-top: 6px;
+      line-height: 1.35
+    }
+
+    .swatch-body .r {
+      display: inline-block;
+      margin-top: 6px;
+      font-family: "DM Mono", monospace;
+      font-size: 9.5px;
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 1px 4px;
+      color: var(--ink-2)
+    }
+
+    /* ---------- specimens ---------- */
+    .canvas {
+      position: relative;
+      border: 1px solid var(--rule);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #FFFFFF;
+      color: #14171F;
+      padding: clamp(20px, 3.2vw, 40px);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    }
+
+    .canvas--flush {
+      padding: 0
+    }
+
+    .canvas--sky {
+      background: linear-gradient(180deg, #DCEAFA 0%, #EEF4FD 55%, #FBFDFF 100%)
+    }
+
+    .canvas--night {
+      background: #030916;
+      color: #FFFFFF;
+      border-color: #1B2432
+    }
+
+    .canvas--surface {
+      background: #F2F4F7
+    }
+
+    .spec-label {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 6px 14px;
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 9px;
+    }
+
+    .spec-label b {
+      font-weight: 500;
+      color: var(--ink-2)
+    }
+
+    .spec+.spec {
+      margin-top: 26px
+    }
+
+    .spec-note {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      line-height: 1.5;
+      color: var(--ink-3);
+      margin-top: 8px
+    }
+
+    .swatch-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .swatch-inline i {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      border: 1px solid rgba(0, 0, 0, .12);
+      display: inline-block
+    }
+
+    /* type specimen scopes */
+    .f-intertight {
+      font-family: "Inter Tight", system-ui, sans-serif
+    }
+
+    .f-archivo {
+      font-family: "Archivo", system-ui, sans-serif
+    }
+
+    .f-instrument {
+      font-family: "Instrument Sans", system-ui, sans-serif
+    }
+
+    .f-inter {
+      font-family: "Inter", system-ui, sans-serif
+    }
+
+    .f-fraunces {
+      font-family: "Fraunces", Georgia, serif
+    }
+
+    .f-newsreader {
+      font-family: "Newsreader", Georgia, serif
+    }
+
+    .f-lora {
+      font-family: "Lora", Georgia, serif
+    }
+
+    .f-dmmono {
+      font-family: "DM Mono", ui-monospace, monospace
+    }
+
+    .f-system {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", system-ui, sans-serif
+    }
+
+    .f-system-text {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif
+    }
+
+    /* Contra type ladder (original values, stand-in letterforms) */
+    .ct-58 {
+      font-size: clamp(38px, 5.4vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      font-weight: 500
+    }
+
+    .ct-23 {
+      font-size: 23px;
+      line-height: 1.39;
+      letter-spacing: .02em;
+      font-weight: 500
+    }
+
+    .ct-19 {
+      font-size: 19px;
+      line-height: 1.474;
+      letter-spacing: .02em;
+      font-weight: 400
+    }
+
+    .ct-16 {
+      font-size: 16px;
+      line-height: 1.15;
+      letter-spacing: 0;
+      font-weight: 400
+    }
+
+    .ct-14 {
+      font-size: 14px;
+      line-height: 1.43;
+      letter-spacing: -0.01em;
+      font-weight: 500
+    }
+
+    .ct-12 {
+      font-size: 12px;
+      line-height: 1.33;
+      letter-spacing: .1em;
+      font-weight: 500;
+      text-transform: uppercase
+    }
+
+    /* VoiceOS type ladder (system stack renders natively) */
+    .vt-76 {
+      font-size: clamp(44px, 6.4vw, 76px);
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+      font-weight: 600
+    }
+
+    .vt-60 {
+      font-size: clamp(34px, 5.2vw, 60px);
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      font-weight: 400
+    }
+
+    .vt-48 {
+      font-size: clamp(30px, 4.4vw, 48px);
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      font-weight: 600
+    }
+
+    .vt-36 {
+      font-size: clamp(26px, 3.4vw, 36px);
+      line-height: 1.11;
+      letter-spacing: -0.025em;
+      font-weight: 400
+    }
+
+    .vt-18 {
+      font-size: 18px;
+      line-height: 1.556;
+      letter-spacing: 0;
+      font-weight: 400
+    }
+
+    .vt-16 {
+      font-size: 16px;
+      line-height: 1.5;
+      letter-spacing: 0;
+      font-weight: 400
+    }
+
+    .vt-14 {
+      font-size: 14px;
+      line-height: 1.43;
+      letter-spacing: 0;
+      font-weight: 400
+    }
+
+    .vt-12 {
+      font-size: 12px;
+      line-height: 1.33;
+      letter-spacing: 0;
+      font-weight: 500
+    }
+
+    /* ---------- tokens ---------- */
+    .tokens {
+      position: relative;
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      background: var(--wash-2);
+      overflow: hidden
+    }
+
+    .tokens-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--rule);
+      background: var(--panel)
+    }
+
+    .tokens-head span {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-3)
+    }
+
+    .copy {
+      font-family: "DM Mono", monospace;
+      font-size: 9.5px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 3px 7px;
+      background: var(--panel);
+      color: var(--ink-2);
+      transition: background-color .15s ease, color .15s ease
+    }
+
+    .copy:hover {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink)
+    }
+
+    .copy.done {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink)
+    }
+
+    pre {
+      margin: 0;
+      padding: 16px;
+      overflow-x: auto;
+      font-family: "DM Mono", ui-monospace, monospace;
+      font-size: 11.5px;
+      line-height: 1.7;
+      color: var(--ink-2);
+      tab-size: 2
+    }
+
+    pre b {
+      color: var(--ink);
+      font-weight: 500
+    }
+
+    pre i {
+      color: var(--ink-3);
+      font-style: normal
+    }
+
+    code {
+      font-family: "DM Mono", ui-monospace, monospace
+    }
+
+    /* ---------- component specimens: CONTRA ---------- */
+    .c-scope {
+      --c-ink: #14171F;
+      --c-ink2: #222834;
+      --c-ink3: #373F51;
+      --c-muted: #677084;
+      --c-quiet: #9BA2B0;
+      --c-line: #E5E7EB;
+      --c-surface: #F2F4F7;
+      --c-paper: #FFFFFF;
+      --c-lime: #F0FB96;
+      font-family: "Inter Tight", system-ui, sans-serif;
+      color: var(--c-ink);
+    }
+
+    .c-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 48px;
+      padding: 0 24px;
+      border-radius: 24px;
+      background: var(--c-ink2);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0;
+      border: 1px solid var(--c-ink2);
+      transition: background-color .17s ease-out, transform .2s ease-out
+    }
+
+    .c-btn:hover {
+      background: #10151d;
+      transform: translateY(-1px)
+    }
+
+    .c-btn--ghost {
+      background: transparent;
+      color: var(--c-ink);
+      border: 1px solid var(--c-line)
+    }
+
+    .c-btn--ghost:hover {
+      background: var(--c-surface)
+    }
+
+    .c-btn--sm {
+      height: 36px;
+      padding: 0 16px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 999px;
+      letter-spacing: -0.01em
+    }
+
+    .c-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 32px;
+      font-size: 16px;
+      line-height: 1;
+      color: var(--c-quiet);
+      border: 1px solid transparent;
+      transition: color .17s ease-out, border-color .17s ease-out;
+      text-decoration: none
+    }
+
+    .c-chip:hover {
+      color: var(--c-ink);
+      border-color: var(--c-line)
+    }
+
+    .c-chip--bordered {
+      border-color: var(--c-line);
+      background: #fff;
+      color: var(--c-muted);
+      font-size: 14px;
+      padding: 8px 14px
+    }
+
+    .c-filter {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 37px;
+      padding: 8px 14px;
+      border-radius: 100px;
+      border: 1px solid var(--c-line);
+      background: #fff;
+      color: var(--c-muted);
+      font-size: 14px;
+      line-height: 1;
+      text-decoration: none;
+      transition: border-color .17s ease-out, color .17s ease-out
+    }
+
+    .c-filter:hover {
+      border-color: var(--c-quiet);
+      color: var(--c-ink)
+    }
+
+    .c-eyebrow {
+      font-size: 12px;
+      line-height: 1.33;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      font-weight: 500
+    }
+
+    .c-sec-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid transparent
+    }
+
+    .c-sec-head h3 {
+      font-size: 23px;
+      line-height: 1.39;
+      letter-spacing: .02em;
+      font-weight: 500;
+      margin: 0
+    }
+
+    .c-sec-head a {
+      font-size: 14px;
+      letter-spacing: -0.01em;
+      color: var(--c-ink3);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color .17s ease-out
+    }
+
+    .c-sec-head a:hover {
+      color: var(--c-ink)
+    }
+
+    .c-tile {
+      position: relative;
+      aspect-ratio: 1.9/1;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--c-ink2);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+      text-decoration: none
+    }
+
+    .c-tile::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10, 13, 20, .08) 0%, rgba(10, 13, 20, .02) 45%, rgba(10, 13, 20, .72) 100%);
+      pointer-events: none
+    }
+
+    .c-tile>* {
+      position: relative;
+      z-index: 1
+    }
+
+    .c-tile-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.5
+    }
+
+    .c-tile-top .app {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, .16);
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      font-family: "DM Mono", monospace;
+      border: 1px solid rgba(255, 255, 255, .18)
+    }
+
+    .c-tile-sub {
+      font-size: 15px;
+      line-height: 1.6;
+      letter-spacing: -0.01em;
+      color: rgba(255, 255, 255, .92)
+    }
+
+    .c-tile-meta {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      margin-top: 10px
+    }
+
+    .c-tile-meta b {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      display: block
+    }
+
+    .c-tile-meta span {
+      font-size: 12px;
+      letter-spacing: -0.005em;
+      color: rgba(242, 244, 247, .85);
+      display: block;
+      margin-top: 1px
+    }
+
+    .c-project {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--c-line);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform .2s ease-out, box-shadow .2s ease-out
+    }
+
+    .c-project:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(34, 40, 52, .05), -2px 18px 18px rgba(34, 40, 52, .04)
+    }
+
+    .c-project-thumb {
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #DDD8FF 0%, #CD74DD 52%, #242455 100%);
+      position: relative
+    }
+
+    .c-project-thumb--2 {
+      background: linear-gradient(135deg, #D6E9EB 0%, #9CC8C8 55%, #2F4F4F 100%)
+    }
+
+    .c-project-thumb--3 {
+      background: linear-gradient(135deg, #EAE2D6 0%, #C9A98C 55%, #3A2E28 100%)
+    }
+
+    .c-project-body {
+      padding: 12px 13px 13px;
+      border-top: 1px solid var(--c-line)
+    }
+
+    .c-project-body b {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.4
+    }
+
+    .c-project-body span {
+      display: block;
+      font-size: 12.5px;
+      line-height: 1.4;
+      color: var(--c-muted);
+      margin-top: 2px
+    }
+
+    .c-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(140deg, #CD74DD, #735CFF);
+      border: 2px solid #fff;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: "Inter Tight", sans-serif
+    }
+
+    .c-avatars {
+      display: flex
+    }
+
+    .c-avatars .c-avatar+.c-avatar {
+      margin-left: -9px
+    }
+
+    .c-tagrow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px 4px
+    }
+
+    /* ---------- component specimens: VOICEOS ---------- */
+    .v-scope {
+      --v-ink: #111827;
+      --v-ink2: #171C33;
+      --v-muted: #6B7280;
+      --v-muted2: #6B7188;
+      --v-accent: #0A84FF;
+      --v-line: #E5E7EB;
+      --v-surface: #F2F4F7;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+      color: var(--v-ink);
+    }
+
+    .v-glass {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 10px 12px 10px 18px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(246, 249, 255, .62) 0%, rgba(240, 245, 255, .48) 100%);
+      backdrop-filter: blur(14px) saturate(1.8);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .85), inset 0 -1px 0 rgba(255, 255, 255, .4), 0 1px 2px rgba(15, 23, 42, .06), 0 8px 24px -12px rgba(15, 23, 42, .18);
+      border: 1px solid rgba(255, 255, 255, .7);
+    }
+
+    .v-glass::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(-58deg, rgba(255, 255, 255, 0) 34%, rgba(255, 255, 255, .28) 47%, rgba(255, 255, 255, 0) 62%);
+      pointer-events: none
+    }
+
+    .v-navlink {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--v-ink);
+      text-decoration: none;
+      transition: color .15s cubic-bezier(.4, 0, .2, 1);
+      white-space: nowrap
+    }
+
+    @media (max-width:600px) {
+      .v-glass .v-navlink {
+        display: none
+      }
+
+      .v-glass {
+        gap: 10px;
+        padding-left: 14px
+      }
+    }
+
+    .v-navlink:hover {
+      color: var(--v-muted)
+    }
+
+    .v-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      height: 38px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: #000;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 0;
+      transition: transform .35s cubic-bezier(.25, 1, .5, 1), box-shadow .35s cubic-bezier(.25, 1, .5, 1)
+    }
+
+    .v-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .18)
+    }
+
+    .v-glass-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 68px;
+      padding: 0 34px;
+      border-radius: 999px;
+      background: linear-gradient(-75deg, rgba(230, 245, 255, .28), rgba(240, 250, 255, .5), rgba(230, 245, 255, .28));
+      backdrop-filter: blur(2px);
+      color: #323232;
+      font-size: 18px;
+      font-weight: 500;
+      box-shadow: inset 0 2px 2px rgba(0, 0, 0, .05), inset 0 -2px 2px rgba(255, 255, 255, .5), 0 4px 2px -2px rgba(0, 0, 0, .2), inset 0 0 1.6px 4px rgba(210, 235, 255, .25);
+      border: 1px solid rgba(255, 255, 255, .72);
+      text-decoration: none;
+    }
+
+    .v-card {
+      border-radius: 24px;
+      padding: 12px;
+      background: #fff;
+      box-shadow: inset 0 3px 3px rgba(0, 0, 0, .04), inset 0 -3px 3px rgba(255, 255, 255, .7), 0 10px 24px -4px rgba(0, 0, 0, .06), inset 0 0 3px 6px rgba(210, 235, 255, .35);
+    }
+
+    .v-liquid {
+      border-radius: 24px;
+      padding: 12px;
+      background: linear-gradient(-75deg, rgba(255, 255, 255, .2), rgba(255, 255, 255, .35), rgba(255, 255, 255, .2)), rgba(255, 255, 255, .5);
+      box-shadow: inset 0 3px 3px rgba(0, 0, 0, .04), inset 0 -3px 3px rgba(255, 255, 255, .7), 0 10px 24px -4px rgba(0, 0, 0, .06), inset 0 0 3px 6px rgba(210, 235, 255, .35);
+    }
+
+    .v-keycap {
+      width: 90px;
+      height: 90px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 45.6px;
+      line-height: 1;
+      color: #323232;
+      background: linear-gradient(180deg, #fff 0%, #F4F7FB 100%);
+      box-shadow: inset 0 2px 2px rgba(0, 0, 0, .05), inset 0 -2px 2px rgba(255, 255, 255, .5), 0 4px 2px -2px rgba(0, 0, 0, .2), 0 0 0 1px rgba(255, 255, 255, .72), inset 0 0 1.6px 4px rgba(210, 235, 255, .35)
+    }
+
+    .v-emoji {
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+      font-weight: 400
+    }
+
+    .v-faq {
+      border-radius: 12px;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--v-ink);
+      text-align: left;
+      width: 100%;
+      transition: background-color .2s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .v-faq:hover {
+      background: rgba(255, 255, 255, .55)
+    }
+
+    .v-window {
+      background: #fff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, .06), 0 2px 4px rgba(15, 23, 42, .06), 0 16px 36px -12px rgba(15, 23, 42, .16)
+    }
+
+    .v-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 12px;
+      border-bottom: 1px solid #F1F2F4;
+      background: linear-gradient(180deg, #FDFDFE, #F8F9FB)
+    }
+
+    .v-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%
+    }
+
+    .v-dot--r {
+      background: #FF5F57
+    }
+
+    .v-dot--a {
+      background: #FEBC2E
+    }
+
+    .v-dot--g {
+      background: #28C840
+    }
+
+    .v-window-title {
+      font-size: 11px;
+      color: #6B6B70;
+      margin-left: 6px;
+      font-weight: 500
+    }
+
+    .v-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-size: 11px;
+      font-weight: 500;
+      background: rgba(255, 255, 255, .8);
+      border: 1px solid rgba(15, 23, 42, .06);
+      color: var(--v-ink)
+    }
+
+    /* ---------- motion demo ---------- */
+    .motion-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px
+    }
+
+    @media (max-width:700px) {
+      .motion-row {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .motion-card {
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      background: var(--panel);
+      padding: 18px;
+      transition: transform .17s cubic-bezier(.4, 0, .2, 1), box-shadow .17s ease
+    }
+
+    .motion-card--slow {
+      transition: transform .35s cubic-bezier(.25, 1, .5, 1), box-shadow .35s cubic-bezier(.25, 1, .5, 1)
+    }
+
+    .motion-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, .1)
+    }
+
+    .motion-card .k {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      color: var(--ink-3);
+      letter-spacing: .06em;
+      text-transform: uppercase
+    }
+
+    .motion-card b {
+      display: block;
+      font-size: 14px;
+      margin-top: 5px;
+      font-weight: 600
+    }
+
+    .motion-card p {
+      font-size: 12.5px;
+      color: var(--ink-2);
+      margin-top: 5px;
+      line-height: 1.45
+    }
+
+    /* ---------- compare ---------- */
+    .compare-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 6px
+    }
+
+    @media (max-width:820px) {
+      .compare-hero {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .vs-card {
+      border: 1px solid var(--rule);
+      border-radius: var(--r-doc);
+      padding: 22px;
+      background: var(--panel)
+    }
+
+    .vs-card .who {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-3)
+    }
+
+    .vs-card .who i {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px
+    }
+
+    .vs-card h3 {
+      margin-top: 12px;
+      font-size: 22px;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      font-weight: 600
+    }
+
+    .vs-card p {
+      margin-top: 10px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--ink-2)
+    }
+
+    .duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px
+    }
+
+    @media (max-width:860px) {
+      .duo {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .duo .canvas {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 290px
+    }
+
+    .steal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 12px
+    }
+
+    footer.doc {
+      border-top: 1px solid var(--rule);
+      padding: 36px 0 60px;
+      color: var(--ink-3);
+      font-size: 12px;
+      line-height: 1.6
+    }
+
+    footer.doc .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px
+    }
+
+    footer.doc a {
+      color: var(--ink-2);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule)
+    }
+
+    footer.doc a:hover {
+      color: var(--ink);
+      border-color: var(--ink-3)
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important
+      }
+    }
+
+    @media print {
+
+      .topbar,
+      .toc,
+      .intro-actions,
+      .copy {
+        display: none !important
+      }
+
+      body {
+        background: #fff;
+        color: #000
+      }
+
+      .workspace {
+        display: block;
+        padding: 0
+      }
+
+      .view[hidden] {
+        display: block !important
+      }
+
+      .sec {
+        break-inside: avoid;
+        page-break-inside: avoid
+      }
+
+      .canvas {
+        break-inside: avoid
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="wrap topbar-in">
+      <a class="brand" href="#top" aria-label="Design DNA, top of page">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="brand-txt"><b>Design DNA</b><span>Reference extraction</span></span>
+      </a>
+      <div class="spacer"></div>
+      <div class="tabs" role="tablist" aria-label="Design system">
+        <button class="tab" role="tab" id="tab-contra" data-view-btn="contra" aria-controls="view-contra"
+          aria-selected="true"><span class="dot" aria-hidden="true"></span>Contra</button>
+        <button class="tab" role="tab" id="tab-voiceos" data-view-btn="voiceos" aria-controls="view-voiceos"
+          aria-selected="false"><span class="dot" aria-hidden="true"></span>VoiceOS</button>
+        <button class="tab" role="tab" id="tab-compare" data-view-btn="compare" aria-controls="view-compare"
+          aria-selected="false"><span class="dot" aria-hidden="true"></span>Compare</button>
+      </div>
+      <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap">
+      <section class="intro">
+        <div class="intro-grid">
+          <div>
+            <p class="kicker">Two sites, reverse-engineered · 29 Oct 2026</p>
+            <h1>What these sites<br>are actually made of<em>.</em></h1>
+            <p class="lede">A working extraction of two very different systems: <b>Contra</b>, a monochrome editorial
+              network where the work supplies all the colour, and <b>VoiceOS</b>, a liquid-glass product page that
+              behaves like the operating system it lives in. Measured values, not mood-board guesses — and free
+              stand-ins for every paid typeface.</p>
+            <div class="intro-actions">
+              <a class="pill-link" href="#c-identity" data-jump="contra"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>Start with Contra</a>
+              <a class="pill-link" href="#v-identity" data-jump="voiceos"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>VoiceOS</a>
+              <a class="pill-link" href="#x-position" data-jump="compare"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 3v18M16 3v18M3 8h18M3 16h18" />
+                </svg>Side by side</a>
+            </div>
+          </div>
+          <dl class="meta">
+            <div class="meta-row">
+              <dt>Sources</dt>
+              <dd>contra.com (logged out, projects view) · voiceos.com (landing)</dd>
+            </div>
+            <div class="meta-row">
+              <dt>Method</dt>
+              <dd>Live computed styles at 1440 × 900 and 584 px, CSSOM token pass, font-face audit, contrast measured on
+                final hex values</dd>
+            </div>
+            <div class="meta-row">
+              <dt>Type</dt>
+              <dd>GT Standard (paid) · SF Pro system stack · Recoleta (paid) · DM Mono (free)</dd>
+            </div>
+            <div class="meta-row">
+              <dt>Use it for</dt>
+              <dd>Reference, token harvesting, and grounding an agent in a real visual language</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+    </div>
+
+    <div class="wrap workspace">
+      <aside class="toc" id="toc">
+        <p class="toc-label">Contents</p>
+        <nav class="toc-list" data-toc="contra" aria-label="Contra sections">
+          <a href="#c-identity"><span class="n">01</span>Identity</a>
+          <a href="#c-colour"><span class="n">02</span>Colour</a>
+          <a href="#c-type"><span class="n">03</span>Typography</a>
+          <a href="#c-layout"><span class="n">04</span>Layout &amp; space</a>
+          <a href="#c-surface"><span class="n">05</span>Surface &amp; shape</a>
+          <a href="#c-components"><span class="n">06</span>Components</a>
+          <a href="#c-motion"><span class="n">07</span>Motion</a>
+          <a href="#c-voice"><span class="n">08</span>Voice</a>
+          <a href="#c-tokens"><span class="n">09</span>Steal sheet</a>
+        </nav>
+        <nav class="toc-list" data-toc="voiceos" aria-label="VoiceOS sections" hidden>
+          <a href="#v-identity"><span class="n">01</span>Identity</a>
+          <a href="#v-colour"><span class="n">02</span>Colour</a>
+          <a href="#v-type"><span class="n">03</span>Typography</a>
+          <a href="#v-layout"><span class="n">04</span>Layout &amp; space</a>
+          <a href="#v-surface"><span class="n">05</span>Material &amp; shape</a>
+          <a href="#v-components"><span class="n">06</span>Components</a>
+          <a href="#v-motion"><span class="n">07</span>Motion</a>
+          <a href="#v-voice"><span class="n">08</span>Voice</a>
+          <a href="#v-tokens"><span class="n">09</span>Steal sheet</a>
+        </nav>
+        <nav class="toc-list" data-toc="compare" aria-label="Comparison sections" hidden>
+          <a href="#x-position"><span class="n">01</span>Two positions</a>
+          <a href="#x-table"><span class="n">02</span>Measured differences</a>
+          <a href="#x-same"><span class="n">03</span>Same card, two DNAs</a>
+          <a href="#x-steal"><span class="n">04</span>What to steal</a>
+        </nav>
+      </aside>
+
+      <div>
+
+        <!-- ================================================================
+           CONTRA
+           ================================================================ -->
+        <div class="view" id="view-contra" role="tabpanel" aria-labelledby="tab-contra">
+
+          <!-- 01 IDENTITY -->
+          <section class="sec" id="c-identity">
+            <div class="sec-head">
+              <div class="sec-num">01</div>
+              <div>
+                <h2>The work is the colour. Everything else is a grey.</h2>
+                <p class="dek">Contra is a professional network for independent creatives, and its landing page reads
+                  like a printed portfolio catalogue: a Swiss grid, a monochrome chrome, one acid wash, and type doing
+                  all of the branding.</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="prose">
+                <p><strong>The strategy is subtraction.</strong> Every interface element that would normally carry
+                  personality — section headers, filters, navigation, footers — is rendered in the same four greys. That
+                  leaves project imagery as the only saturated thing on screen. The system isn't "minimal" as a style;
+                  it's minimal as a <em>business decision</em>, because the product's inventory is other people's visual
+                  work.</p>
+                <p>The page still has a point of view, and it lives in three places: a <strong>lime wash</strong> that
+                  appears only behind promotional cards, an <strong>almost invisible 2px grid</strong> that makes
+                  projects tile like a contact sheet, and <strong>letter-spacing that increases at text sizes</strong>
+                  instead of tightening everything the way most modern systems do.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Vibe, in six words</p>
+                <ul class="clean">
+                  <li><b>Editorial</b> — headlines read like a magazine masthead, not a SaaS pitch.</li>
+                  <li><b>Monochrome</b> — colour is content, never chrome.</li>
+                  <li><b>Swiss</b> — flush-left, generous outer margin, hairline rules.</li>
+                  <li><b>Confident</b> — no gradients, no glow, no persuasion effects.</li>
+                  <li><b>Curated</b> — "Projects we love" is a taste claim, not a sort order.</li>
+                  <li><b>Dense where it counts</b> — 4-up grids, but 96px of air between sections.</li>
+                </ul>
+              </div>
+            </div>
+
+            <p class="subhead">What it refuses</p>
+            <div class="grid-3">
+              <div class="card">
+                <h3>No accent colour in UI</h3>
+                <p>There is exactly one chromatic UI token (a lime wash) and it is never used for text, links, focus, or
+                  status. The only other colour is photography.</p>
+              </div>
+              <div class="card">
+                <h3>No elevation drama</h3>
+                <p>Two soft shadows exist, both on floating surfaces. Everything else separates with a 1px hairline or a
+                  <span class="mono">#F2F4F7</span> tint.</p>
+              </div>
+              <div class="card">
+                <h3>No icon system as voice</h3>
+                <p>Icons are 16px utility marks. Illustration, mascots, and emoji are absent — the work is the
+                  illustration.</p>
+              </div>
+            </div>
+
+            <p class="subhead">Five signature moves</p>
+            <ol class="steps">
+              <li><b>2px gutters.</b> A 1351px content width carries four 336px tiles with 2px between them —
+                near-seamless, like a contact sheet rather than a card grid.</li>
+              <li><b>One acid wash.</b> <span class="mono">#F0FB96</span> appears as a flat promotional field. It never
+                becomes a button, a badge, or a link.</li>
+              <li><b>Inverted tracking.</b> +0.02em at 19–23px, +0.1em at 12px caps, and only −0.01em at 58px. Most
+                systems do the opposite.</li>
+              <li><b>Full-pill actions only.</b> 48px-tall buttons at 24px radius; 32px chips; 16px cards. Nothing in
+                between.</li>
+              <li><b>Section headers at 23px.</b> The biggest recurring header on the page is smaller than most systems'
+                body-large — the whitespace does the shouting.</li>
+            </ol>
+
+            <div class="note"><b>Why this is hard to copy well:</b> a monochrome system has nowhere to hide. Without
+              colour, hierarchy depends entirely on type scale, tracking, and spacing discipline. Most imitations add a
+              subtle gradient or a second accent within a week — and lose the whole effect.</div>
+          </section>
+
+          <!-- 02 COLOUR -->
+          <section class="sec" id="c-colour">
+            <div class="sec-head">
+              <div class="sec-num">02</div>
+              <div>
+                <h2>Eight greys, one wash, and the work.</h2>
+                <p class="dek">Sampled from computed styles, not from a brand PDF. Contrast is calculated on the final
+                  rendered pairs.</p>
+              </div>
+            </div>
+
+            <p class="subhead">Core tokens</p>
+            <div class="swatches">
+              <button class="swatch" type="button" data-copy="#14171F">
+                <span class="swatch-chip" style="background:#14171F"><span class="hex">#14171F</span></span>
+                <span class="swatch-body"><b>Ink</b><span>--c-ink</span><em>All headings and body text</em><span
+                    class="r">17.92:1 on paper</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#222834">
+                <span class="swatch-chip" style="background:#222834"><span class="hex">#222834</span></span>
+                <span class="swatch-body"><b>Ink 2</b><span>--c-ink-2</span><em>Primary button fill, dark
+                    cards</em><span class="r">14.78:1 with white</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#373F51">
+                <span class="swatch-chip" style="background:#373F51"><span class="hex">#373F51</span></span>
+                <span class="swatch-body"><b>Ink 3</b><span>--c-ink-3</span><em>Secondary links, "View more"</em><span
+                    class="r">10.54:1 on paper</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#677084">
+                <span class="swatch-chip" style="background:#677084"><span class="hex">#677084</span></span>
+                <span class="swatch-body"><b>Muted</b><span>--c-muted</span><em>The only secondary text colour</em><span
+                    class="r">4.97:1 paper · 4.51:1 surface</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#9BA2B0">
+                <span class="swatch-chip" style="background:#9BA2B0"><span class="hex">#9BA2B0</span></span>
+                <span class="swatch-body"><b>Quiet</b><span>--c-quiet</span><em>Chip labels, non-text glyphs</em><span
+                    class="r">2.56:1 — not for text</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#E5E7EB">
+                <span class="swatch-chip" style="background:#E5E7EB"><span class="hex">#E5E7EB</span></span>
+                <span class="swatch-body"><b>Line</b><span>--c-line</span><em>Hairline separators, card
+                    borders</em><span class="r">1.24:1 — decorative</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#F2F4F7">
+                <span class="swatch-chip" style="background:#F2F4F7"><span class="hex">#F2F4F7</span></span>
+                <span class="swatch-body"><b>Surface</b><span>--c-surface</span><em>Tint blocks, hover fills</em><span
+                    class="r">16.26:1 with ink</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#F0FB96">
+                <span class="swatch-chip" style="background:#F0FB96"><span class="hex">#F0FB96</span></span>
+                <span class="swatch-body"><b>Lime wash</b><span>--c-accent-wash</span><em>Promotional field
+                    only</em><span class="r">16.16:1 with ink</span></span>
+              </button>
+            </div>
+
+            <p class="subhead">The colour logic</p>
+            <div class="prose">
+              <p><strong>Three inks, two secondaries, three neutrals.</strong> That's the entire UI palette. The jump
+                from <span class="mono">#14171F</span> to <span class="mono">#677084</span> is large, so hierarchy reads
+                almost binary — headline or supporting. The one mid-dark grey, <span class="mono">#373F51</span>, is
+                reserved for interactive secondary text like “View more”, never for paragraphs, so the page never
+                develops a third level of reading. That is why it feels quiet and slightly severe.</p>
+              <p><strong>The lime is not an accent; it's a surface.</strong> It appears as a flat block behind promo
+                content at <span class="mono">#F0FB96</span>, paired with ink. As a foreground on white it would be
+                unreadable (roughly 1.1:1), so it never becomes a link or a badge. When you copy this system, copy that
+                constraint — not just the hex.</p>
+              <p><strong>The real palette is the work.</strong> The saturated colours on the page — lilac <span
+                  class="mono">#DDD8FF</span>, orchid <span class="mono">#CD74DD</span>, mint <span
+                  class="mono">#D6E9EB</span>, oat <span class="mono">#EAE2D6</span>, navy <span
+                  class="mono">#242455</span> — are sampled from project thumbnails, not from UI tokens. They change
+                with the inventory. That is the point of the monochrome chrome.</p>
+            </div>
+
+            <div class="flag"><b>Copy with care:</b> the muted grey sits at <span class="mono">4.51:1</span> on the
+              surface tint. That passes AA by a hair. Change the tint by a few percent — a very common "make it warmer"
+              tweak — and secondary copy drops below 4.5. If you need headroom, darken muted to <span
+                class="mono">#5F687A</span> (≈5.4:1) and keep the tint.</div>
+
+            <p class="subhead">Contrast, measured</p>
+            <div class="table-scroll">
+              <table>
+                <caption>Contra — rendered pairs, WCAG 2.1</caption>
+                <thead>
+                  <tr>
+                    <th>Pair</th>
+                    <th>Ratio</th>
+                    <th>AA normal</th>
+                    <th>AA large / UI</th>
+                    <th>Verdict</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Ink on paper</td>
+                    <td class="ratio">17.92:1</td>
+                    <td class="pass">Pass</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Body and headings</td>
+                  </tr>
+                  <tr>
+                    <td>Ink on surface</td>
+                    <td class="ratio">16.26:1</td>
+                    <td class="pass">Pass</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Tinted blocks</td>
+                  </tr>
+                  <tr>
+                    <td>White on ink 2</td>
+                    <td class="ratio">14.78:1</td>
+                    <td class="pass">Pass</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Primary button</td>
+                  </tr>
+                  <tr>
+                    <td>Ink 3 on paper</td>
+                    <td class="ratio">10.54:1</td>
+                    <td class="pass">Pass</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Secondary links</td>
+                  </tr>
+                  <tr>
+                    <td>Muted on paper</td>
+                    <td class="ratio">4.97:1</td>
+                    <td class="pass">Pass</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Secondary body</td>
+                  </tr>
+                  <tr>
+                    <td>Muted on surface</td>
+                    <td class="ratio">4.51:1</td>
+                    <td class="pass">Pass</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">No headroom — see flag</td>
+                  </tr>
+                  <tr>
+                    <td>Quiet on paper</td>
+                    <td class="ratio">2.56:1</td>
+                    <td class="fail">Fail</td>
+                    <td class="fail">Fail</td>
+                    <td class="dim">Chip labels; decorative only</td>
+                  </tr>
+                  <tr>
+                    <td>Line on paper</td>
+                    <td class="ratio">1.24:1</td>
+                    <td class="fail">Fail</td>
+                    <td class="fail">Fail</td>
+                    <td class="dim">Hairline, intentionally sub-threshold</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="spec-note">The chip labels at 2.56:1 are a real accessibility defect on Contra, not a deliberate
+              stylistic choice you should inherit. If you copy the chip, raise the label to <span
+                class="mono">#677084</span> (4.97:1) and keep the lighter grey for the border only.</p>
+          </section>
+
+          <!-- 03 TYPOGRAPHY -->
+          <section class="sec" id="c-type">
+            <div class="sec-head">
+              <div class="sec-num">03</div>
+              <div>
+                <h2>Type is the brand, and it is rented.</h2>
+                <p class="dek">Contra uses <b>GT Standard</b> by Grilli Type in two optical sizes: <b>L</b> for display,
+                  <b>M</b> for interface. It is a commercial licence, so the specimens below are rendered in the closest
+                  free stand-ins while keeping the original's measured size, weight, and tracking.</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="card">
+                <p class="tagline">Primary family</p>
+                <h3 style="font-size:20px;margin-bottom:6px">GT Standard</h3>
+                <p><b>Grilli Type · commercial, web licence separate.</b> A geometric Swiss-modernist sans with a tall
+                  x-height, short descenders, open apertures, and single- or double-storey <span
+                    class="mono">a</span>/<span class="mono">g</span> alternates. The family is a system, not a single
+                  face: <b>7 weights × 6 widths × 3 optical sizes</b>, 336 styles in total.</p>
+                <p style="margin-top:10px"><b>L / M are optical sizes</b> — Large and Medium — not weights or widths.
+                  Contra sets display in L and 12–16px interface text in M, which is why the same page has both tight
+                  and slightly open spacing.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Why the tracking looks wrong</p>
+                <p>Most systems tighten as type grows. Contra also <em>loosens</em> as type shrinks: <span
+                    class="mono">+0.46px</span> at 23px, <span class="mono">+0.38px</span> at 19px, <span
+                    class="mono">+1.2px</span> at 12px caps, and only <span class="mono">−0.58px</span> at 58px.</p>
+                <p style="margin-top:10px">That is an optical correction, not an accident: small type on a large canvas
+                  needs air to hold its colour, while display type needs its counters closed. The result reads as
+                  printed rather than app-like.</p>
+                <div class="flag" style="margin-top:14px"><b>Do not copy the body leading blindly.</b> Their 16px text
+                  runs at <span class="mono">18.4px</span> (1.15). It works because 16px is almost always a label or a
+                  meta line. For paragraphs, use 1.45–1.6.</div>
+              </div>
+            </div>
+
+            <p class="subhead">Measured scale</p>
+            <div class="table-scroll">
+              <table>
+                <caption>Contra — computed type ramp at 1440px</caption>
+                <thead>
+                  <tr>
+                    <th>Role</th>
+                    <th>Size / line</th>
+                    <th>Weight</th>
+                    <th>Tracking</th>
+                    <th>Optical</th>
+                    <th>Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Hero</td>
+                    <td class="num">58 / 60.9 · 1.05</td>
+                    <td class="num">500</td>
+                    <td class="num">−0.58px · −0.01em</td>
+                    <td>L</td>
+                    <td class="dim">One line, flush left, 452px measure</td>
+                  </tr>
+                  <tr>
+                    <td>Section header</td>
+                    <td class="num">23 / 32 · 1.39</td>
+                    <td class="num">500</td>
+                    <td class="num">+0.46px · +0.02em</td>
+                    <td>L</td>
+                    <td class="dim">The workhorse heading, usually with a 14px right link</td>
+                  </tr>
+                  <tr>
+                    <td>Lede</td>
+                    <td class="num">19 / 28 · 1.47</td>
+                    <td class="num">400</td>
+                    <td class="num">+0.38px · +0.02em</td>
+                    <td>L</td>
+                    <td class="dim">Sub-headline under the hero</td>
+                  </tr>
+                  <tr>
+                    <td>Body / UI</td>
+                    <td class="num">16 / 18.4 · 1.15</td>
+                    <td class="num">400</td>
+                    <td class="num">0</td>
+                    <td>M</td>
+                    <td class="dim">Mostly labels and short meta — not prose</td>
+                  </tr>
+                  <tr>
+                    <td>Label / button</td>
+                    <td class="num">14 / 20 · 1.43</td>
+                    <td class="num">500</td>
+                    <td class="num">−0.14px · −0.01em</td>
+                    <td>M</td>
+                    <td class="dim">Tightens at small sizes, unlike the L ramp</td>
+                  </tr>
+                  <tr>
+                    <td>Eyebrow</td>
+                    <td class="num">12 / 16 · 1.33</td>
+                    <td class="num">500</td>
+                    <td class="num">+1.2px · +0.1em</td>
+                    <td>M</td>
+                    <td class="dim">Uppercase, tracked out — section labels</td>
+                  </tr>
+                  <tr>
+                    <td>Micro badge</td>
+                    <td class="num">8 / 16 · 2.0</td>
+                    <td class="num">600</td>
+                    <td class="num">+0.5px</td>
+                    <td>M</td>
+                    <td class="dim">Prize labels. 8px is below any usable minimum</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p class="subhead">Specimen · original metrics, stand-in letterforms</p>
+            <div class="canvas c-scope">
+              <div class="spec">
+                <div class="spec-label"><span>58 / 60.9 · 500 · −0.58px</span><b>Inter Tight, standing in for GT
+                    Standard L</b></div>
+                <div class="f-intertight ct-58">Get more creative</div>
+              </div>
+              <div class="spec">
+                <div class="spec-label"><span>23 / 32 · 500 · +0.46px</span><b>Section header</b></div>
+                <div class="f-intertight ct-23">Projects we love</div>
+                <div class="f-intertight ct-14" style="color:#373F51;margin-top:6px">Hand-picked work from independent
+                  creatives ↗</div>
+              </div>
+              <div class="spec">
+                <div class="spec-label"><span>19 / 28 · 400 · +0.38px</span><b>Lede</b></div>
+                <div class="f-intertight ct-19" style="color:#677084">The network for creative intelligence.</div>
+              </div>
+              <div class="spec">
+                <div class="spec-label"><span>16 / 18.4 · 400</span><b>Body / UI</b></div>
+                <div class="f-intertight ct-16" style="max-width:60ch">Find the right creative for your next project.
+                  Contracts, invoices, and payments in one place.</div>
+              </div>
+              <div class="spec">
+                <div class="spec-label"><span>12 / 16 · 500 · +1.2px</span><b>Eyebrow</b></div>
+                <div class="f-intertight ct-12" style="color:#677084">Trending topics</div>
+              </div>
+            </div>
+            <p class="spec-note">The sizes, line-heights, weights, and tracking are the live values measured on
+              contra.com. The letterforms are not GT Standard — they are the closest OFL stand-in, so you can feel the
+              proportions without redistributing a licensed font.</p>
+
+            <p class="subhead">Free stand-ins for GT Standard</p>
+            <div class="grid-3">
+              <div class="card">
+                <p class="tagline">System match · SIL OFL 1.1</p>
+                <h3 class="f-archivo" style="font-size:26px;letter-spacing:-0.02em">Archivo</h3>
+                <p>Variable width <span class="mono">62.5–125%</span> and weight <span class="mono">100–900</span>,
+                  roman + italic. <b>Best choice if you want to rebuild the L/M optical idea</b>: set display at a
+                  narrower width and UI at normal, the way Contra switches optical sizes.</p>
+                <div class="f-archivo"
+                  style="margin-top:16px;font-size:clamp(26px,4vw,38px);line-height:1.05;letter-spacing:-0.02em;font-weight:500">
+                  Get more creative</div>
+                <div class="f-archivo" style="margin-top:10px;font-size:14px;line-height:1.5;color:#677084">The network
+                  for creative intelligence.</div>
+                <p style="margin-top:12px"><a href="https://fonts.google.com/specimen/Archivo" target="_blank"
+                    rel="noopener">Specimen ↗</a></p>
+              </div>
+              <div class="card">
+                <p class="tagline">Closest feel · SIL OFL</p>
+                <h3 class="f-intertight" style="font-size:26px;letter-spacing:-0.03em">Inter Tight</h3>
+                <p>Variable <span class="mono">100–900</span>, roman + italic. Compact, neutral, screen-first.
+                  <b>Closest to Contra's tight, quiet texture</b> at text sizes; slightly more mechanical in display.
+                </p>
+                <div class="f-intertight"
+                  style="margin-top:16px;font-size:clamp(26px,4vw,38px);line-height:1.05;letter-spacing:-0.02em;font-weight:500">
+                  Get more creative</div>
+                <div class="f-intertight" style="margin-top:10px;font-size:14px;line-height:1.5;color:#677084">The
+                  network for creative intelligence.</div>
+                <p style="margin-top:12px"><a href="https://fonts.google.com/specimen/Inter+Tight" target="_blank"
+                    rel="noopener">Specimen ↗</a></p>
+              </div>
+              <div class="card">
+                <p class="tagline">Character match · SIL OFL 1.1</p>
+                <h3 class="f-instrument" style="font-size:26px;letter-spacing:-0.02em">Instrument Sans</h3>
+                <p>Variable width <span class="mono">75–100</span>, weight <span class="mono">400–700</span>, italic
+                  slant axis. <b>Best if you want the Swiss geometry with a little more personality</b> — the <span
+                    class="mono">a</span> and <span class="mono">t</span> have a sharper voice.</p>
+                <div class="f-instrument"
+                  style="margin-top:16px;font-size:clamp(26px,4vw,38px);line-height:1.05;letter-spacing:-0.02em;font-weight:500">
+                  Get more creative</div>
+                <div class="f-instrument" style="margin-top:10px;font-size:14px;line-height:1.5;color:#677084">The
+                  network for creative intelligence.</div>
+                <p style="margin-top:12px"><a href="https://fonts.google.com/specimen/Instrument+Sans" target="_blank"
+                    rel="noopener">Specimen ↗</a></p>
+              </div>
+            </div>
+
+            <div class="note"><b>Also worth knowing:</b> <span class="mono">Geist</span> (Vercel, SIL OFL) is arguably
+              the closest conceptual match to GT Standard's Swiss/geometric premise, but it isn't hosted on Google
+              Fonts, so it isn't previewed here. If licensing is not a constraint, GT Standard's web licence is tiered
+              by monthly unique visitors and is not included with the desktop licence.</div>
+          </section>
+
+          <!-- 04 LAYOUT -->
+          <section class="sec" id="c-layout">
+            <div class="sec-head">
+              <div class="sec-num">04</div>
+              <div>
+                <h2>A catalogue grid with editorial margins.</h2>
+                <p class="dek">Wide canvas, narrow text. The page uses 96px of vertical air to separate ideas, then
+                  packs projects into a near-seamless 2px grid.</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="prose">
+                <p><strong>The container is 1351px inside a 1440px viewport</strong> — roughly 36px outer margins at
+                  desktop, plus a fixed 74px navigation and a 69px sticky sub-navigation. Content is not centred in a
+                  narrow column; it runs almost edge to edge, then the <em>type</em> stays narrow (hero 452px, lede
+                  344px).</p>
+                <p><strong>The grid is the identity.</strong> Four columns of 336.33px with 2px gutters; three columns
+                  of 449.1px with 2px gutters. At that gutter width the images read as one field rather than separate
+                  cards — closer to a contact sheet than a marketplace. Cards still get 16px radii, but the spacing
+                  between them is almost nothing.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Measured layout</p>
+                <ul class="clean">
+                  <li><b>Viewport</b> 1440 · content 1351 · outer 36</li>
+                  <li><b>Nav</b> fixed, 74px · sub-nav sticky 69px at top 72px</li>
+                  <li><b>Project grid</b> 4 × 336.33 @ 2px, or 3 × 449.1 @ 2px</li>
+                  <li><b>Hero block</b> 48px top, 52px bottom, 40px gap to content</li>
+                  <li><b>Section rhythm</b> 32–80px, usually 64</li>
+                  <li><b>Footer</b> 78px / 60px / 40px padding, 60px column gap</li>
+                  <li><b>Density</b> high in the grid, low in the prose</li>
+                </ul>
+              </div>
+            </div>
+
+            <p class="subhead">The grid, drawn</p>
+            <div class="canvas" style="background:#fff;padding:clamp(14px,2.4vw,26px)">
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;border-radius:14px;overflow:hidden">
+                <div style="aspect-ratio:1.9/1;background:linear-gradient(135deg,#DDD8FF,#CD74DD 55%,#242455)"></div>
+                <div style="aspect-ratio:1.9/1;background:linear-gradient(135deg,#D6E9EB,#8FBDBD 55%,#2F4F4F)"></div>
+                <div style="aspect-ratio:1.9/1;background:linear-gradient(135deg,#EAE2D6,#C9A98C 55%,#3A2E28)"></div>
+                <div style="aspect-ratio:1.9/1;background:linear-gradient(135deg,#F0FB96,#C6D93F 55%,#3B4A12)"></div>
+                <div style="aspect-ratio:1.9/1;background:linear-gradient(135deg,#F5F6F9,#D8DCE6 55%,#4A5264)"></div>
+                <div style="aspect-ratio:1.9/1;background:linear-gradient(135deg,#DDD8FF,#735CFF 60%,#1B1B3A)"></div>
+                <div style="aspect-ratio:1.9/1;background:linear-gradient(135deg,#EAE2D6,#A8896B 55%,#2E241E)"></div>
+                <div style="aspect-ratio:1.9/1;background:linear-gradient(135deg,#D6E9EB,#BFDBFE 55%,#1E3A5F)"></div>
+              </div>
+              <p class="spec-note" style="color:#677084">4 columns · 2px gutters · 16px outer radius. Thumbnail
+                gradients are stand-ins using Contra's sampled work palette.</p>
+            </div>
+
+            <div class="table-scroll" style="margin-top:22px">
+              <table>
+                <caption>Space tokens inferred from computed padding and gaps</caption>
+                <thead>
+                  <tr>
+                    <th>Token</th>
+                    <th>Value</th>
+                    <th>Where it appears</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>gutter</td>
+                    <td class="num">2px</td>
+                    <td class="dim">Project and challenge grids</td>
+                  </tr>
+                  <tr>
+                    <td>card pad</td>
+                    <td class="num">13–20px</td>
+                    <td class="dim">Project meta 12–13px; image overlays 20px</td>
+                  </tr>
+                  <tr>
+                    <td>section gap</td>
+                    <td class="num">32 / 64 / 80px</td>
+                    <td class="dim">Header blocks, rails, footer transition</td>
+                  </tr>
+                  <tr>
+                    <td>hero rhythm</td>
+                    <td class="num">48 / 52px</td>
+                    <td class="dim">Top and bottom of the masthead block</td>
+                  </tr>
+                  <tr>
+                    <td>footer pad</td>
+                    <td class="num">78 / 60 / 40px</td>
+                    <td class="dim">Top, sides, bottom</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- 05 SURFACE -->
+          <section class="sec" id="c-surface">
+            <div class="sec-head">
+              <div class="sec-num">05</div>
+              <div>
+                <h2>Shape is limited. Elevation is almost absent.</h2>
+                <p class="dek">Three radii do 90% of the work, and elevation is limited to one ambient shadow plus a
+                  soft white halo. Depth is communicated with hairlines and tint, not blur.</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="table-scroll">
+                <table>
+                  <caption>Radii</caption>
+                  <thead>
+                    <tr>
+                      <th>Value</th>
+                      <th>Role</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="num">4px</td>
+                      <td class="dim">Micro badges, tiny indicators</td>
+                    </tr>
+                    <tr>
+                      <td class="num">10–12px</td>
+                      <td class="dim">Inline tags, small panels</td>
+                    </tr>
+                    <tr>
+                      <td class="num">16px</td>
+                      <td class="dim">Project and challenge cards</td>
+                    </tr>
+                    <tr>
+                      <td class="num">20px</td>
+                      <td class="dim">Floating promo panel</td>
+                    </tr>
+                    <tr>
+                      <td class="num">24px</td>
+                      <td class="dim">Buttons (48px tall = full pill)</td>
+                    </tr>
+                    <tr>
+                      <td class="num">32px</td>
+                      <td class="dim">Tag chips (37–40px tall)</td>
+                    </tr>
+                    <tr>
+                      <td class="num">999px / 50%</td>
+                      <td class="dim">Filters, avatars, search</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="prose">
+                <p><strong>Border-first, shadow-last.</strong> The hairline is <span class="mono">#E5E7EB</span> at
+                  roughly 1px — 1.24:1 against paper, which is deliberately below the 3:1 UI threshold because it
+                  separates, it doesn't inform. Functional boundaries (inputs, filters) get the same line but with a
+                  filled white surface behind them.</p>
+                <p><strong>The shadow set is two recipes.</strong> An ambient pair — <span class="mono">0 4px 10px
+                    rgba(34,40,52,.05), −2px 18px 18px rgba(34,40,52,.04)</span> — with the light coming from the left,
+                  used on floating cards; and a soft 24px white halo (<span class="mono">0 0 24px
+                    rgba(228,232,247,.8)</span>) on raised panels. Hover adds 3px of lift and the ambient pair.</p>
+                <p><strong>No gradients in buttons or chrome.</strong> Gradients appear in project imagery and in
+                  edge-fade masks (white → transparent) on carousels. Buttons are flat fills; the dark button is <span
+                    class="mono">#222834</span> with no border highlight.</p>
+              </div>
+            </div>
+
+            <p class="subhead">Live surface samples</p>
+            <div class="canvas c-scope"
+              style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;align-items:start">
+              <div>
+                <div style="height:104px;border-radius:16px;background:#fff;border:1px solid #E5E7EB"></div>
+                <p class="spec-note">Card · 16px · hairline</p>
+              </div>
+              <div>
+                <div style="height:104px;border-radius:16px;background:#F2F4F7"></div>
+                <p class="spec-note">Tint block · no border</p>
+              </div>
+              <div>
+                <div
+                  style="height:104px;border-radius:16px;background:#fff;box-shadow:0 4px 10px rgba(34,40,52,.05),-2px 18px 18px rgba(34,40,52,.04)">
+                </div>
+                <p class="spec-note">Floating · the only shadow</p>
+              </div>
+              <div>
+                <div
+                  style="height:104px;border-radius:16px;background:#F0FB96;display:grid;place-items:center;color:#14171F;font-size:13px;font-weight:500">
+                  Promo wash</div>
+                <p class="spec-note">Lime · surface, never text</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 06 COMPONENTS -->
+          <section class="sec" id="c-components">
+            <div class="sec-head">
+              <div class="sec-num">06</div>
+              <div>
+                <h2>Fourteen components, one voice.</h2>
+                <p class="dek">Rebuilt from the extracted tokens: buttons, filters, chips, section headers, challenge
+                  tiles, project tiles, and avatar stacks.</p>
+              </div>
+            </div>
+
+            <div class="canvas c-scope">
+              <div class="spec">
+                <div class="spec-label"><span>Actions · 48px pill · 16/600</span><b>Primary / ghost / small</b></div>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+                  <a class="c-btn" href="#c-components" onclick="return false">Sign up</a>
+                  <a class="c-btn c-btn--ghost" href="#c-components" onclick="return false">View more</a>
+                  <a class="c-btn c-btn--sm" href="#c-components" onclick="return false">Let's go</a>
+                </div>
+              </div>
+
+              <div class="spec">
+                <div class="spec-label"><span>Filters · 37px · 14/400</span><b>Search-adjacent pills</b></div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <a class="c-filter" href="#c-components" onclick="return false">Find the best brand designers</a>
+                  <a class="c-filter" href="#c-components" onclick="return false">Get paid commission-free</a>
+                  <a class="c-filter" href="#c-components" onclick="return false">Best creative for your project</a>
+                </div>
+              </div>
+
+              <div class="spec">
+                <div class="spec-label"><span>Tag row · 32px radius · muted label</span><b>8 / 16 padding</b></div>
+                <div class="c-tagrow">
+                  <a class="c-chip" href="#c-components" onclick="return false">Brand design</a>
+                  <a class="c-chip" href="#c-components" onclick="return false">Web design</a>
+                  <a class="c-chip" href="#c-components" onclick="return false">Framer</a>
+                  <a class="c-chip" href="#c-components" onclick="return false">AI</a>
+                  <a class="c-chip" href="#c-components" onclick="return false">Video editing</a>
+                </div>
+              </div>
+
+              <div class="spec">
+                <div class="spec-label"><span>Section header · 23/500 + 14/500 link</span><b>Space-between</b></div>
+                <div class="c-sec-head">
+                  <h3>Verified studios</h3>
+                  <a href="#c-components" onclick="return false">View more</a>
+                </div>
+                <p style="font-size:14px;color:#677084;margin-top:6px">Hand-picked independent studios trusted by
+                  ambitious brands. Strategy, design, and development all under one roof.</p>
+              </div>
+
+              <div class="spec">
+                <div class="spec-label"><span>Challenge tile · 320 × 168 · 16px radius</span><b>Image, scrim, white
+                    type</b></div>
+                <div
+                  style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;max-width:700px">
+                  <a class="c-tile" href="#c-components" onclick="return false"
+                    style="background:linear-gradient(150deg,#735CFF 0%,#3A2E8F 45%,#141226 100%)">
+                    <div class="c-tile-top"><span class="app">rs</span>recraftstyleschallenge</div>
+                    <div>
+                      <div class="c-tile-sub">Join to submit!</div>
+                      <div class="c-tile-meta">
+                        <div><b>$10K</b><span>Prize</span></div>
+                        <div><b>3d</b><span>Left</span></div>
+                      </div>
+                    </div>
+                  </a>
+                  <a class="c-tile" href="#c-components" onclick="return false"
+                    style="background:linear-gradient(150deg,#CD74DD 0%,#6D3C8F 48%,#221026 100%)">
+                    <div class="c-tile-top"><span class="app">b4</span>Base44 Challenge</div>
+                    <div>
+                      <div class="c-tile-sub">Join to submit</div>
+                      <div class="c-tile-meta">
+                        <div><b>$10K</b><span>Prize</span></div>
+                        <div><b>2d</b><span>Left</span></div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <div class="spec">
+                <div class="spec-label"><span>Project tile · 16px · 4:3 · 12px meta</span><b>Hover lifts 3px</b></div>
+                <div
+                  style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;max-width:700px">
+                  <a class="c-project" href="#c-components" onclick="return false">
+                    <div class="c-project-thumb"></div>
+                    <div class="c-project-body"><b>Aperture Studio</b><span>Brand identity · 2026</span></div>
+                  </a>
+                  <a class="c-project" href="#c-components" onclick="return false">
+                    <div class="c-project-thumb c-project-thumb--2"></div>
+                    <div class="c-project-body"><b>Field Notes</b><span>Editorial design · 2026</span></div>
+                  </a>
+                  <a class="c-project" href="#c-components" onclick="return false">
+                    <div class="c-project-thumb c-project-thumb--3"></div>
+                    <div class="c-project-body"><b>Kiln</b><span>Packaging · 2025</span></div>
+                  </a>
+                </div>
+              </div>
+
+              <div class="spec">
+                <div class="spec-label"><span>Social proof · 32px avatar · −9px overlap</span><b>White ring</b></div>
+                <div style="display:flex;align-items:center;gap:14px">
+                  <div class="c-avatars">
+                    <span class="c-avatar">AS</span><span class="c-avatar"
+                      style="background:linear-gradient(140deg,#6FA3A3,#2F4F4F)">JD</span><span class="c-avatar"
+                      style="background:linear-gradient(140deg,#C9A98C,#3A2E28)">MK</span><span class="c-avatar"
+                      style="background:#F2F4F7;color:#677084">+9</span>
+                  </div>
+                  <span style="font-size:13px;color:#677084">Joined this week</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="note"><b>The discipline to notice:</b> every action is either a full pill (24px) or a full
+              circle. There are no 8px-radius buttons, no mixed corner treatments, no neumorphic states. The consistency
+              is what makes a four-grey palette feel intentional rather than unfinished.</div>
+          </section>
+
+          <!-- 07 MOTION -->
+          <section class="sec" id="c-motion">
+            <div class="sec-head">
+              <div class="sec-num">07</div>
+              <div>
+                <h2>170 milliseconds of acknowledgement.</h2>
+                <p class="dek">Motion is a hover receipt, not a performance. Colours change fast; size and border
+                  changes get the slowest curve in the system.</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="table-scroll">
+                <table>
+                  <caption>Transition tokens by usage count</caption>
+                  <thead>
+                    <tr>
+                      <th>Property</th>
+                      <th>Duration</th>
+                      <th>Easing</th>
+                      <th>Used</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>background, border, color, opacity</td>
+                      <td class="num">170ms</td>
+                      <td class="num">ease-out</td>
+                      <td class="num">35×</td>
+                    </tr>
+                    <tr>
+                      <td>opacity (fades)</td>
+                      <td class="num">200ms</td>
+                      <td class="num">ease-in-out</td>
+                      <td class="num">62×</td>
+                    </tr>
+                    <tr>
+                      <td>all (generic)</td>
+                      <td class="num">320ms</td>
+                      <td class="num">ease</td>
+                      <td class="num">62×</td>
+                    </tr>
+                    <tr>
+                      <td>transform</td>
+                      <td class="num">200ms</td>
+                      <td class="num">ease-out</td>
+                      <td class="num">22×</td>
+                    </tr>
+                    <tr>
+                      <td>width, height, border</td>
+                      <td class="num">350ms</td>
+                      <td class="num">ease</td>
+                      <td class="num">70×</td>
+                    </tr>
+                    <tr>
+                      <td>fill (icons)</td>
+                      <td class="num">200ms</td>
+                      <td class="num">ease-out</td>
+                      <td class="num">62×</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="prose">
+                <p><strong>No entrance animations on the landing page.</strong> There are no scroll reveals, no hero
+                  fade-ins, no parallax. The only keyframes in the CSS are decorative orb loops (5–8.5s) inside
+                  promotional artwork.</p>
+                <p><strong>The 170ms standard</strong> is fast enough to feel like a state change rather than a
+                  transition. Hover lift is 3px, never more. If you're rebuilding the feel, this is the single most
+                  important number: 170ms, ease-out, colour and border only.</p>
+                <p><strong>Layout transitions are slower</strong> — 320–350ms — because filter panels and expanding rows
+                  genuinely change size. Anything under 250ms there reads as a jump.</p>
+              </div>
+            </div>
+
+            <p class="subhead">Feel it · hover both</p>
+            <div class="motion-row">
+              <div class="motion-card">
+                <span class="k">Contra · 170ms ease-out</span>
+                <b>Hover acknowledgement</b>
+                <p>Colour and border only. The lift is 3px and the shadow is the single ambient pair.</p>
+              </div>
+              <div class="motion-card motion-card--slow">
+                <span class="k">VoiceOS · 350ms soft-out</span>
+                <b>Physical settle</b>
+                <p>Transform and shadow together on <span class="mono">cubic-bezier(.25,1,.5,1)</span> — slower, softer,
+                  more material.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 08 VOICE -->
+          <section class="sec" id="c-voice">
+            <div class="sec-head">
+              <div class="sec-num">08</div>
+              <div>
+                <h2>Curatorial, not promotional.</h2>
+                <p class="dek">The copy behaves like a magazine editor wrote it: short nouns, no superlatives about the
+                  company, and taste presented as a service.</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="prose">
+                <p><strong>Headlines are claims about the work, not the platform.</strong> “Projects we love” is a
+                  curatorial statement; “Featured Projects” would be a CMS label. “Verified studios” is a standard;
+                  “Trusted Partners” would be a badge programme.</p>
+                <p><strong>Sentence case everywhere</strong>, including buttons. No exclamation marks in product copy —
+                  only in community challenge tiles (“Join to submit!”). Numbers appear as social proof, unadorned:
+                  9.2K, $10K, 3d left.</p>
+                <p><strong>The subject is usually the creative</strong>, not Contra: “Get more creative”, “Find the
+                  right creative for your next project”, “Get paid commission-free”. The platform is the place, not the
+                  hero.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Lines worth studying</p>
+                <ul class="clean">
+                  <li>“Get more creative” — a benefit without a verb stack.</li>
+                  <li>“The network for creative intelligence.” — category claim, one sentence.</li>
+                  <li>“Projects we love” — taste as an editorial function.</li>
+                  <li>“Verified studios” — trust without the word “trusted”.</li>
+                  <li>“Post a job for free — creatives apply directly.” — the proposition, no funnel language.</li>
+                  <li>“Let's go” — the only casual line in the system.</li>
+                  <li>“Join to submit!” — exclamation reserved for community.</li>
+                </ul>
+              </div>
+            </div>
+
+            <p class="subhead">Rewrites</p>
+            <div class="pair">
+              <div>
+                <h4 class="yes">In their voice</h4>
+                <p>“Get more creative.”<br>“Projects we love.”<br>“Verified studios.”<br>“Find the right creative for
+                  your next project.”</p>
+              </div>
+              <div>
+                <h4 class="no">Off-brand</h4>
+                <p>“Unlock your creative potential.”<br>“Featured Projects.”<br>“Trusted Partners.”<br>“Hire top-tier
+                  talent today!”</p>
+              </div>
+            </div>
+            <p class="spec-note">Rule of thumb: if a line could appear on any marketplace, it is not Contra. Replace the
+              adjective with a standard or a curation claim.</p>
+          </section>
+
+          <!-- 09 TOKENS -->
+          <section class="sec" id="c-tokens">
+            <div class="sec-head">
+              <div class="sec-num">09</div>
+              <div>
+                <h2>Steal sheet.</h2>
+                <p class="dek">Copy-paste tokens, three moves worth taking, and two traps to avoid.</p>
+              </div>
+            </div>
+
+            <div class="tokens">
+              <div class="tokens-head"><span>contra.tokens.css</span><button class="copy" type="button"
+                  data-copy="/* Contra — extracted tokens */\n:root{\n  --c-ink:#14171F;\n  --c-ink-2:#222834;\n  --c-ink-3:#373F51;\n  --c-muted:#677084;\n  --c-quiet:#9BA2B0;\n  --c-line:#E5E7EB;\n  --c-surface:#F2F4F7;\n  --c-paper:#FFFFFF;\n  --c-wash:#F0FB96;\n  --c-r-xs:4px;\n  --c-r-sm:10px;\n  --c-r-card:16px;\n  --c-r-btn:24px;\n  --c-r-chip:32px;\n  --c-r-pill:999px;\n  --c-shadow:0 4px 10px rgba(34,40,52,.05), -2px 18px 18px rgba(34,40,52,.04);\n  --c-ease:cubic-bezier(0,0,.2,1);\n  --c-fast:170ms;\n  --c-slow:350ms;\n  --c-font-display:\"
+                  GT Standard L\",\"Inter Tight\",system-ui,sans-serif;\n --c-font-text:\"GT Standard M\",\"Inter
+                  Tight\",system-ui,sans-serif;\n --c-track-display:-0.01em;\n --c-track-text:0.02em;\n
+                  --c-track-caps:0.1em;\n --c-gutter:2px;\n --c-container:1351px;\n}">Copy tokens</button></div>
+              <pre><b>:root</b>{
+  <i>/* ink */</i>
+  --c-ink:        #14171F;  <i>/* 17.92:1 */</i>
+  --c-ink-2:      #222834;
+  --c-ink-3:      #373F51;
+  --c-muted:      #677084;  <i>/* 4.97:1 · 4.51:1 on surface */</i>
+  --c-quiet:      #9BA2B0;  <i>/* decorative only */</i>
+
+  <i>/* neutrals */</i>
+  --c-line:       #E5E7EB;
+  --c-surface:    #F2F4F7;
+  --c-paper:      #FFFFFF;
+  --c-wash:       #F0FB96;  <i>/* surface, never text */</i>
+
+  <i>/* shape */</i>
+  --c-r-card:16px; --c-r-btn:24px; --c-r-chip:32px; --c-r-pill:999px;
+  --c-shadow:0 4px 10px rgba(34,40,52,.05), -2px 18px 18px rgba(34,40,52,.04);
+
+  <i>/* rhythm */</i>
+  --c-gutter:2px; --c-container:1351px;
+  --c-fast:170ms; --c-slow:350ms; --c-ease:cubic-bezier(0,0,.2,1);
+
+  <i>/* type — substitute the licensed family */</i>
+  --c-font-display:"Inter Tight",system-ui,sans-serif;
+  --c-font-text:"Inter Tight",system-ui,sans-serif;
+  --c-track-display:-0.01em;
+  --c-track-text:0.02em;
+  --c-track-caps:0.1em;
+}</pre>
+            </div>
+
+            <p class="subhead">Three moves to take</p>
+            <div class="grid-3">
+              <div class="card">
+                <h3>Kill the gutters, keep the radius</h3>
+                <p>2px between tiles with 16px rounded corners gives you a portfolio field that still feels clickable.
+                  It only works if the imagery is consistent — which is a content-ops requirement, not a CSS one.</p>
+              </div>
+              <div class="card">
+                <h3>Loosen small type, tighten display</h3>
+                <p>+0.02em at 19–23px and +0.1em at 12px caps makes a grotesque feel printed. Most systems only tighten,
+                  which is why they read as software.</p>
+              </div>
+              <div class="card">
+                <h3>Make trust a standard, not an adjective</h3>
+                <p>“Verified studios”, a last-verified date, a source link. The copy move and the product move are the
+                  same move.</p>
+              </div>
+            </div>
+
+            <p class="subhead">Two traps</p>
+            <div class="grid-2">
+              <div class="card">
+                <h3 style="color:#B4462F">8px labels and 1.15 body</h3>
+                <p>The challenge tiles set prize labels at 8px/600, and 16px text at 1.15 leading. Both are fine for
+                  two-word metadata and wrong for anything a user must read. Do not let these numbers into a content
+                  surface.</p>
+              </div>
+              <div class="card">
+                <h3 style="color:#B4462F">A monochrome system with no content plan</h3>
+                <p>Remove colour and every inconsistency shows. If your imagery is mixed-quality or your empty states
+                  are ugly, this system will expose it. The look is cheap; the editorial discipline is not.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================================================================
+             VOICEOS
+             ================================================================ -->
+        </div>
+
+        <div class="view" id="view-voiceos" role="tabpanel" aria-labelledby="tab-voiceos" hidden>
+
+          <!-- 01 IDENTITY -->
+          <section class="sec" id="v-identity">
+            <div class="sec-head">
+              <div class="sec-num">01</div>
+              <div>
+                <h2>The interface is a material, not a page.</h2>
+                <p class="dek">VoiceOS is an AI voice assistant for Mac and Windows. Its landing page behaves like the
+                  operating system it lives in: a sky wallpaper, liquid glass, SF type, and exactly one blue that means
+                  “interactive”.</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="prose">
+                <p><strong>It sells a feel before it explains a feature.</strong> The first screen is a macOS-shaped
+                  window floating on a blue sky, with a headline at 76px and a glass download button. The product is a
+                  voice assistant; the design argument is that it belongs on your desktop, not in a browser tab.</p>
+                <p>The material does the persuading. Every raised surface is built from the same four-part recipe — a
+                  blurred backdrop, a white gradient overlay, an inset light from below, and a soft ambient drop — so
+                  cards, navigation, and buttons all feel like they were cut from the same pane of glass. Remove that
+                  recipe and the page becomes a generic SaaS landing with a blue sky.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Vibe, in six words</p>
+                <ul class="clean">
+                  <li><b>Native</b> — window chrome, traffic lights, keyboard props.</li>
+                  <li><b>Airy</b> — 96–128px section rhythm, 576px text measure.</li>
+                  <li><b>Tactile</b> — every surface has a rim light and a shadow.</li>
+                  <li><b>Precise</b> — display type set solid at 60–72px.</li>
+                  <li><b>Calm</b> — one accent, no urgency, no countdowns.</li>
+                  <li><b>Friendly</b> — emoji, “Wall of Love”, “Press fn”.</li>
+                </ul>
+              </div>
+            </div>
+
+            <p class="subhead">What it refuses</p>
+            <div class="grid-3">
+              <div class="card">
+                <h3>No hard edges</h3>
+                <p>Every container is rounded, from 5px app icons to 30px window corners. There is no square card, no
+                  hard divider, no full-bleed colour block with a 0 radius.</p>
+              </div>
+              <div class="card">
+                <h3>No stock photography of people</h3>
+                <p>The imagery is the product and the sky. Social proof is text in glass cards, not smiling teams in an
+                  office.</p>
+              </div>
+              <div class="card">
+                <h3>No urgency mechanics</h3>
+                <p>No countdowns, no red badges, no “only 2 seats left”. The strongest pressure is “7-day free trial ·
+                  Cancel anytime”.</p>
+              </div>
+            </div>
+
+            <p class="subhead">Five signature moves</p>
+            <ol class="steps">
+              <li><b>A notched glass navigation.</b> The bar is a custom SVG silhouette with <span
+                  class="mono">blur(3px) saturate(1.8)</span>, a white overlay, and a specular sheen — not a rounded
+                rectangle with a backdrop filter.</li>
+              <li><b>The four-part glass recipe.</b> Blur + overlay gradient + inset light + ambient drop. Every raised
+                element uses a variation of it.</li>
+              <li><b>Optical tracking that scales.</b> −2.28px at 76, −1.8px at 72, −1.5px at 60, −1.27px at 63.36, and
+                0 at 16. The bigger the type, the tighter it gets.</li>
+              <li><b>Product props instead of illustrations.</b> A physical <span class="mono">fn</span> keycap, macOS
+                traffic lights, app icons at 5px radius, emoji inside H2s (👀, 🤝).</li>
+              <li><b>Wide canvas, narrow voice.</b> A 1280px container, a 576px measure, and centred sections with
+                96–128px above and below.</li>
+            </ol>
+
+            <div class="note"><b>Why this is hard to copy:</b> glass needs something behind it to refract. On a flat
+              white page, the same recipe reads as a grey rounded box with a fuzzy border. The material is only half the
+              system; the sky, the wallpaper, and the photography are the other half.</div>
+          </section>
+
+          <!-- 02 COLOUR -->
+          <section class="sec" id="v-colour">
+            <div class="sec-head">
+              <div class="sec-num">02</div>
+              <div>
+                <h2>One blue, three skies, and a night section.</h2>
+                <p class="dek">The neutrals are Tailwind's defaults. The palette is not a brand invention — it is a
+                  material palette, where light and atmosphere carry the identity.</p>
+              </div>
+            </div>
+
+            <p class="subhead">Core tokens</p>
+            <div class="swatches">
+              <button class="swatch" type="button" data-copy="#111827">
+                <span class="swatch-chip" style="background:#111827"><span class="hex">#111827</span></span>
+                <span class="swatch-body"><b>Ink</b><span>--v-ink</span><em>Body, UI, hero headline</em><span
+                    class="r">17.74:1 on white</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#171C33">
+                <span class="swatch-chip" style="background:#171C33"><span class="hex">#171C33</span></span>
+                <span class="swatch-body"><b>Ink 2</b><span>--v-ink-2</span><em>Section headings — a warmer
+                    navy</em><span class="r">16.80:1 on white</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#6B7280">
+                <span class="swatch-chip" style="background:#6B7280"><span class="hex">#6B7280</span></span>
+                <span class="swatch-body"><b>Muted</b><span>--v-muted</span><em>Supporting copy</em><span
+                    class="r">4.83:1 white · 4.37:1 sky-2</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#6B7188">
+                <span class="swatch-chip" style="background:#6B7188"><span class="hex">#6B7188</span></span>
+                <span class="swatch-body"><b>Muted 2</b><span>--v-muted-2</span><em>Secondary body on cards</em><span
+                    class="r">4.84:1 on white</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#0A84FF">
+                <span class="swatch-chip" style="background:#0A84FF"><span class="hex">#0A84FF</span></span>
+                <span class="swatch-body"><b>Accent</b><span>--v-accent</span><em>Icon stroke / fill only</em><span
+                    class="r">3.65:1 — UI, not text</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#DCEAFA">
+                <span class="swatch-chip" style="background:#DCEAFA"><span class="hex">#DCEAFA</span></span>
+                <span class="swatch-body"><b>Sky 1</b><span>--v-sky-1</span><em>Top of the section gradient</em><span
+                    class="r">14.52:1 with ink</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#EEF4FD">
+                <span class="swatch-chip" style="background:#EEF4FD"><span class="hex">#EEF4FD</span></span>
+                <span class="swatch-body"><b>Sky 2</b><span>--v-sky-2</span><em>Mid gradient, 55%</em><span
+                    class="r">4.37:1 with muted</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#FBFDFF">
+                <span class="swatch-chip" style="background:#FBFDFF"><span class="hex">#FBFDFF</span></span>
+                <span class="swatch-body"><b>Sky 3</b><span>--v-sky-3</span><em>Bottom of the gradient</em><span
+                    class="r">4.74:1 with muted</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#030916">
+                <span class="swatch-chip" style="background:#030916"><span class="hex">#030916</span></span>
+                <span class="swatch-body"><b>Night</b><span>--v-night</span><em>Privacy section, window scrim</em><span
+                    class="r">19.91:1 with white</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="rgba(210,235,255,0.25)">
+                <span class="swatch-chip" style="background:linear-gradient(135deg,#0B1220,#1C3A5A 60%,#7FB6E8)"><span
+                    class="hex">rgba(210,235,255,.25)</span></span>
+                <span class="swatch-body"><b>Rim light</b><span>--v-glass-rim</span><em>Inset edge on every glass
+                    surface</em><span class="r">material, not colour</span></span>
+              </button>
+              <button class="swatch" type="button" data-copy="#FF5F57 #FEBC2E #28C840">
+                <span class="swatch-chip"
+                  style="background:#F8F9FB;display:flex;align-items:center;justify-content:flex-start;gap:6px;padding:0 14px"><span
+                    style="width:14px;height:14px;border-radius:50%;background:#FF5F57"></span><span
+                    style="width:14px;height:14px;border-radius:50%;background:#FEBC2E"></span><span
+                    style="width:14px;height:14px;border-radius:50%;background:#28C840"></span></span>
+                <span class="swatch-body"><b>Window lights</b><span>--v-traffic</span><em>Decorative OS chrome</em><span
+                    class="r">not semantic</span></span>
+              </button>
+            </div>
+
+            <p class="subhead">The colour logic</p>
+            <div class="prose">
+              <p><strong>The neutrals are not bespoke.</strong> Ink is Tailwind <span class="mono">gray-900</span>,
+                muted is <span class="mono">gray-500</span>, the border is <span class="mono">gray-200</span>. What is
+                bespoke is the <em>atmosphere</em>: a three-stop sky gradient (<span class="mono">#DCEAFA → #EEF4FD →
+                  #FBFDFF</span>) and the glass rim light. That's the actual design work — the greys are scaffolding.
+              </p>
+              <p><strong>The blue is a signal, not a text colour.</strong> Every occurrence of <span
+                  class="mono">#0A84FF</span> on the landing page is inside an SVG — strokes and fills on the product
+                mark. No paragraph, link, or label uses it. Measured at 3.65:1 it would fail AA for body text anyway, so
+                the restriction is both stylistic and correct.</p>
+              <p><strong>The dark section is an inversion, not a theme.</strong> The privacy block flips to <span
+                  class="mono">#030916</span> with white text, then returns to sky. There is no dark mode toggle and no
+                dark token set on the landing page — don't mistake the section for a theming system.</p>
+            </div>
+
+            <div class="flag"><b>Copy with care:</b> muted <span class="mono">#6B7280</span> measures <span
+                class="mono">4.37:1</span> on the middle stop of the sky gradient — just under AA for 18px normal text.
+              It passes on the lightest stop (4.74:1) and on white (4.83:1). If you rebuild this, either darken muted to
+              <span class="mono">#5F6878</span> or keep secondary copy on the lighter half of the gradient.</div>
+
+            <p class="subhead">Contrast, measured</p>
+            <div class="table-scroll">
+              <table>
+                <caption>VoiceOS — rendered pairs, WCAG 2.1</caption>
+                <thead>
+                  <tr>
+                    <th>Pair</th>
+                    <th>Ratio</th>
+                    <th>AA normal</th>
+                    <th>AA large / UI</th>
+                    <th>Verdict</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Ink on white</td>
+                    <td class="ratio">17.74:1</td>
+                    <td class="pass">Pass</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Body and headings</td>
+                  </tr>
+                  <tr>
+                    <td>Ink 2 on white</td>
+                    <td class="ratio">16.80:1</td>
+                    <td class="pass">Pass</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Section headings</td>
+                  </tr>
+                  <tr>
+                    <td>Muted on white</td>
+                    <td class="ratio">4.83:1</td>
+                    <td class="pass">Pass</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Supporting copy</td>
+                  </tr>
+                  <tr>
+                    <td>Muted on sky 3</td>
+                    <td class="ratio">4.74:1</td>
+                    <td class="pass">Pass</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Bottom of gradient</td>
+                  </tr>
+                  <tr>
+                    <td>Muted on sky 2</td>
+                    <td class="ratio">4.37:1</td>
+                    <td class="fail">Fail</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Mid gradient — see flag</td>
+                  </tr>
+                  <tr>
+                    <td>Accent on white</td>
+                    <td class="ratio">3.65:1</td>
+                    <td class="fail">Fail</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Icons only, by design</td>
+                  </tr>
+                  <tr>
+                    <td>Ink on sky 1</td>
+                    <td class="ratio">14.52:1</td>
+                    <td class="pass">Pass</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Headings over gradient</td>
+                  </tr>
+                  <tr>
+                    <td>White on night</td>
+                    <td class="ratio">19.91:1</td>
+                    <td class="pass">Pass</td>
+                    <td class="pass">Pass</td>
+                    <td class="dim">Privacy section</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- 03 TYPE -->
+          <section class="sec" id="v-type">
+            <div class="sec-head">
+              <div class="sec-num">03</div>
+              <div>
+                <h2>System type, set solid.</h2>
+                <p class="dek">No webfont carries the page. It runs on the operating system's own face — SF Pro on
+                  Apple, Segoe UI on Windows — with DM Mono for labels and a serif that is loaded but never used.</p>
+              </div>
+            </div>
+
+            <div class="grid-3">
+              <div class="card">
+                <p class="tagline">Primary · system stack</p>
+                <h3 class="f-system" style="font-size:24px;letter-spacing:-0.02em">SF Pro / system-ui</h3>
+                <p><b>Not a webfont.</b> The stack is <span class="mono">-apple-system, BlinkMacSystemFont, "SF Pro
+                    Display", "SF Pro Text", system-ui</span>. On a Mac you see SF; on Windows you see Segoe UI. Free to
+                  use because it belongs to the OS, but <b>SF Pro itself is Apple-licensed</b> and cannot be self-hosted
+                  for the web.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Label family · SIL OFL</p>
+                <h3 class="f-dmmono" style="font-size:24px">DM Mono</h3>
+                <p><b>Google Fonts, free.</b> Used for eyebrow labels, the locale switch, footer text, and small
+                  technical captions at 12–18px, weights 400–600. Its presence is what stops the page from feeling
+                  entirely like an OS screenshot.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Accent serif · commercial</p>
+                <h3 class="f-fraunces" style="font-size:24px">Recoleta</h3>
+                <p><b>Latinotype, paid.</b> The page declares <span class="mono">@font-face</span> for <span
+                    class="mono">Recoleta-Regular.otf</span> — but <b>no element on the landing page renders in it</b>.
+                  It is loaded and unused here; treat it as a brand asset reserved for other surfaces, not as part of
+                  this page's type system.</p>
+              </div>
+            </div>
+
+            <p class="subhead">Measured scale</p>
+            <div class="table-scroll">
+              <table>
+                <caption>VoiceOS — computed type ramp at 1440px</caption>
+                <thead>
+                  <tr>
+                    <th>Role</th>
+                    <th>Size / line</th>
+                    <th>Ratio</th>
+                    <th>Weight</th>
+                    <th>Tracking</th>
+                    <th>Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Hero</td>
+                    <td class="num">76 / 95</td>
+                    <td class="num">1.25</td>
+                    <td class="num">600</td>
+                    <td class="num">−2.28px</td>
+                    <td class="dim">Two lines, centred, 547px measure</td>
+                  </tr>
+                  <tr>
+                    <td>Display</td>
+                    <td class="num">72 / 72</td>
+                    <td class="num">1.00</td>
+                    <td class="num">400</td>
+                    <td class="num">−1.8px</td>
+                    <td class="dim">“Wall of Love”, “Press fn…” — set solid</td>
+                  </tr>
+                  <tr>
+                    <td>Section (fluid)</td>
+                    <td class="num">63.36 / 70.96</td>
+                    <td class="num">1.12</td>
+                    <td class="num">600</td>
+                    <td class="num">−1.27px</td>
+                    <td class="dim">38px at 584px viewport — interpolates ≈2.96vw + 20.7px</td>
+                  </tr>
+                  <tr>
+                    <td>Section</td>
+                    <td class="num">60 / 60</td>
+                    <td class="num">1.00</td>
+                    <td class="num">400</td>
+                    <td class="num">−1.5px</td>
+                    <td class="dim">The default H2, set solid</td>
+                  </tr>
+                  <tr>
+                    <td>Inverted</td>
+                    <td class="num">48 / 48</td>
+                    <td class="num">1.00</td>
+                    <td class="num">600</td>
+                    <td class="num">−1.2px</td>
+                    <td class="dim">Privacy section, white on night</td>
+                  </tr>
+                  <tr>
+                    <td>Sub-head</td>
+                    <td class="num">36 / 40</td>
+                    <td class="num">1.11</td>
+                    <td class="num">400</td>
+                    <td class="num">−0.9px</td>
+                    <td class="dim">36px at 584 viewport — also fluid</td>
+                  </tr>
+                  <tr>
+                    <td>Lead</td>
+                    <td class="num">18 / 28</td>
+                    <td class="num">1.56</td>
+                    <td class="num">400</td>
+                    <td class="num">0</td>
+                    <td class="dim">Max 576–768px measure</td>
+                  </tr>
+                  <tr>
+                    <td>Body</td>
+                    <td class="num">16 / 24</td>
+                    <td class="num">1.50</td>
+                    <td class="num">400</td>
+                    <td class="num">0</td>
+                    <td class="dim">Default</td>
+                  </tr>
+                  <tr>
+                    <td>Nav</td>
+                    <td class="num">15 / 22.5</td>
+                    <td class="num">1.50</td>
+                    <td class="num">500</td>
+                    <td class="num">0</td>
+                    <td class="dim">Nav links, 23px tall</td>
+                  </tr>
+                  <tr>
+                    <td>Meta</td>
+                    <td class="num">14 / 20</td>
+                    <td class="num">1.43</td>
+                    <td class="num">400</td>
+                    <td class="num">0</td>
+                    <td class="dim">Trial line, small print</td>
+                  </tr>
+                  <tr>
+                    <td>Mono label</td>
+                    <td class="num">12 / 16</td>
+                    <td class="num">1.33</td>
+                    <td class="num">500</td>
+                    <td class="num">0</td>
+                    <td class="dim">DM Mono, locale, eyebrows</td>
+                  </tr>
+                  <tr>
+                    <td>Micro</td>
+                    <td class="num">11 / 16.5</td>
+                    <td class="num">1.50</td>
+                    <td class="num">400</td>
+                    <td class="num">0</td>
+                    <td class="dim">Privacy card labels</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p class="subhead">Specimen · native system rendering</p>
+            <div class="canvas canvas--sky v-scope">
+              <div class="spec">
+                <div class="spec-label"><span>76 / 95 · 600 · −2.28px</span><b>SF Pro / system-ui — renders natively</b>
+                </div>
+                <div class="f-system vt-76">Voice assistant<br>at your fingertips</div>
+              </div>
+              <div class="spec">
+                <div class="spec-label"><span>60 / 60 · 400 · −1.5px</span><b>Section H2, set solid</b></div>
+                <div class="f-system vt-60">Point anywhere on your screen.</div>
+              </div>
+              <div class="spec">
+                <div class="spec-label"><span>18 / 28 · 400</span><b>Lead</b></div>
+                <div class="f-system-text vt-18" style="color:#6B7280;max-width:34em">Your cursor is the context. No
+                  more explaining, just point and ask.</div>
+              </div>
+              <div class="spec">
+                <div class="spec-label"><span>12 / 16 · 500 · DM Mono</span><b>Eyebrow label</b></div>
+                <div class="f-dmmono vt-12" style="color:#6B7188;text-transform:uppercase;letter-spacing:.06em">
+                  Speech-to-text</div>
+              </div>
+            </div>
+            <p class="spec-note">The system stack means this specimen is the real thing on this machine. On Windows it
+              will look like Segoe UI — which is exactly the cross-platform risk to plan for.</p>
+
+            <p class="subhead">Free stand-ins for SF Pro</p>
+            <div class="grid-3">
+              <div class="card">
+                <p class="tagline">Closest · SIL OFL</p>
+                <h3 class="f-inter" style="font-size:26px;letter-spacing:-0.03em">Inter</h3>
+                <p>Variable <span class="mono">100–900</span>, roman + italic, optical-size axis. <b>The default SF
+                    substitute</b> for cross-platform interfaces: similar x-height, similar neutral tone, far more
+                  complete than a system fallback.</p>
+                <div class="f-inter"
+                  style="margin-top:16px;font-size:clamp(26px,4vw,38px);line-height:1.05;letter-spacing:-0.03em;font-weight:600">
+                  Voice assistant</div>
+                <div class="f-inter" style="margin-top:8px;font-size:14px;line-height:1.5;color:#6B7280">Point anywhere
+                  on your screen.</div>
+                <p style="margin-top:12px"><a href="https://fonts.google.com/specimen/Inter" target="_blank"
+                    rel="noopener">Specimen ↗</a></p>
+              </div>
+              <div class="card">
+                <p class="tagline">More character · SIL OFL 1.1</p>
+                <h3 class="f-instrument" style="font-size:26px;letter-spacing:-0.02em">Instrument Sans</h3>
+                <p>Variable width <span class="mono">75–100</span> and weight <span class="mono">400–700</span>.
+                  <b>Closer to SF Pro's slightly condensed UI proportions</b> than Inter, with a sharper <span
+                    class="mono">a</span> and <span class="mono">t</span>.</p>
+                <div class="f-instrument"
+                  style="margin-top:16px;font-size:clamp(26px,4vw,38px);line-height:1.05;letter-spacing:-0.03em;font-weight:600">
+                  Voice assistant</div>
+                <div class="f-instrument" style="margin-top:8px;font-size:14px;line-height:1.5;color:#6B7280">Point
+                  anywhere on your screen.</div>
+                <p style="margin-top:12px"><a href="https://fonts.google.com/specimen/Instrument+Sans" target="_blank"
+                    rel="noopener">Specimen ↗</a></p>
+              </div>
+              <div class="card">
+                <p class="tagline">Closest premise · SIL OFL</p>
+                <h3 class="f-intertight" style="font-size:26px;letter-spacing:-0.03em">Geist</h3>
+                <p>Vercel's Swiss/geometric sans, variable <span class="mono">100–900</span>. <b>Not hosted on Google
+                    Fonts</b>, so it isn't previewed here — but it is the closest free match to SF's geometric
+                  restraint. Inter Tight is a practical stand-in if you want it on a CDN.</p>
+                <div class="f-intertight"
+                  style="margin-top:16px;font-size:clamp(26px,4vw,38px);line-height:1.05;letter-spacing:-0.03em;font-weight:600">
+                  Voice assistant</div>
+                <div class="f-intertight" style="margin-top:8px;font-size:14px;line-height:1.5;color:#6B7280">Point
+                  anywhere on your screen.</div>
+                <p style="margin-top:12px"><a href="https://github.com/vercel/geist-font" target="_blank"
+                    rel="noopener">Repository ↗</a></p>
+              </div>
+            </div>
+
+            <p class="subhead">Free stand-ins for Recoleta</p>
+            <div class="grid-3">
+              <div class="card">
+                <p class="tagline">Closest vibe · SIL OFL 1.1</p>
+                <h3 class="f-fraunces" style="font-size:26px">Fraunces</h3>
+                <p>Variable <span class="mono">100–900</span> with <b>SOFT</b> and <b>WONK</b> axes plus optical size.
+                  The only free face that reproduces Recoleta's warm, 1970s soft-serif character rather than just its
+                  category.</p>
+                <div class="f-fraunces"
+                  style="margin-top:16px;font-size:clamp(26px,4vw,38px);line-height:1.08;letter-spacing:-0.01em;font-weight:500;font-variation-settings:'SOFT' 60,'WONK' 1">
+                  Warm, soft, a little odd</div>
+                <p style="margin-top:12px"><a href="https://fonts.google.com/specimen/Fraunces" target="_blank"
+                    rel="noopener">Specimen ↗</a></p>
+              </div>
+              <div class="card">
+                <p class="tagline">Quieter · SIL OFL 1.1</p>
+                <h3 class="f-newsreader" style="font-size:26px">Newsreader</h3>
+                <p>Variable optical size <span class="mono">6–72</span>, weight <span class="mono">200–800</span>,
+                  italic. <b>Better for reading than for display</b> — use it when the serif has to set a paragraph, not
+                  a headline.</p>
+                <div class="f-newsreader"
+                  style="margin-top:16px;font-size:clamp(26px,4vw,38px);line-height:1.1;letter-spacing:-0.01em;font-weight:400">
+                  Warm, soft, a little odd</div>
+                <p style="margin-top:12px"><a href="https://fonts.google.com/specimen/Newsreader" target="_blank"
+                    rel="noopener">Specimen ↗</a></p>
+              </div>
+              <div class="card">
+                <p class="tagline">Text-safe · SIL OFL 1.1</p>
+                <h3 class="f-lora" style="font-size:26px">Lora</h3>
+                <p>Variable <span class="mono">400–700</span> with italics. <b>The least similar of the three</b> — more
+                  calligraphic and less retro — but the safest for long copy and the most widely supported.</p>
+                <div class="f-lora"
+                  style="margin-top:16px;font-size:clamp(26px,4vw,38px);line-height:1.1;letter-spacing:-0.01em;font-weight:500">
+                  Warm, soft, a little odd</div>
+                <p style="margin-top:12px"><a href="https://fonts.google.com/specimen/Lora" target="_blank"
+                    rel="noopener">Specimen ↗</a></p>
+              </div>
+            </div>
+
+            <div class="note"><b>The detail worth stealing:</b> display headings are set at line-height 1.0 (60/60,
+              72/72, 48/48). At those sizes the lines almost touch, which is what makes the page feel like a native app
+              title rather than a marketing H2. Only the two-line hero gets 1.25. If you copy this, apply it to display
+              sizes only and keep body at 1.5.</div>
+          </section>
+
+          <!-- 04 LAYOUT -->
+          <section class="sec" id="v-layout">
+            <div class="sec-head">
+              <div class="sec-num">04</div>
+              <div>
+                <h2>Wide canvas, narrow voice.</h2>
+                <p class="dek">A 1280px stage, a 576px measure, and 96–128px of vertical air. The generosity is the
+                  hierarchy.</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="prose">
+                <p><strong>Containers are wide; paragraphs are not.</strong> The shell is <span class="mono">max-width:
+                    1280px</span> with 32px gutters, giving a 1152px inner canvas. Headlines sit in 547–896px; lead copy
+                  caps around 768px; body copy around 576px. Nothing runs the full 1152.</p>
+                <p><strong>Vertical rhythm is unusually large:</strong> 64px on compact feature sections, 96px on
+                  standard ones, 128px on the social-proof, FAQ, and closing sections. The hero alone is 900px tall at
+                  1440 — the first screen contains one idea.</p>
+                <p><strong>Everything is centred, then split.</strong> Sections open with a centred heading and
+                  sub-line, then break into two-column feature rows (copy left, product panel right, or vice versa). The
+                  alternation is the only structural variety on the page.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Measured layout</p>
+                <ul class="clean">
+                  <li><b>Viewport</b> 1440 · container 1280 · gutters 32</li>
+                  <li><b>Nav</b> 88px outer · 70px glass shell · 1232 wide</li>
+                  <li><b>Hero</b> 900px tall · 547px headline measure</li>
+                  <li><b>Text measures</b> 896 / 768 / 576 / 327</li>
+                  <li><b>Section padding</b> 64 / 96 / 128px vertical</li>
+                  <li><b>Card</b> 896 × 229 typical, 24px radius, 12px inner pad</li>
+                  <li><b>Density</b> low — one idea per screen</li>
+                </ul>
+              </div>
+            </div>
+
+            <p class="subhead">The rhythm, drawn</p>
+            <div class="canvas canvas--sky" style="padding:0">
+              <div style="padding:clamp(28px,5vw,64px) clamp(20px,4vw,48px);text-align:center">
+                <p class="f-dmmono"
+                  style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#6B7188;margin-bottom:14px">
+                  Speech-to-text</p>
+                <p class="f-system"
+                  style="font-size:clamp(24px,3.6vw,40px);line-height:1;letter-spacing:-0.03em;font-weight:400;color:#111827">
+                  Point anywhere<br>on your screen.</p>
+                <p class="f-system-text"
+                  style="font-size:14px;line-height:1.6;color:#6B7280;max-width:34em;margin:14px auto 0">Your cursor is
+                  the context. No more explaining, just point and ask.</p>
+                <div style="margin-top:26px;display:flex;justify-content:center"><span class="v-scope"><a class="v-cta"
+                      href="#v-layout" onclick="return false">Download for Windows</a></span></div>
+              </div>
+              <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(17,24,39,.12),transparent)">
+              </div>
+              <div
+                style="padding:clamp(12px,2vw,18px) clamp(20px,4vw,48px);display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:#6B7188">
+                <span>1280 canvas</span><span>576 measure</span><span>96–128 rhythm</span>
+              </div>
+            </div>
+
+            <div class="note" style="margin-top:22px"><b>The trade:</b> low density costs scroll length — the page is
+              7,205px tall at 1440. That is a deliberate choice for a product that needs to feel calm and native; it is
+              the wrong choice for a comparison, pricing, or dashboard page where users arrive with a task.</div>
+          </section>
+
+          <!-- 05 SURFACE -->
+          <section class="sec" id="v-surface">
+            <div class="sec-head">
+              <div class="sec-num">05</div>
+              <div>
+                <h2>Glass is a recipe, not a colour.</h2>
+                <p class="dek">Four layers produce every raised surface: a blurred backdrop, a white gradient overlay,
+                  an inset light, and an ambient drop. The rim light is the tell.</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="prose">
+                <p><strong>The recipe.</strong> A translucent base (white at 20–35%, or a 24%-white gradient), <span
+                    class="mono">backdrop-filter: blur(3px) saturate(1.8)</span> on navigation, <span class="mono">inset
+                    0 3px 3px rgba(0,0,0,.04)</span> at the top, <span class="mono">inset 0 -3px 3px
+                    rgba(255,255,255,.7)</span> at the bottom, an ambient <span class="mono">0 10px 24px -4px
+                    rgba(0,0,0,.06)</span>, and a blue-tinted rim <span class="mono">inset 0 0 3px 6px
+                    rgba(210,235,255,.35)</span>.</p>
+                <p><strong>Radius is semantic.</strong> 30px for the outer window frame, 24px for cards, 18px for the
+                  app window, 12px for FAQ rows, 5px for app icons, 999px for every pill. There is no uniform radius;
+                  the size of the object determines the curve.</p>
+                <p><strong>Light comes from below.</strong> The inset highlight sits on the bottom edge, not the top.
+                  That is why the glass reads as a physical slab catching a desk lamp rather than a bevelled button.</p>
+              </div>
+              <div class="table-scroll">
+                <table>
+                  <caption>Radii &amp; material</caption>
+                  <thead>
+                    <tr>
+                      <th>Value</th>
+                      <th>Role</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="num">30px</td>
+                      <td class="dim">Hero window frame corners</td>
+                    </tr>
+                    <tr>
+                      <td class="num">24px</td>
+                      <td class="dim">Liquid-glass cards</td>
+                    </tr>
+                    <tr>
+                      <td class="num">22px</td>
+                      <td class="dim">Product panels</td>
+                    </tr>
+                    <tr>
+                      <td class="num">18px</td>
+                      <td class="dim">App window, keycap</td>
+                    </tr>
+                    <tr>
+                      <td class="num">12px</td>
+                      <td class="dim">FAQ rows</td>
+                    </tr>
+                    <tr>
+                      <td class="num">5px</td>
+                      <td class="dim">App icons</td>
+                    </tr>
+                    <tr>
+                      <td class="num">999px</td>
+                      <td class="dim">Buttons, nav, chips</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <p class="subhead">Live material samples</p>
+            <div class="canvas canvas--sky v-scope">
+              <div class="spec">
+                <div class="spec-label"><span>Liquid glass · 24px · overlay + 3 insets</span><b>On sky</b></div>
+                <div class="v-liquid" style="max-width:420px">
+                  <div
+                    style="background:rgba(255,255,255,.72);border-radius:16px;padding:20px 22px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)">
+                    <div class="f-dmmono vt-12" style="color:#6B7188;text-transform:uppercase;letter-spacing:.06em">On
+                      your device</div>
+                    <p class="f-system-text" style="margin-top:8px;font-size:16px;line-height:1.55;color:#111827">Your
+                      audio is never stored on our servers and never used to train models.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="spec">
+                <div class="spec-label"><span>Window · 18px · white frame · 3 dots</span><b>Product chrome</b></div>
+                <div class="v-window" style="max-width:420px">
+                  <div class="v-titlebar"><span class="v-dot v-dot--r"></span><span class="v-dot v-dot--a"></span><span
+                      class="v-dot v-dot--g"></span><span class="v-window-title">New Message</span></div>
+                  <div style="padding:16px 18px">
+                    <div style="font-size:11px;color:#6B6B70">To</div>
+                    <div style="font-size:13px;color:#111827;margin-top:2px">david@company.com</div>
+                    <div style="height:1px;background:#F1F2F4;margin:10px 0"></div>
+                    <div style="font-size:13px;color:#4B5563">“Can you find his LinkedIn?”</div>
+                    <div style="margin-top:14px;display:flex;justify-content:flex-end"><span class="v-chip">✦
+                        Send</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="spec">
+                <div class="spec-label"><span>Night inversion · 48/48 · −1.2px</span><b>Section-level, not a theme</b>
+                </div>
+                <div style="background:#030916;border-radius:18px;padding:26px clamp(18px,3vw,32px);color:#fff">
+                  <div class="f-system"
+                    style="font-size:clamp(24px,3.4vw,36px);line-height:1;letter-spacing:-0.025em;font-weight:600">What
+                    you say stays yours</div>
+                  <p class="f-system-text"
+                    style="margin-top:10px;font-size:14px;line-height:1.55;color:rgba(255,255,255,.86);max-width:38em">
+                    Your audio is never stored on our servers and never used to train models.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 06 COMPONENTS -->
+          <section class="sec" id="v-components">
+            <div class="sec-head">
+              <div class="sec-num">06</div>
+              <div>
+                <h2>Product props, not illustrations.</h2>
+                <p class="dek">The components are borrowed from the desktop: a glass menu bar, a physical key, window
+                  dots, app icons. Only the content is marketing.</p>
+              </div>
+            </div>
+
+            <div class="canvas canvas--sky v-scope">
+              <div class="spec">
+                <div class="spec-label"><span>Glass nav · 70px shell · blur 3px / saturate 1.8</span><b>Simplified
+                    recipe — not the exact notch silhouette</b></div>
+                <div class="v-glass" style="max-width:760px">
+                  <span
+                    style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:16px;letter-spacing:-0.02em">VoiceOS</span>
+                  <span class="v-navlink">Product</span>
+                  <span class="v-navlink">About</span>
+                  <span class="v-navlink">Blogs</span>
+                  <span class="v-navlink">App Store</span>
+                  <span style="flex:1"></span>
+                  <a class="v-cta" href="#v-components" onclick="return false">Download</a>
+                </div>
+              </div>
+
+              <div class="spec">
+                <div class="spec-label"><span>Hero action · 68px · 18/500 · radius 9999</span><b>Glass button with inset
+                    light</b></div>
+                <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+                  <a class="v-glass-btn" href="#v-components" onclick="return false">Download for Windows <span
+                      style="font-size:16px">↓</span></a>
+                  <a class="v-cta" href="#v-components" onclick="return false">Join Them</a>
+                </div>
+                <p class="spec-note">The glass button is 68px tall with a 2px blur and four inset shadows. The black
+                  pill is the only high-contrast action on the page.</p>
+              </div>
+
+              <div class="spec">
+                <div class="spec-label"><span>Keycap · 90 × 90 · 18px · 45.6/700</span><b>Product prop, used inside the
+                    H2</b></div>
+                <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+                  <span class="v-keycap">fn</span>
+                  <div class="f-system vt-36" style="color:#111827">and start speaking.</div>
+                </div>
+              </div>
+
+              <div class="spec">
+                <div class="spec-label"><span>FAQ row · 12px radius · 20/32 padding</span><b>68px row, no border</b>
+                </div>
+                <div
+                  style="background:rgba(255,255,255,.55);border-radius:16px;max-width:760px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)">
+                  <button class="v-faq" type="button">How is VoiceOS different from traditional speech-to-text?<span
+                      style="color:#9CA3AF">+</span></button>
+                  <div class="v-faq-panel"
+                    style="padding:0 32px 20px;font-size:14px;line-height:1.6;color:#6B7280;max-width:60ch">VoiceOS
+                    removes filler words, fixes grammar, and formats your text professionally. It's like having an
+                    editor built in.</div>
+                  <div style="height:1px;background:rgba(17,24,39,.06)"></div>
+                  <button class="v-faq" type="button">Is my data private and secure with VoiceOS?<span
+                      style="color:#9CA3AF">+</span></button>
+                  <div class="v-faq-panel" hidden
+                    style="padding:0 32px 20px;font-size:14px;line-height:1.6;color:#6B7280;max-width:60ch">Audio is
+                    processed on your device. Nothing is stored on our servers and nothing is used to train models.
+                  </div>
+                  <div style="height:1px;background:rgba(17,24,39,.06)"></div>
+                  <button class="v-faq" type="button">What apps does VoiceOS work with?<span
+                      style="color:#9CA3AF">+</span></button>
+                  <div class="v-faq-panel" hidden
+                    style="padding:0 32px 20px;font-size:14px;line-height:1.6;color:#6B7280;max-width:60ch">Anything you
+                    can point at: Gmail, Slack, Calendar, Notion, Linear, Chrome, Drive, Docs, Obsidian, Finder,
+                    Messages.</div>
+                </div>
+                <p class="spec-note">All three rows are wired: buttons, not divs, with <span
+                    class="mono">aria-expanded</span> kept in sync. The separator is a 1px line at 6% ink, not a border
+                  on the row.</p>
+              </div>
+
+              <div class="spec">
+                <div class="spec-label"><span>Liquid card · 24px · 12px inner pad</span><b>Content inside a nested white
+                    panel</b></div>
+                <div style="display:flex;flex-wrap:wrap;gap:14px">
+                  <div class="v-card" style="max-width:340px">
+                    <div
+                      style="background:rgba(255,255,255,.72);border-radius:16px;padding:18px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)">
+                      <div style="display:flex;gap:5px;align-items:center">
+                        <span
+                          style="width:20px;height:20px;border-radius:5px;background:#EA4335;color:#fff;font:600 9px/20px 'DM Mono',monospace;text-align:center">G</span>
+                        <span
+                          style="width:20px;height:20px;border-radius:5px;background:#4A154B;color:#fff;font:600 9px/20px 'DM Mono',monospace;text-align:center">S</span>
+                        <span
+                          style="width:20px;height:20px;border-radius:5px;background:#0B8043;color:#fff;font:600 9px/20px 'DM Mono',monospace;text-align:center">C</span>
+                        <span
+                          style="width:20px;height:20px;border-radius:5px;background:#111;color:#fff;font:600 9px/20px 'DM Mono',monospace;text-align:center">N</span>
+                      </div>
+                      <p class="f-system-text" style="margin-top:12px;font-size:15px;line-height:1.55;color:#111827">
+                        “Send the email, file the ticket, schedule the meeting.”</p>
+                      <p class="f-dmmono" style="margin-top:10px;font-size:11px;color:#6B7188">Say it once — VoiceOS
+                        does it in the app you're already in.</p>
+                    </div>
+                  </div>
+                  <div class="v-card" style="max-width:340px">
+                    <div
+                      style="background:rgba(255,255,255,.72);border-radius:16px;padding:18px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)">
+                      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                        <span class="v-chip">On your device</span><span class="v-chip">Optional sharing</span>
+                      </div>
+                      <p class="f-system-text" style="margin-top:12px;font-size:13px;line-height:1.55;color:#6B7188">
+                        Never includes raw audio or full transcripts tied to you.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="spec">
+                <div class="spec-label"><span>Headline with emoji · 60/60 · 400</span><b>Emoji is punctuation, not
+                    decoration</b></div>
+                <div class="f-system vt-60" style="color:#111827">Stop looking<span class="v-emoji">👀</span><br>for
+                  that file</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 07 MOTION -->
+          <section class="sec" id="v-motion">
+            <div class="sec-head">
+              <div class="sec-num">07</div>
+              <div>
+                <h2>Ambient drift, one entrance, fast touch.</h2>
+                <p class="dek">The page moves at three speeds: 24-second atmosphere, 4-second one-off reveals, and
+                  150–350ms responses. Nothing loops in the foreground.</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="table-scroll">
+                <table>
+                  <caption>Motion tokens by role</caption>
+                  <thead>
+                    <tr>
+                      <th>What</th>
+                      <th>Timing</th>
+                      <th>Easing</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Colour / opacity (hover)</td>
+                      <td class="num">150–200ms</td>
+                      <td class="num">cubic-bezier(.4,0,.2,1)</td>
+                    </tr>
+                    <tr>
+                      <td>Transform + shadow (lift)</td>
+                      <td class="num">350ms</td>
+                      <td class="num">cubic-bezier(.25,1,.5,1)</td>
+                    </tr>
+                    <tr>
+                      <td>Generic state change</td>
+                      <td class="num">400ms</td>
+                      <td class="num">cubic-bezier(.25,1,.5,1)</td>
+                    </tr>
+                    <tr>
+                      <td>Width expansion</td>
+                      <td class="num">460ms</td>
+                      <td class="num">cubic-bezier(.34,1.28,.42,1) — overshoot</td>
+                    </tr>
+                    <tr>
+                      <td>Chroma sweep (hero)</td>
+                      <td class="num">4s, once</td>
+                      <td class="num">ease-in-out</td>
+                    </tr>
+                    <tr>
+                      <td>Cursor hint wander</td>
+                      <td class="num">7.6s</td>
+                      <td class="num">cubic-bezier(.45,.05,.2,1)</td>
+                    </tr>
+                    <tr>
+                      <td>Ambient aurora / clouds</td>
+                      <td class="num">24s linear · 7.5s loops</td>
+                      <td class="num">linear / ease-in-out</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="prose">
+                <p><strong>The page has an atmosphere layer.</strong> A 24-second linear <span
+                    class="mono">aw-flow</span> animation and slow cloud drift keep the sky alive without asking for
+                  attention. It is the one place where motion runs continuously.</p>
+                <p><strong>There is exactly one entrance:</strong> the hero's gradient sweep (<span
+                    class="mono">chroma-sweep-once</span>, 4s) runs a single time on load and never loops in the
+                  foreground. Everything else is triggered by hover or scroll into view.</p>
+                <p><strong>The overshoot is single-use.</strong> <span class="mono">cubic-bezier(.34,1.28,.42,1)</span>
+                  appears once, on a width expansion. It's a nice detail to borrow for one interaction — and a bad
+                  default for a whole system.</p>
+              </div>
+            </div>
+
+            <p class="subhead">Feel it · hover both</p>
+            <div class="motion-row">
+              <div class="motion-card motion-card--slow">
+                <span class="k">VoiceOS · 350ms soft-out</span>
+                <b>Physical settle</b>
+                <p>Transform and shadow on <span class="mono">cubic-bezier(.25,1,.5,1)</span>. The same curve family
+                  used across the page's material.</p>
+              </div>
+              <div class="motion-card">
+                <span class="k">Contra · 170ms ease-out</span>
+                <b>Hover acknowledgement</b>
+                <p>Colour and border only. Half the duration, a third of the distance — reads as a state change.</p>
+              </div>
+            </div>
+
+            <div class="flag"><b>Accessibility note:</b> the ambient layer should be disabled under <span
+                class="mono">prefers-reduced-motion</span>. The page has a lot of continuous atmosphere; if you rebuild
+              the effect, gate it on the media query rather than shipping it unconditionally.</div>
+          </section>
+
+          <!-- 08 VOICE -->
+          <section class="sec" id="v-voice">
+            <div class="sec-head">
+              <div class="sec-num">08</div>
+              <div>
+                <h2>The product is the subject. You are the hand.</h2>
+                <p class="dek">Short declaratives, second person, present tense. Privacy is stated as a fact, not a
+                  policy link. The warmth comes from props and punctuation, not exclamation marks.</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="prose">
+                <p><strong>Headlines are instructions or reframes.</strong> “Point anywhere on your screen.” “Press fn
+                  and start speaking.” “Stop looking 👀 for that file.” Each one describes an action the body already
+                  knows, which is why the page feels native rather than explanatory.</p>
+                <p><strong>Emoji functions as punctuation</strong> — one per headline, placed where a comma would go,
+                  never as a bullet or a status. It's the main source of warmth in an otherwise Apple-cold layout.</p>
+                <p><strong>Trust is a plain sentence.</strong> “Your audio is never stored on our servers and never used
+                  to train models.” No “bank-grade”, no shield icon, no policy link in the middle of the claim. The
+                  confidence is the design.</p>
+                <p><strong>Claims are quantified, then colloquialised.</strong> A 1× / 4× / 10× productivity comparison
+                  does the arguing, and the social proof is a single phrase — “20,000+ voicepilled” — rather than a logo
+                  wall. The register stays human even when the evidence is a number.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Lines worth studying</p>
+                <ul class="clean">
+                  <li>“Voice assistant at your fingertips.”</li>
+                  <li>“Point anywhere on your screen.”</li>
+                  <li>“Not just another dictation app.”</li>
+                  <li>“What you say stays yours.”</li>
+                  <li>“Press fn and start speaking.”</li>
+                  <li>“Still not sure? Ask your AI.”</li>
+                  <li>“7-day free trial · Cancel anytime.”</li>
+                  <li>“20,000+ voicepilled.” — social proof as a noun, not a stat block.</li>
+                  <li>“It's like having an editor built in.” — a metaphor, not a feature list.</li>
+                </ul>
+              </div>
+            </div>
+
+            <p class="subhead">The crossed-out category</p>
+            <div class="canvas canvas--sky v-scope" style="text-align:center">
+              <div class="f-system"
+                style="font-size:clamp(28px,4.4vw,48px);line-height:1.12;letter-spacing:-0.025em;font-weight:400;color:#111827">
+                <s
+                  style="color:#9CA3AF;text-decoration-thickness:2px;text-decoration-color:#9CA3AF">Speech-to-text</s><br>Voice-to-action
+              </div>
+              <p class="f-dmmono" style="margin-top:16px;font-size:11px;line-height:1.6;color:#6B7188">The old category
+                is struck through in the headline itself. Positioning happens in the type, not in a sub-headline
+                explaining the repositioning.</p>
+            </div>
+
+            <p class="subhead">Rewrites</p>
+            <div class="pair">
+              <div>
+                <h4 class="yes">In their voice</h4>
+                <p>“Point anywhere on your screen.”<br>“Stop looking 👀 for that file.”<br>“What you say stays
+                  yours.”<br>“Press fn and start speaking.”</p>
+              </div>
+              <div>
+                <h4 class="no">Off-brand</h4>
+                <p>“AI-powered productivity for modern teams.”<br>“Instantly locate any document with
+                  AI.”<br>“Enterprise-grade privacy and security.”<br>“Get started in seconds — free!”</p>
+              </div>
+            </div>
+            <p class="spec-note">Rule of thumb: if the sentence could describe any AI tool, it is not VoiceOS. Name the
+              gesture, the key, or the promise.</p>
+
+            <div class="flag"><b>Copy debt worth not copying:</b> the privacy section says “You decide what leaves your
+              <em>Mac</em>” on a page whose primary action is “Download for Windows”. It reads as a leftover from a
+              Mac-first launch. Keep platform nouns in a variable or a product string — not hand-written into body copy.
+            </div>
+          </section>
+
+          <!-- 09 TOKENS -->
+          <section class="sec" id="v-tokens">
+            <div class="sec-head">
+              <div class="sec-num">09</div>
+              <div>
+                <h2>Steal sheet.</h2>
+                <p class="dek">The material recipe, the type behaviour, and the three moves that make the page feel
+                  native.</p>
+              </div>
+            </div>
+
+            <div class="tokens">
+              <div class="tokens-head"><span>voiceos.tokens.css</span><button class="copy" type="button"
+                  data-copy="/* VoiceOS — extracted tokens */\n:root{\n  --v-ink:#111827;\n  --v-ink-2:#171C33;\n  --v-muted:#6B7280;\n  --v-muted-2:#6B7188;\n  --v-accent:#0A84FF;\n  --v-paper:#FFFFFF;\n  --v-sky-1:#DCEAFA;\n  --v-sky-2:#EEF4FD;\n  --v-sky-3:#FBFDFF;\n  --v-night:#030916;\n  --v-glass-rim:rgba(210,235,255,.35);\n  --v-glass-overlay:linear-gradient(-75deg,rgba(255,255,255,.2),rgba(255,255,255,.35),rgba(255,255,255,.2));\n  --v-glass-shadow:inset 0 3px 3px rgba(0,0,0,.04),inset 0 -3px 3px rgba(255,255,255,.7),0 10px 24px -4px rgba(0,0,0,.06),inset 0 0 3px 6px var(--v-glass-rim);\n  --v-r-window:30px;\n  --v-r-card:24px;\n  --v-r-panel:18px;\n  --v-r-row:12px;\n  --v-r-icon:5px;\n  --v-r-pill:999px;\n  --v-ease-out:cubic-bezier(.25,1,.5,1);\n  --v-ease-ui:cubic-bezier(.4,0,.2,1);\n  --v-fast:200ms;\n  --v-slow:350ms;\n  --v-font:\"
+                  SF Pro Display\",-apple-system,BlinkMacSystemFont,\"Inter\",\"Segoe UI\",system-ui,sans-serif;\n
+                  --v-mono:\"DM Mono\",ui-monospace,monospace;\n}">Copy tokens</button></div>
+              <pre><b>:root</b>{
+  <i>/* ink */</i>
+  --v-ink:        #111827;  <i>/* 17.74:1 */</i>
+  --v-ink-2:      #171C33;
+  --v-muted:      #6B7280;  <i>/* 4.83:1 white · 4.37:1 sky-2 */</i>
+  --v-muted-2:    #6B7188;
+  --v-accent:     #0A84FF;  <i>/* icon signal, 3.65:1 */</i>
+
+  <i>/* atmosphere */</i>
+  --v-sky-1:#DCEAFA; --v-sky-2:#EEF4FD; --v-sky-3:#FBFDFF;
+  --v-night:#030916;
+  --v-glass-rim:rgba(210,235,255,.35);
+
+  <i>/* material */</i>
+  --v-glass-overlay:linear-gradient(-75deg,
+    rgba(255,255,255,.2),rgba(255,255,255,.35),rgba(255,255,255,.2));
+  --v-glass-shadow:
+    inset 0 3px 3px rgba(0,0,0,.04),
+    inset 0 -3px 3px rgba(255,255,255,.7),
+    0 10px 24px -4px rgba(0,0,0,.06),
+    inset 0 0 3px 6px var(--v-glass-rim);
+
+  <i>/* shape */</i>
+  --v-r-window:30px; --v-r-card:24px; --v-r-panel:18px;
+  --v-r-row:12px; --v-r-icon:5px; --v-r-pill:999px;
+
+  <i>/* motion */</i>
+  --v-ease-ui:cubic-bezier(.4,0,.2,1);
+  --v-ease-out:cubic-bezier(.25,1,.5,1);
+  --v-fast:200ms; --v-slow:350ms;
+
+  <i>/* type — SF Pro is Apple-licensed; Inter is the free fallback */</i>
+  --v-font:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",system-ui,sans-serif;
+  --v-mono:"DM Mono",ui-monospace,monospace;
+}</pre>
+            </div>
+
+            <p class="subhead">Three moves to take</p>
+            <div class="grid-3">
+              <div class="card">
+                <h3>Set display type solid</h3>
+                <p>Line-height 1.0 at 48–72px, 1.25 only when the headline wraps. It's the fastest way to make a web
+                  page feel like an app title — and it only works above ~40px.</p>
+              </div>
+              <div class="card">
+                <h3>Light from below</h3>
+                <p><span class="mono">inset 0 -3px 3px rgba(255,255,255,.7)</span> plus a blue-tinted rim. The bottom
+                  highlight is what separates real glass from a translucent div.</p>
+              </div>
+              <div class="card">
+                <h3>Use a prop, not an illustration</h3>
+                <p>A keycap, a window bar, an app icon at 5px. One physical object per section beats a custom
+                  illustration system — and it renders in CSS.</p>
+              </div>
+            </div>
+
+            <p class="subhead">Two traps</p>
+            <div class="grid-2">
+              <div class="card">
+                <h3 style="color:#B4462F">Glass on a flat page</h3>
+                <p>Without a sky, a photograph, or a gradient behind it, the recipe collapses into a grey box with a
+                  fuzzy edge. The material needs a world to refract.</p>
+              </div>
+              <div class="card">
+                <h3 style="color:#B4462F">System type as a brand</h3>
+                <p>SF Pro on a Mac looks inevitable; Segoe UI on Windows looks like a different product. If the brand
+                  must survive both, choose a licensed or OFL face and accept the loss of native feel.</p>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ================================================================
+           COMPARE
+           ================================================================ -->
+        <div class="view" id="view-compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
+
+          <section class="sec" id="x-position">
+            <div class="sec-head">
+              <div class="sec-num">01</div>
+              <div>
+                <h2>Two answers to the same question.</h2>
+                <p class="dek">Both pages are selling trust to a creative or technical audience. One does it by removing
+                  colour; the other by manufacturing light.</p>
+              </div>
+            </div>
+
+            <div class="compare-hero">
+              <div class="vs-card">
+                <p class="who"><i style="background:#C6D93F"></i>Contra</p>
+                <h3>“The work is the colour.”</h3>
+                <p>A catalogue. The chrome is monochrome so the inventory can be loud. Type is the brand: a licensed
+                  geometric sans, optical sizes, and tracking that loosens as it shrinks. Motion is a 170ms receipt.</p>
+                <p style="margin-top:10px;color:var(--ink-3)">Best at: marketplaces, portfolios, directories, editorial
+                  commerce.</p>
+              </div>
+              <div class="vs-card">
+                <p class="who"><i style="background:#0A84FF"></i>VoiceOS</p>
+                <h3>“The interface is a material.”</h3>
+                <p>A native object. The page is built from sky, glass, and SF type, so the product feels installed
+                  before it is downloaded. Type is the OS; the material is the brand. Motion is atmosphere plus a 350ms
+                  settle.</p>
+                <p style="margin-top:10px;color:var(--ink-3)">Best at: consumer AI, desktop software, developer tools
+                  with an OS feel.</p>
+              </div>
+            </div>
+
+            <div class="note"><b>The common ground:</b> neither system uses colour to create hierarchy. Contra uses
+              value (four greys); VoiceOS uses light (rim, blur, gradient). Both are single-accent systems where the
+              accent is almost decorative — which is why both feel expensive and slightly cold.</div>
+          </section>
+
+          <section class="sec" id="x-table">
+            <div class="sec-head">
+              <div class="sec-num">02</div>
+              <div>
+                <h2>Measured differences.</h2>
+                <p class="dek">The numbers that actually change the feel, side by side.</p>
+              </div>
+            </div>
+
+            <div class="table-scroll">
+              <table>
+                <caption>Contra vs VoiceOS — computed at 1440px</caption>
+                <thead>
+                  <tr>
+                    <th>Dimension</th>
+                    <th>Contra</th>
+                    <th>VoiceOS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Position</td>
+                    <td class="dim">The work is the colour</td>
+                    <td class="dim">The interface is a material</td>
+                  </tr>
+                  <tr>
+                    <td>Display type</td>
+                    <td class="dim">58px / 1.05 / 500 / −0.58px</td>
+                    <td class="dim">76px / 1.25 / 600 / −2.28px; H2 60px / 1.0</td>
+                  </tr>
+                  <tr>
+                    <td>Body type</td>
+                    <td class="dim">16px / 1.15 — mostly labels</td>
+                    <td class="dim">16px / 1.5; lead 18px / 1.56</td>
+                  </tr>
+                  <tr>
+                    <td>Typeface</td>
+                    <td class="dim">GT Standard L + M (paid, optical sizes)</td>
+                    <td class="dim">SF Pro system stack + DM Mono; Recoleta loaded but unused</td>
+                  </tr>
+                  <tr>
+                    <td>Tracking logic</td>
+                    <td class="dim">Loosens at text sizes (+0.02em), tightens at display</td>
+                    <td class="dim">Tightens with size, linearly (−2.28px at 76)</td>
+                  </tr>
+                  <tr>
+                    <td>Palette</td>
+                    <td class="dim">8 greys + 1 lime wash; colour from imagery</td>
+                    <td class="dim">4 inks + 1 blue signal + 3-stop sky + night</td>
+                  </tr>
+                  <tr>
+                    <td>Hierarchy device</td>
+                    <td class="dim">Value and spacing</td>
+                    <td class="dim">Light, blur, and scale</td>
+                  </tr>
+                  <tr>
+                    <td>Container</td>
+                    <td class="dim">1351px · 36px outer · 452px headline measure</td>
+                    <td class="dim">1280px · 32px gutter · 547–576px measure</td>
+                  </tr>
+                  <tr>
+                    <td>Grid</td>
+                    <td class="dim">4 × 336 or 3 × 449, 2px gutters</td>
+                    <td class="dim">Centred single column, 2-col feature rows</td>
+                  </tr>
+                  <tr>
+                    <td>Vertical rhythm</td>
+                    <td class="dim">32–80px; footer 78px</td>
+                    <td class="dim">64 / 96 / 128px</td>
+                  </tr>
+                  <tr>
+                    <td>Radius</td>
+                    <td class="dim">16 card · 24 button · 32 chip</td>
+                    <td class="dim">30 window · 24 card · 18 panel · 12 row</td>
+                  </tr>
+                  <tr>
+                    <td>Elevation</td>
+                    <td class="dim">Ambient shadow + white halo; otherwise hairlines</td>
+                    <td class="dim">Four-part glass recipe on every raised surface</td>
+                  </tr>
+                  <tr>
+                    <td>Motion</td>
+                    <td class="dim">170ms ease-out · 350ms layout · no entrances</td>
+                    <td class="dim">150–400ms · 350ms settle · 24s atmosphere + 4s once</td>
+                  </tr>
+                  <tr>
+                    <td>Voice</td>
+                    <td class="dim">Curatorial, third-person, editorial</td>
+                    <td class="dim">Second-person, product-native, warm</td>
+                  </tr>
+                  <tr>
+                    <td>Page height @584px</td>
+                    <td class="dim">10,721px</td>
+                    <td class="dim">7,205px</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="sec" id="x-same">
+            <div class="sec-head">
+              <div class="sec-num">03</div>
+              <div>
+                <h2>Same card, two DNAs.</h2>
+                <p class="dek">Identical content, rendered with each system's own tokens. This is the fastest way to
+                  feel where a design language actually lives.</p>
+              </div>
+            </div>
+
+            <div class="duo">
+              <div>
+                <div class="spec-label"><b>Contra</b><span>16px · hairline · 23/500 · pill action</span></div>
+                <div class="canvas c-scope" style="min-height:330px">
+                  <a class="c-project" href="#x-same" onclick="return false" style="max-width:320px;margin:0 auto">
+                    <div class="c-project-thumb" style="aspect-ratio:1.6/1"></div>
+                    <div class="c-project-body" style="padding:16px">
+                      <h3 style="font-size:23px;line-height:1.39;letter-spacing:.02em;font-weight:500;margin:0">Aperture
+                        Studio</h3>
+                      <p style="font-size:14px;line-height:1.43;letter-spacing:-0.01em;color:#677084;margin-top:4px">
+                        Brand identity · 2026</p>
+                      <p style="font-size:16px;line-height:1.5;color:#373F51;margin-top:10px">A visual system for a
+                        modular camera brand, built around a single geometric mark.</p>
+                      <div style="margin-top:14px"><span class="c-btn c-btn--sm">View project</span></div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div class="spec-label"><b>VoiceOS</b><span>24px glass · SF type · soft shadow</span></div>
+                <div class="canvas canvas--sky v-scope"
+                  style="min-height:330px;display:flex;align-items:center;justify-content:center">
+                  <div class="v-liquid" style="max-width:320px;width:100%">
+                    <div
+                      style="background:rgba(255,255,255,.8);border-radius:16px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)">
+                      <div style="aspect-ratio:1.6/1;background:linear-gradient(135deg,#DCEAFA,#A9C8F0 55%,#3B5F8F)">
+                      </div>
+                      <div style="padding:16px 18px 18px">
+                        <div class="f-dmmono"
+                          style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#6B7188">Case study
+                        </div>
+                        <h3 class="f-system"
+                          style="font-size:24px;line-height:1.15;letter-spacing:-0.02em;font-weight:600;margin-top:6px;color:#111827">
+                          Aperture Studio</h3>
+                        <p class="f-system-text" style="font-size:13px;line-height:1.5;color:#6B7280;margin-top:4px">
+                          Brand identity · 2026</p>
+                        <p class="f-system-text" style="font-size:14px;line-height:1.55;color:#4B5563;margin-top:10px">A
+                          visual system for a modular camera brand, built around a single geometric mark.</p>
+                        <div style="margin-top:14px"><span class="v-cta" style="height:38px;font-size:14px">View
+                            project</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid-2" style="margin-top:16px">
+              <div class="prose">
+                <p><strong>What changed:</strong> the card's radius, the type scale, the spacing, and the action. Contra
+                  uses a 23px section-size heading and a sharp 36px pill; VoiceOS uses a 24px display heading with tight
+                  tracking, a mono eyebrow, a 24px glass shell, and a soft 38px pill.</p>
+              </div>
+              <div class="prose">
+                <p><strong>What stayed:</strong> the content and the hierarchy. Both systems say “image, title, meta,
+                  description, action” in that order. The DNA is in the treatment, not the information architecture —
+                  which is why you can port a layout between systems and still lose the brand.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="sec" id="x-steal">
+            <div class="sec-head">
+              <div class="sec-num">04</div>
+              <div>
+                <h2>What to take, and from where.</h2>
+                <p class="dek">A short routing table. Take mechanisms, not skins.</p>
+              </div>
+            </div>
+
+            <div class="steal-grid">
+              <div class="card">
+                <p class="tagline">Marketplace / portfolio</p>
+                <h3>Contra's grid + monochrome</h3>
+                <p>2px gutters, four-up tiles, four greys, one wash. Only if your inventory is visually consistent —
+                  otherwise the grid exposes the mismatch.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Consumer AI / desktop app</p>
+                <h3>VoiceOS's material + system type</h3>
+                <p>A sky behind the glass, SF (or Inter) at display sizes, line-height 1.0, one blue signal. Gate the
+                  ambient motion on reduced-motion.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Editorial commerce</p>
+                <h3>Contra's tracking inversion</h3>
+                <p>Loosen text sizes (+0.02em) and tighten display (−0.01em). It makes a grotesque read as print without
+                  changing the family.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Trust-heavy product</p>
+                <h3>Contra's standards language</h3>
+                <p>“Verified studios”, a last-verified date, a source link. Name the standard instead of claiming
+                  trustworthiness.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Native feel on the web</p>
+                <h3>VoiceOS's props</h3>
+                <p>Keycap, window bar, app icon at 5px. One physical object per section, built in CSS, beats an
+                  illustration library.</p>
+              </div>
+              <div class="card">
+                <p class="tagline">Do not mix</p>
+                <h3>Glass + 2px grid</h3>
+                <p>The two systems fight: glass needs air and a background, the contact-sheet grid needs density and
+                  flatness. Pick the world before you pick the components.</p>
+              </div>
+            </div>
+
+            <div class="note" style="margin-top:26px"><b>The honest summary:</b> Contra's system is mostly editorial
+              discipline — cheap to copy, hard to sustain. VoiceOS's system is mostly material craft — expensive to
+              copy, easy to overdo. Neither is a component library. Both are a set of restraints, and the restraints are
+              the design.</div>
+          </section>
+
+          <footer class="doc">
+            <div class="row">
+              <span>Design DNA · Contra × VoiceOS · measured 29 Oct 2026</span>
+              <span>Sources: <a href="https://contra.com/" target="_blank" rel="noopener">contra.com</a> · <a
+                  href="https://www.voiceos.com/" target="_blank" rel="noopener">voiceos.com</a> · content verified via
+                TinyFish Fetch</span>
+            </div>
+            <p style="margin-top:10px;max-width:80ch">Values are computed styles captured in a 1440 × 900 Chromium
+              viewport, with a second pass at 584px. Type specimens use free stand-ins except where the system stack is
+              the original. No proprietary font files are embedded or redistributed. Contrast ratios are calculated with
+              the WCAG 2.1 relative-luminance formula. This is an independent reference, not affiliated with either
+              company.</p>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* ---------- theme ---------- */
+      var root = document.documentElement;
+      var themeBtn = document.getElementById('theme-btn');
+      var stored = null;
+      try { stored = localStorage.getItem('dna-theme'); } catch (e) { }
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      function setTheme(t) {
+        root.setAttribute('data-theme', t);
+        themeBtn.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+        try { localStorage.setItem('dna-theme', t); } catch (e) { }
+      }
+      setTheme(stored || (prefersDark ? 'dark' : 'light'));
+      themeBtn.addEventListener('click', function () {
+        setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+        updateSpy();
+      });
+
+      /* ---------- views ---------- */
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('[data-view-btn]'));
+      var views = {
+        contra: document.getElementById('view-contra'),
+        voiceos: document.getElementById('view-voiceos'),
+        compare: document.getElementById('view-compare')
+      };
+      var tocs = Array.prototype.slice.call(document.querySelectorAll('[data-toc]'));
+      var workspace = document.querySelector('.workspace');
+      var active = 'contra';
+
+      function setView(name, opts) {
+        opts = opts || {};
+        if (!views[name]) name = 'contra';
+        active = name;
+        tabs.forEach(function (t) {
+          t.setAttribute('aria-selected', t.getAttribute('data-view-btn') === name ? 'true' : 'false');
+          t.setAttribute('tabindex', t.getAttribute('data-view-btn') === name ? '0' : '-1');
+        });
+        Object.keys(views).forEach(function (k) { views[k].hidden = k !== name; });
+        tocs.forEach(function (n) { n.hidden = n.getAttribute('data-toc') !== name; });
+        if (opts.hash !== false) {
+          try { history.replaceState(null, '', '#' + name); } catch (e) { }
+        }
+        updateSpy();
+        if (opts.scroll) {
+          var y = workspace.getBoundingClientRect().top + window.pageYOffset - 64;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }
+      }
+
+      tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+          setView(t.getAttribute('data-view-btn'), { scroll: true });
+        });
+        t.addEventListener('keydown', function (e) {
+          if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+          e.preventDefault();
+          var i = tabs.indexOf(t);
+          var next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+          next.focus();
+          setView(next.getAttribute('data-view-btn'), { scroll: true });
+        });
+      });
+
+      Array.prototype.slice.call(document.querySelectorAll('[data-jump]')).forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          setView(a.getAttribute('data-jump'), { scroll: true });
+        });
+      });
+
+      function viewForHash(h) {
+        if (!h) return null;
+        if (h === '#voiceos' || h.indexOf('#v-') === 0) return 'voiceos';
+        if (h === '#compare' || h.indexOf('#x-') === 0) return 'compare';
+        if (h === '#contra' || h.indexOf('#c-') === 0) return 'contra';
+        return null;
+      }
+
+      var startView = viewForHash(location.hash) || 'contra';
+      setView(startView, { scroll: false, hash: false });
+      if (location.hash && document.getElementById(location.hash.slice(1))) {
+        requestAnimationFrame(function () {
+          document.getElementById(location.hash.slice(1)).scrollIntoView();
+        });
+      }
+
+      /* ---------- scroll spy ---------- */
+      function updateSpy() {
+        var links = Array.prototype.slice.call(document.querySelectorAll('[data-toc="' + active + '"] a'));
+        if (!links.length) return;
+        var sections = links.map(function (a) {
+          return document.getElementById(a.getAttribute('href').slice(1));
+        }).filter(Boolean);
+        if (!sections.length) return;
+        var current = sections[0];
+        var at = 140;
+        sections.forEach(function (s) {
+          if (s.getBoundingClientRect().top <= at) current = s;
+        });
+        links.forEach(function (a) {
+          a.setAttribute('aria-current', a.getAttribute('href') === '#' + current.id ? 'true' : 'false');
+        });
+      }
+
+      var ticking = false;
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { ticking = false; updateSpy(); });
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      window.addEventListener('hashchange', function () {
+        var v = viewForHash(location.hash);
+        if (v && v !== active) setView(v, { scroll: false, hash: false });
+      });
+      updateSpy();
+
+      /* ---------- copy ---------- */
+      var toast = document.createElement('div');
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      toast.style.cssText = 'position:fixed;left:50%;bottom:22px;transform:translate(-50%,14px);background:#111110;color:#F5F4EF;font:500 11px/1 "DM Mono",monospace;letter-spacing:.06em;padding:10px 14px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.18)';
+      document.body.appendChild(toast);
+      var toastTimer = null;
+
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.style.opacity = '1';
+        toast.style.transform = 'translate(-50%,0)';
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translate(-50%,14px)';
+        }, 1500);
+      }
+
+      function legacyCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:fixed;top:-1000px;left:-1000px';
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { }
+        document.body.removeChild(ta);
+        return ok;
+      }
+
+      Array.prototype.slice.call(document.querySelectorAll('[data-copy]')).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var text = btn.getAttribute('data-copy');
+          var done = function () {
+            showToast(text.length > 40 ? 'Copied to clipboard' : 'Copied ' + text);
+            if (btn.classList.contains('copy')) {
+              var label = btn.textContent;
+              btn.textContent = 'Copied';
+              btn.classList.add('done');
+              setTimeout(function () { btn.textContent = label; btn.classList.remove('done'); }, 1400);
+            }
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done).catch(function () {
+              if (legacyCopy(text)) done(); else showToast('Copy blocked by the browser');
+            });
+          } else if (legacyCopy(text)) {
+            done();
+          } else {
+            showToast('Copy blocked by the browser');
+          }
+        });
+      });
+
+      /* ---------- FAQ specimen (first row only) ---------- */
+      Array.prototype.slice.call(document.querySelectorAll('.v-faq')).forEach(function (b) {
+        var panel = b.nextElementSibling;
+        if (!panel || !panel.classList.contains('v-faq-panel')) return;
+        b.setAttribute('aria-expanded', panel.hidden ? 'false' : 'true');
+        b.addEventListener('click', function () {
+          panel.hidden = !panel.hidden;
+          b.setAttribute('aria-expanded', panel.hidden ? 'false' : 'true');
+        });
+      });
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,471 @@
+import type { OpportunityListing, StudentProfile, TrackerApplication } from "../types/campus";
+
+export const INITIAL_STUDENT_PROFILE: StudentProfile = {
+  name: "Satyam Manik",
+  targetRole: "Product Designer",
+  preferredLocation: "Remote",
+  skills: ["Figma", "Design Systems", "UI/UX Design", "Prototyping", "User Research", "Wireframing"],
+  resumeFileName: "Satyam_Manik_Product_Designer_CV.pdf",
+  resumeFileSize: "248 KB",
+  resumeUploadedDate: "Active",
+  resumeParsed: true,
+  college: "National Institute of Design (NID)",
+  degree: "Design & Product Innovation",
+  branch: "Interaction & Product Design",
+  yearOfStudy: "3rd Year",
+  graduationBatch: "2027",
+  cgpa: 8.8
+};
+
+export const MOCK_OPPORTUNITIES: OpportunityListing[] = [
+  {
+    id: "opp-signoz-live-1",
+    requisitionId: "ea04f41f-62c2-40a2-996f-6d7389d80124",
+    title: "Sr Product Designer",
+    company: "SigNoz",
+    companyUrl: "https://signoz.io",
+    logoUrl: "https://www.google.com/s2/favicons?domain=signoz.io&sz=128",
+    logoLetter: "SN",
+    logoBg: "#E34E32",
+    location: "India (Remote) / Worldwide",
+    workplaceType: "Remote",
+    category: "Internship",
+    stipend: "₹1,20,000 / month",
+    degreesEligible: ["Design & Product Innovation", "Open to All Talents"],
+    yearsEligible: ["Early Career", "Intern", "Experienced"],
+    batchesEligible: ["2026", "2027", "2028"],
+    allowedBranches: ["Design", "HCI", "Open to All"],
+    minCgpa: 7.0,
+    skills: ["Figma", "Design Systems", "UI/UX Design", "Developer Tools", "User Research"],
+    deadline: "2026-12-05T23:59:59Z",
+    verifiedDate: "2026-10-31T09:00:00Z",
+    verifiedBy: "TinyFish Headless DOM & Firecrawl",
+    directApplyUrl: "https://jobs.ashbyhq.com/signoz/ea04f41f-62c2-40a2-996f-6d7389d80124",
+    sourcePlatform: "Ashby ATS",
+    description:
+      "Lead design for SigNoz's open-source observability platform. Work directly on query builders, trace graphs, dashboards, and developer workflows.",
+    eligibilityHighlights: [
+      "100% eligible to work remotely from India",
+      "Direct Ashby ATS requisition (0 redirects)",
+      "Strong craft in Figma and high-density developer interfaces"
+    ],
+    selectionStages: ["Portfolio Review", "Interactive Design Sprint (48 hrs)", "Team Walkthrough"],
+    trustScore: 99,
+    remoteIndiaStatus: "india-eligible",
+    remoteIndiaDetails: {
+      canWorkFromIndia: true,
+      contractType: "Direct Indian entity / Global Contractor via Deel",
+      timezoneOverlap: "IST core working hours with EU/US afternoon sync",
+      payrollSupport: "Direct INR deposit or international contractor payout with GST/FIRC",
+      proofNotes: "Requisition explicitly lists 'India; Europe - Remote' as eligible hiring locations."
+    },
+    verificationProof: {
+      verifiedWith: "Dual Engine (TinyFish + Firecrawl)",
+      isSpecificRequisition: true,
+      redirectDetected: false,
+      finalResolvedUrl: "https://jobs.ashbyhq.com/signoz/ea04f41f-62c2-40a2-996f-6d7389d80124",
+      statusCode: 200,
+      activeStatus: "Active Requisition",
+      lastChecked: "2026-10-31T09:00:00Z",
+      verdict: "Direct Ashby Requisition Verified (0 redirects, HTTP 200)"
+    }
+  },
+  {
+    id: "opp-gohighlevel-live-2",
+    requisitionId: "0ef426a8-6be5-4eb2-b28c-27cc96a18bd2",
+    title: "Sr. Product Designer",
+    company: "HighLevel",
+    companyUrl: "https://www.gohighlevel.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=gohighlevel.com&sz=128",
+    logoLetter: "HL",
+    logoBg: "#1877F2",
+    location: "India (Remote)",
+    workplaceType: "Remote",
+    category: "Internship",
+    stipend: "₹1,40,000 / month",
+    degreesEligible: ["Design & Product Innovation", "Open to All Talents"],
+    yearsEligible: ["Early Career", "Intern", "Experienced"],
+    batchesEligible: ["2026", "2027", "2028"],
+    allowedBranches: ["Design", "HCI", "Open to All"],
+    minCgpa: 7.0,
+    skills: ["Figma", "Interaction Design", "Prototyping", "Design Systems", "User Research"],
+    deadline: "2026-12-08T23:59:59Z",
+    verifiedDate: "2026-10-31T09:00:00Z",
+    verifiedBy: "TinyFish Headless DOM & Firecrawl",
+    directApplyUrl: "https://jobs.lever.co/gohighlevel/0ef426a8-6be5-4eb2-b28c-27cc96a18bd2",
+    sourcePlatform: "Lever ATS",
+    description:
+      "Design scalable AI workflows, agency automation tools, and marketing suites for HighLevel's global platform.",
+    eligibilityHighlights: [
+      "India remote role officially posted on Lever ATS",
+      "Focus on systems thinking, responsive components, and user flows",
+      "Active Lever Requisition confirmed with 0 redirects"
+    ],
+    selectionStages: ["Figma Walkthrough", "App Critique", "Founding Team Chat"],
+    trustScore: 99,
+    remoteIndiaStatus: "india-eligible",
+    remoteIndiaDetails: {
+      canWorkFromIndia: true,
+      contractType: "HighLevel India payroll / Remote full-time",
+      timezoneOverlap: "Flexible IST working hours with regular US sync",
+      payrollSupport: "Direct Indian salary deposit with full healthcare & benefits",
+      proofNotes: "Requisition explicitly lists 'Location: India - Remote'."
+    },
+    verificationProof: {
+      verifiedWith: "Dual Engine (TinyFish + Firecrawl)",
+      isSpecificRequisition: true,
+      redirectDetected: false,
+      finalResolvedUrl: "https://jobs.lever.co/gohighlevel/0ef426a8-6be5-4eb2-b28c-27cc96a18bd2",
+      statusCode: 200,
+      activeStatus: "Active Requisition",
+      lastChecked: "2026-10-31T09:00:00Z",
+      verdict: "Direct Lever Requisition Verified (0 redirects, HTTP 200)"
+    }
+  },
+  {
+    id: "opp-gohighlevel-lead-3",
+    requisitionId: "4eac1849-29f4-4556-95fa-db283607c936",
+    title: "Lead Product Designer",
+    company: "HighLevel",
+    companyUrl: "https://www.gohighlevel.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=gohighlevel.com&sz=128",
+    logoLetter: "HL",
+    logoBg: "#0B57D0",
+    location: "India (Remote)",
+    workplaceType: "Remote",
+    category: "Fellowship",
+    stipend: "₹1,80,000 / month",
+    degreesEligible: ["Design & Product Innovation", "Open to All Talents"],
+    yearsEligible: ["Early Career", "Lead", "Experienced"],
+    batchesEligible: ["2026", "2027"],
+    allowedBranches: ["Design", "HCI", "Open to All"],
+    minCgpa: 7.2,
+    skills: ["Product Strategy", "Figma", "Design Systems", "AI Workflows", "Mentorship"],
+    deadline: "2026-12-15T23:59:59Z",
+    verifiedDate: "2026-10-31T09:00:00Z",
+    verifiedBy: "TinyFish Headless DOM & Firecrawl",
+    directApplyUrl: "https://jobs.lever.co/gohighlevel/4eac1849-29f4-4556-95fa-db283607c936",
+    sourcePlatform: "Lever ATS",
+    description:
+      "Lead design vision across AI agent orchestration, CRM pipelines, and cross-channel marketing automation.",
+    eligibilityHighlights: [
+      "Direct India Remote Requisition on Lever ATS",
+      "Ownership of end-to-end design strategy from discovery to production",
+      "Competitive compensation and remote equipment stipend"
+    ],
+    selectionStages: ["Portfolio Presentation", "Systems Design Case Study", "Leadership Interview"],
+    trustScore: 99,
+    remoteIndiaStatus: "india-eligible",
+    remoteIndiaDetails: {
+      canWorkFromIndia: true,
+      contractType: "HighLevel India payroll / Remote full-time",
+      timezoneOverlap: "Flexible IST hours with cross-functional leadership sync",
+      payrollSupport: "Direct Indian salary deposit with full healthcare & benefits",
+      proofNotes: "Direct Lever requisition confirmed active."
+    },
+    verificationProof: {
+      verifiedWith: "Dual Engine (TinyFish + Firecrawl)",
+      isSpecificRequisition: true,
+      redirectDetected: false,
+      finalResolvedUrl: "https://jobs.lever.co/gohighlevel/4eac1849-29f4-4556-95fa-db283607c936",
+      statusCode: 200,
+      activeStatus: "Active Requisition",
+      lastChecked: "2026-10-31T09:00:00Z",
+      verdict: "Direct Lever Requisition Verified (0 redirects, HTTP 200)"
+    }
+  },
+  {
+    id: "opp-jumpcloud-live-4",
+    requisitionId: "fe814ed3-7c8e-49a1-9fb2-166bbcacc85e",
+    title: "Director, Product Experience & Design - India",
+    company: "JumpCloud",
+    companyUrl: "https://jumpcloud.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=jumpcloud.com&sz=128",
+    logoLetter: "JC",
+    logoBg: "#002B49",
+    location: "India (Remote)",
+    workplaceType: "Remote",
+    category: "Internship",
+    stipend: "Competitive / Disclosed upon interview",
+    degreesEligible: ["Design & Product Innovation", "Open to All Talents"],
+    yearsEligible: ["Early Career", "Lead", "Experienced"],
+    batchesEligible: ["2026", "2027", "2028"],
+    allowedBranches: ["Design", "HCI", "Open to All"],
+    minCgpa: 7.0,
+    skills: ["Figma", "Design Strategy", "Product Design", "Design Systems", "User Research"],
+    deadline: "2026-12-01T23:59:59Z",
+    verifiedDate: "2026-10-31T09:00:00Z",
+    verifiedBy: "TinyFish Headless DOM & Firecrawl",
+    directApplyUrl: "https://jobs.lever.co/jumpcloud/fe814ed3-7c8e-49a1-9fb2-166bbcacc85e",
+    sourcePlatform: "Lever ATS",
+    description:
+      "Lead product experience and UX design architecture for JumpCloud's cloud directory and identity platform from India.",
+    eligibilityHighlights: [
+      "India remote role officially posted on Lever ATS",
+      "Focus on enterprise UX, interaction models, and cross-functional leadership",
+      "Active Lever Requisition confirmed with 0 redirects"
+    ],
+    selectionStages: ["Portfolio Screening", "Product Design Critique", "Leadership Interview"],
+    trustScore: 99,
+    remoteIndiaStatus: "india-eligible",
+    remoteIndiaDetails: {
+      canWorkFromIndia: true,
+      contractType: "JumpCloud India entity / Remote full-time",
+      timezoneOverlap: "IST working hours with US cross-functional sync",
+      payrollSupport: "Direct Indian salary deposit with comprehensive health benefits",
+      proofNotes: "Direct Lever requisition explicitly posted for 'Bangalore, India - Remote'."
+    },
+    verificationProof: {
+      verifiedWith: "Dual Engine (TinyFish + Firecrawl)",
+      isSpecificRequisition: true,
+      redirectDetected: false,
+      finalResolvedUrl: "https://jobs.lever.co/jumpcloud/fe814ed3-7c8e-49a1-9fb2-166bbcacc85e",
+      statusCode: 200,
+      activeStatus: "Active Requisition",
+      lastChecked: "2026-10-31T09:00:00Z",
+      verdict: "Direct Lever Requisition Verified (0 redirects, HTTP 200)"
+    }
+  },
+  {
+    id: "opp-soulside-live-5",
+    requisitionId: "7cdf48ca-e4f7-40f2-9521-0368cf9d0cba",
+    title: "Frontend Engineer (India/Remote)",
+    company: "Soulside AI",
+    companyUrl: "https://soulside.ai",
+    logoUrl: "https://www.google.com/s2/favicons?domain=soulside.ai&sz=128",
+    logoLetter: "SA",
+    logoBg: "#6366F1",
+    location: "India (Remote)",
+    workplaceType: "Remote",
+    category: "Fellowship",
+    stipend: "Competitive / Disclosed upon interview",
+    degreesEligible: ["Engineering & Design", "Open to All Talents"],
+    yearsEligible: ["Early Career", "Intern", "Experienced"],
+    batchesEligible: ["2026", "2027"],
+    allowedBranches: ["Computer Science", "Design", "Open to All"],
+    minCgpa: 7.0,
+    skills: ["React", "TypeScript", "UI/UX Prototyping", "Design Systems", "Web Performance"],
+    deadline: "2026-12-10T23:59:59Z",
+    verifiedDate: "2026-10-31T09:00:00Z",
+    verifiedBy: "TinyFish Headless DOM & Firecrawl",
+    directApplyUrl: "https://jobs.ashbyhq.com/Soulside%20AI/7cdf48ca-e4f7-40f2-9521-0368cf9d0cba",
+    sourcePlatform: "Ashby ATS",
+    description:
+      "Build reactive web interfaces, conversational design experiences, and AI client applications for Soulside AI.",
+    eligibilityHighlights: [
+      "100% remote within India on Ashby ATS",
+      "Bridge high-fidelity design prototypes into production code",
+      "Direct Ashby ATS requisition verified active (0 redirects)"
+    ],
+    selectionStages: ["Portfolio & Code Review", "UI Architecture Assessment", "Team Chat"],
+    trustScore: 99,
+    remoteIndiaStatus: "india-eligible",
+    remoteIndiaDetails: {
+      canWorkFromIndia: true,
+      contractType: "Direct Indian entity / Remote contract",
+      timezoneOverlap: "IST working hours",
+      payrollSupport: "Direct INR deposit with hardware allowance",
+      proofNotes: "Requisition explicitly lists 'Location: India (Remote)'."
+    },
+    verificationProof: {
+      verifiedWith: "Dual Engine (TinyFish + Firecrawl)",
+      isSpecificRequisition: true,
+      redirectDetected: false,
+      finalResolvedUrl: "https://jobs.ashbyhq.com/Soulside%20AI/7cdf48ca-e4f7-40f2-9521-0368cf9d0cba",
+      statusCode: 200,
+      activeStatus: "Active Requisition",
+      lastChecked: "2026-10-31T09:00:00Z",
+      verdict: "Direct Ashby Requisition Verified (0 redirects, HTTP 200)"
+    }
+  },
+  {
+    id: "opp-dscout-live-6",
+    requisitionId: "4370266009",
+    title: "Software Engineer - India",
+    company: "Dscout",
+    companyUrl: "https://dscout.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=dscout.com&sz=128",
+    logoLetter: "DS",
+    logoBg: "#0F766E",
+    location: "India (Remote)",
+    workplaceType: "Remote",
+    category: "Internship",
+    stipend: "Competitive / Disclosed upon interview",
+    degreesEligible: ["Engineering & Computer Science", "Open to All Talents"],
+    yearsEligible: ["2nd Year", "3rd Year", "Final Year"],
+    batchesEligible: ["2026", "2027", "2028"],
+    allowedBranches: ["Computer Science", "Open to All"],
+    minCgpa: 7.0,
+    skills: ["Web Development", "TypeScript", "API Architecture", "Design Alignment", "Collaboration"],
+    deadline: "2026-11-30T23:59:59Z",
+    verifiedDate: "2026-10-31T09:00:00Z",
+    verifiedBy: "TinyFish Headless DOM & Firecrawl",
+    directApplyUrl: "https://job-boards.greenhouse.io/dscout/jobs/4370266009",
+    sourcePlatform: "Greenhouse ATS",
+    description:
+      "Build research participant capture tools, qualitative insight analysis engines, and live collaboration surfaces.",
+    eligibilityHighlights: [
+      "Direct Greenhouse ATS requisition with specific Job ID 4370266009",
+      "Active India remote engineer intake (0 redirects)",
+      "Cross-functional collaboration with product design and analytics"
+    ],
+    selectionStages: ["Application Review", "Technical Problem Solving", "Culture & Team Fit"],
+    trustScore: 99,
+    remoteIndiaStatus: "india-eligible",
+    remoteIndiaDetails: {
+      canWorkFromIndia: true,
+      contractType: "Dscout India entity / Remote",
+      timezoneOverlap: "IST working hours",
+      payrollSupport: "Direct INR deposit with health coverage",
+      proofNotes: "Greenhouse requisition #4370266009 verified active with 0 redirects."
+    },
+    verificationProof: {
+      verifiedWith: "Dual Engine (TinyFish + Firecrawl)",
+      isSpecificRequisition: true,
+      redirectDetected: false,
+      finalResolvedUrl: "https://job-boards.greenhouse.io/dscout/jobs/4370266009",
+      statusCode: 200,
+      activeStatus: "Active Requisition",
+      lastChecked: "2026-10-31T09:00:00Z",
+      verdict: "Direct Greenhouse Requisition Verified (0 redirects, HTTP 200)"
+    }
+  },
+  {
+    id: "opp-coinbase-live-7",
+    requisitionId: "8165441",
+    title: "Software Engineer, Security Platform, Remote - India",
+    company: "Coinbase",
+    companyUrl: "https://coinbase.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=coinbase.com&sz=128",
+    logoLetter: "CB",
+    logoBg: "#0052FF",
+    location: "India (Remote)",
+    workplaceType: "Remote",
+    category: "Fellowship",
+    stipend: "Competitive / Disclosed upon interview",
+    degreesEligible: ["Engineering & Computer Science", "Open to All Talents"],
+    yearsEligible: ["Early Career", "Intern", "Experienced"],
+    batchesEligible: ["2026", "2027"],
+    allowedBranches: ["Computer Science", "Information Security", "Open to All"],
+    minCgpa: 7.0,
+    skills: ["Security Architecture", "Cloud Infrastructure", "Go", "TypeScript", "Systems Design"],
+    deadline: "2026-12-02T23:59:59Z",
+    verifiedDate: "2026-10-31T09:00:00Z",
+    verifiedBy: "TinyFish Headless DOM & Firecrawl",
+    directApplyUrl: "https://job-boards.greenhouse.io/coinbase/jobs/8165441",
+    sourcePlatform: "Greenhouse ATS",
+    description:
+      "Develop cryptographic trust systems, key management infrastructure, and automated security controls at scale.",
+    eligibilityHighlights: [
+      "Direct Greenhouse ATS requisition explicitly for Remote - India",
+      "Work with world-class security engineers across distributed architectures",
+      "Zero redirection to generic careers portal confirmed"
+    ],
+    selectionStages: ["Technical Assessment", "Security Systems Design", "Core Values Interview"],
+    trustScore: 99,
+    remoteIndiaStatus: "india-eligible",
+    remoteIndiaDetails: {
+      canWorkFromIndia: true,
+      contractType: "Coinbase India entity / Remote",
+      timezoneOverlap: "IST working hours with global security rotation",
+      payrollSupport: "Direct Indian payroll with stock options and medical insurance",
+      proofNotes: "Direct Greenhouse requisition #8165441 confirmed active."
+    },
+    verificationProof: {
+      verifiedWith: "Dual Engine (TinyFish + Firecrawl)",
+      isSpecificRequisition: true,
+      redirectDetected: false,
+      finalResolvedUrl: "https://job-boards.greenhouse.io/coinbase/jobs/8165441",
+      statusCode: 200,
+      activeStatus: "Active Requisition",
+      lastChecked: "2026-10-31T09:00:00Z",
+      verdict: "Direct Greenhouse Requisition Verified (0 redirects, HTTP 200)"
+    }
+  },
+  {
+    id: "opp-diagrid-live-8",
+    requisitionId: "ac563b95-4910-4124-9441-ef0f8cf3d2c5",
+    title: "Senior Software Engineer (Dapr OSS) – India Lead",
+    company: "Diagrid",
+    companyUrl: "https://diagrid.io",
+    logoUrl: "https://www.google.com/s2/favicons?domain=diagrid.io&sz=128",
+    logoLetter: "DG",
+    logoBg: "#3B82F6",
+    location: "India (Remote)",
+    workplaceType: "Remote",
+    category: "Internship",
+    stipend: "Competitive / Disclosed upon interview",
+    degreesEligible: ["Engineering & Computer Science", "Open to All Talents"],
+    yearsEligible: ["Early Career", "Intern", "Experienced"],
+    batchesEligible: ["2026", "2027"],
+    allowedBranches: ["Computer Science", "Open to All"],
+    minCgpa: 7.0,
+    skills: ["Go", "Kubernetes", "Distributed Systems", "Dapr", "Cloud Native"],
+    deadline: "2026-12-05T23:59:59Z",
+    verifiedDate: "2026-10-31T09:00:00Z",
+    verifiedBy: "TinyFish Headless DOM & Firecrawl",
+    directApplyUrl: "https://jobs.ashbyhq.com/diagrid/ac563b95-4910-4124-9441-ef0f8cf3d2c5",
+    sourcePlatform: "Ashby ATS",
+    description:
+      "Drive open-source distributed application runtime (Dapr) development and cloud-native infrastructure for Diagrid.",
+    eligibilityHighlights: [
+      "Direct Ashby ATS requisition with explicit India remote eligibility",
+      "Work directly on major CNCF open-source projects",
+      "Direct Ashby ATS verified active with 0 redirects"
+    ],
+    selectionStages: ["Open Source Portfolio Review", "System Architecture Sprint", "Founders Interview"],
+    trustScore: 99,
+    remoteIndiaStatus: "india-eligible",
+    remoteIndiaDetails: {
+      canWorkFromIndia: true,
+      contractType: "Diagrid India entity / Remote",
+      timezoneOverlap: "IST working hours with US/EU team overlap",
+      payrollSupport: "Direct INR bank deposit with comprehensive benefits",
+      proofNotes: "Direct Ashby requisition verified active (0 redirects)."
+    },
+    verificationProof: {
+      verifiedWith: "Dual Engine (TinyFish + Firecrawl)",
+      isSpecificRequisition: true,
+      redirectDetected: false,
+      finalResolvedUrl: "https://jobs.ashbyhq.com/diagrid/ac563b95-4910-4124-9441-ef0f8cf3d2c5",
+      statusCode: 200,
+      activeStatus: "Active Requisition",
+      lastChecked: "2026-10-31T09:00:00Z",
+      verdict: "Direct Ashby Requisition Verified (0 redirects, HTTP 200)"
+    }
+  }
+];
+
+export const INITIAL_TRACKER_DATA: TrackerApplication[] = [
+  {
+    id: "track-1",
+    opportunityId: "opp-signoz-live-1",
+    opportunity: MOCK_OPPORTUNITIES[0],
+    status: "Saved",
+    savedAt: "2026-10-28T10:00:00Z",
+    notes: "Review SigNoz query builder and trace dashboard case study before submitting application.",
+    deadlineReminderSet: true
+  },
+  {
+    id: "track-2",
+    opportunityId: "opp-gohighlevel-lead-3",
+    opportunity: MOCK_OPPORTUNITIES[2],
+    status: "Applied",
+    savedAt: "2026-10-25T08:30:00Z",
+    appliedAt: "2026-10-26T16:00:00Z",
+    notes: "Submitted interactive prototyping portfolio and AI workflow case study via direct Lever requisition.",
+    deadlineReminderSet: true
+  },
+  {
+    id: "track-3",
+    opportunityId: "opp-gohighlevel-live-2",
+    opportunity: MOCK_OPPORTUNITIES[1],
+    status: "Interviewing",
+    savedAt: "2026-10-20T12:00:00Z",
+    appliedAt: "2026-10-21T09:00:00Z",
+    notes: "Completed live Figma portfolio review. Scheduled for design critique next week.",
+    deadlineReminderSet: true
+  }
+];
+
+export const INITIAL_SAVED_APPLICATIONS = INITIAL_TRACKER_DATA;

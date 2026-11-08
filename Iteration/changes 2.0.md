@@ -1,0 +1,7 @@
+![alt text](image-9.png) Okay brother, make the input search bar smaller and place the scan library web button next to it. Keep them side by side so they match. This will look a bit cohesive and nice. 
+
+![alt text](image-10.png)Second point, brother. I told you earlier when you looked at the profile, perhaps you forgot. I mentioned that there should be a payment option here. In other words, there should be an option to upload a resume. That way, the system will suggest jobs and opportunities based on the uploaded resume, and we can discuss them. So, there must be an upload option. It is very important; it will improve feasibility so that users don't have to fill out a form. That would be better. Please do it. 
+
+Animations, transitions, motion, interaction—meaning all such elements—are missing. They should be optimized. But the animations, transitions, interactions are not visible. Please fix and improve this. The requirement is not a simple patch; it needs proper improvement. Yes, you can use this HTML file for that. It is very useful, and that's fine. [text](<motion/Motion and Transition.md>)
+
+![alt text](image-11.png)It is not necessary to print the pashkroarn here. There is no need to leave the pashk eghṭar. We only need a brief understanding of it. I am not sure why it seems important. Please tell me what you think so we can decide accordingly. Let’s optimize the items a bit and improve them. 

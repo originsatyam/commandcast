@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "inspo-ai": {
+      "command": "cmd.exe",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "mcp-remote",
+        "https://app.inspoai.io/mcp"
+      ]
+    }
+  }
+}

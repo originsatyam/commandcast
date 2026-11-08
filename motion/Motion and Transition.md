@@ -1,0 +1,1 @@
+[text](<index copy.html>) [text](index.html)

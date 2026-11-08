@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "tinyfish": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "tinyfish-mcp"
+      ],
+      "env": {
+        "TINYFISH_API_KEY": "sk-tinyfish-your-api-key-here"
+      }
+    }
+  }
+}
+

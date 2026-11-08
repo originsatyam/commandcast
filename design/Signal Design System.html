@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signal Design System · Principal Architecture for Campus Radar</title>
+<meta name="description" content="A principal-grade, high-density design system engineered for student opportunity intelligence, autonomous TinyFish verification, and modern product interfaces.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;500;600;700&family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   SIGNAL DESIGN SYSTEM — TOKENS & FOUNDATIONS
+   Inspired by Contra layout hierarchy & taste-craft / ux-psy cognitive principles
+   Zero emojis · Pure SVG icons · Principal-level rigor
+   ========================================================================== */
+
+:root {
+  /* Color Primitives - Light Mode */
+  --bg-canvas: #fcfbf9;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f5f4ef;
+  --bg-muted: #eceae1;
+  --bg-hover: #e8e5d9;
+  --bg-active: #dfdcd0;
+  
+  --border-subtle: #e6e3d8;
+  --border-strong: #cecab8;
+  --border-contrast: #18191b;
+  
+  --text-primary: #121316;
+  --text-secondary: #575a65;
+  --text-muted: #7b808e;
+  --text-faint: #a2a7b5;
+  --text-inverse: #ffffff;
+  
+  /* Brand Accent: Signal Cobalt & Kinetic Volt */
+  --accent-primary: #1e3a8a;
+  --accent-primary-hover: #172554;
+  --accent-surface: #eff4ff;
+  --accent-border: #bfdbfe;
+  
+  --signal-active: #0ea5e9;
+  --signal-live: #10b981;
+  --signal-live-bg: #ecfdf5;
+  --signal-live-border: #a7f3d0;
+  
+  --signal-warning: #f59e0b;
+  --signal-warning-bg: #fffbeb;
+  --signal-warning-border: #fde68a;
+  
+  --signal-danger: #ef4444;
+  --signal-danger-bg: #fef2f2;
+  --signal-danger-border: #fecaca;
+
+  /* Typography Scales */
+  --font-display: 'Bricolage Grotesque', -apple-system, sans-serif;
+  --font-body: 'Hanken Grotesk', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Elevations */
+  --shadow-xs: 0 1px 2px rgba(18, 19, 22, 0.04);
+  --shadow-sm: 0 1px 3px rgba(18, 19, 22, 0.06), 0 1px 2px rgba(18, 19, 22, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(18, 19, 22, 0.08), 0 2px 6px -1px rgba(18, 19, 22, 0.04);
+  --shadow-lg: 0 12px 24px -4px rgba(18, 19, 22, 0.10), 0 4px 8px -2px rgba(18, 19, 22, 0.04);
+  --shadow-drawer: -4px 0 24px rgba(18, 19, 22, 0.12);
+
+  /* Radius Scales */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 140ms var(--ease-spring);
+  --transition-normal: 220ms var(--ease-spring);
+}
+
+[data-theme="dark"] {
+  --bg-canvas: #090a0d;
+  --bg-surface: #111318;
+  --bg-subtle: #171a22;
+  --bg-muted: #212530;
+  --bg-hover: #292e3c;
+  --bg-active: #323849;
+  
+  --border-subtle: #242834;
+  --border-strong: #373e50;
+  --border-contrast: #e6e8ed;
+  
+  --text-primary: #f2f4f8;
+  --text-secondary: #9ea4b4;
+  --text-muted: #727a8e;
+  --text-faint: #4e5567;
+  --text-inverse: #090a0d;
+  
+  --accent-primary: #3b82f6;
+  --accent-primary-hover: #60a5fa;
+  --accent-surface: #162444;
+  --accent-border: #1e3a8a;
+  
+  --signal-active: #38bdf8;
+  --signal-live: #34d399;
+  --signal-live-bg: #064e3b33;
+  --signal-live-border: #065f46;
+  
+  --signal-warning: #fbbf24;
+  --signal-warning-bg: #78350f33;
+  --signal-warning-border: #92400e;
+  
+  --signal-danger: #f87171;
+  --signal-danger-bg: #7f1d1d33;
+  --signal-danger-border: #991b1b;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.65);
+  --shadow-drawer: -4px 0 28px rgba(0, 0, 0, 0.7);
+}
+
+/* Base Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Layout Architecture: Contra 3-Column Split Shell */
+.app-shell {
+  display: grid;
+  grid-template-columns: 240px 1fr 340px;
+  min-height: 100vh;
+}
+
+@media (max-width: 1240px) {
+  .app-shell {
+    grid-template-columns: 220px 1fr 0px;
+  }
+  .assistant-rail {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+  .nav-rail {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   LEFT COLUMN: NAVIGATION RAIL (Contra Minimal Inspired)
+   ========================================================================== */
+.nav-rail {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  border-right: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  gap: 24px;
+  z-index: 40;
+}
+
+.brand-unit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--text-primary);
+  color: var(--bg-surface);
+  display: grid;
+  place-items: center;
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+}
+
+.user-profile-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-subtle);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.user-profile-summary:hover {
+  border-color: var(--border-strong);
+  background: var(--bg-hover);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-surface);
+  border: 1px solid var(--accent-border);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-primary);
+}
+
+.profile-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-name {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.action-create-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--text-primary);
+  color: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 11px 18px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
+}
+
+.action-create-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+
+.nav-item:hover {
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+}
+
+.nav-item.active {
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.nav-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-counter {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  background: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.nav-counter.alert {
+  background: var(--signal-danger);
+  color: #fff;
+  font-weight: 600;
+}
+
+.nav-footer-dock {
+  margin-top: auto;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-progress-pill {
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-subtle);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-circle-wrap {
+  width: 36px;
+  height: 36px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.progress-svg {
+  transform: rotate(-90deg);
+}
+
+.progress-circle-bg {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 3;
+}
+
+.progress-circle-val {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-width: 3;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 42;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.progress-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.progress-desc h4 {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.progress-desc p {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   CENTER COLUMN: MAIN WORKSPACE (Contra Feed + UX-Psy Structure)
+   ========================================================================== */
+.main-stage {
+  padding: 28px 40px 100px;
+  max-width: 1040px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.top-omni-bar {
+  position: sticky;
+  top: 0;
+  background: var(--bg-canvas);
+  padding: 12px 0 20px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 28px;
+}
+
+.search-and-toggles {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-box-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon-pos {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.omni-input {
+  width: 100%;
+  padding: 11px 16px 11px 42px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--text-primary);
+  outline: none;
+  box-shadow: var(--shadow-xs);
+  transition: var(--transition-fast);
+}
+
+.omni-input:focus {
+  border-color: var(--border-contrast);
+  box-shadow: 0 0 0 3px rgba(18, 19, 22, 0.08);
+}
+
+.omni-input::placeholder {
+  color: var(--text-faint);
+}
+
+/* Segmented Toggle Control (Projects | People equivalent) */
+.segmented-control {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+}
+
+.segment-btn {
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.segment-btn.active {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-weight: 600;
+  box-shadow: var(--shadow-xs);
+}
+
+/* Filter Chips Bar (Horizontal scroll with sticky trigger) */
+.chips-shelf {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.chips-shelf::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.filter-chip:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.filter-chip.active {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  color: var(--bg-surface);
+  font-weight: 600;
+}
+
+.filter-chip.trigger {
+  border-style: dashed;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+}
+
+/* Hero Callout Card (Contra 'Get started. Get seen.' style) */
+.hero-onboarding-card {
+  border: 1px solid var(--border-subtle);
+  background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-subtle) 100%);
+  border-radius: var(--radius-xl);
+  padding: 28px 32px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content h2 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.hero-content p {
+  color: var(--text-secondary);
+  font-size: 14.5px;
+  max-width: 520px;
+  margin-bottom: 20px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--text-primary);
+  color: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 9px 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  padding: 9px 18px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-hover);
+}
+
+/* Quick Metrics Row */
+.metrics-deck {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 768px) {
+  .metrics-deck {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.metric-unit {
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: var(--shadow-xs);
+}
+
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metric-val {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.metric-sub {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+
+/* Opportunity Cards Feed (Robust Contra / Principal Level) */
+.feed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.feed-title-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.feed-title {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.feed-count-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.feed-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.opp-card {
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  border-radius: var(--radius-xl);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-xs);
+  transition: var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+.opp-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.opp-top-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.company-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.company-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-subtle);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.opp-title-meta h3 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 3px;
+  color: var(--text-primary);
+}
+
+.opp-company-line {
+  font-size: 13px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tinyfish-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tinyfish-badge.verified {
+  background: var(--signal-live-bg);
+  color: var(--signal-live);
+  border: 1px solid var(--signal-live-border);
+}
+
+.tinyfish-badge.warning {
+  background: var(--signal-warning-bg);
+  color: var(--signal-warning);
+  border: 1px solid var(--signal-warning-border);
+}
+
+.opp-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-pill {
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 11.5px;
+  font-family: var(--font-body);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+}
+
+.tag-pill.highlight {
+  background: var(--accent-surface);
+  border-color: var(--accent-border);
+  color: var(--accent-primary);
+  font-weight: 500;
+}
+
+.opp-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.opp-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-mono);
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.icon-btn:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+/* ==========================================================================
+   RIGHT COLUMN: CO-AGENT & LIVE ASSISTANT RAIL (Contra Co-Agent Inspired)
+   ========================================================================== */
+.assistant-rail {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  border-left: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 20px;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+.co-agent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.co-agent-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.co-agent-orb {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, #3b82f6, #10b981);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+}
+
+.co-agent-prompt-box {
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.co-agent-prompt-box h4 {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.prompt-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prompt-pill {
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.prompt-pill:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.co-agent-input-wrap {
+  position: relative;
+  margin-top: auto;
+}
+
+.co-agent-input {
+  width: 100%;
+  padding: 12px 40px 12px 14px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-subtle);
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.co-agent-send-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.co-agent-send-btn:hover {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   DESIGN SYSTEM INTERACTIVE SPEC SECTION
+   ========================================================================== */
+.spec-section {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 2px dashed var(--border-subtle);
+}
+
+.spec-header {
+  margin-bottom: 24px;
+}
+
+.spec-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  margin-bottom: 6px;
+}
+
+.spec-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.spec-card {
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.spec-card h4 {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.swatch-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.swatch-item {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+.code-snippet {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  color: var(--text-primary);
+  overflow-x: auto;
+}
+
+/* Global Floating Controls */
+.theme-switch-floating {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-lg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+.theme-switch-floating:hover {
+  background: var(--bg-hover);
+}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- LEFT NAVIGATION RAIL -->
+  <aside class="nav-rail">
+    <div class="brand-unit">
+      <a href="#" class="brand-badge">
+        <div class="brand-mark">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <span class="brand-title">Signal Radar</span>
+      </a>
+      <button class="icon-btn" title="Toggle Sidebar">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="9" y1="3" x2="9" y2="21"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Active User Card -->
+    <div class="user-profile-summary">
+      <div class="avatar">SM</div>
+      <div class="profile-meta">
+        <div class="profile-name">Satyam Manik</div>
+        <div class="profile-sub">Batch 2027 · B.Tech</div>
+      </div>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </div>
+
+    <button class="action-create-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      <span>Verify New URL</span>
+    </button>
+
+    <!-- Nav Items -->
+    <nav class="nav-links">
+      <a href="#radar" class="nav-item active">
+        <div class="nav-item-left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+          </svg>
+          <span>Live Radar</span>
+        </div>
+        <span class="nav-counter">24</span>
+      </a>
+
+      <a href="#tracker" class="nav-item">
+        <div class="nav-item-left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Pipeline Tracker</span>
+        </div>
+        <span class="nav-counter">5</span>
+      </a>
+
+      <a href="#notifications" class="nav-item">
+        <div class="nav-item-left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span>Verified Alerts</span>
+        </div>
+        <span class="nav-counter alert">2</span>
+      </a>
+
+      <a href="#profile" class="nav-item">
+        <div class="nav-item-left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>Profile Fit Matrix</span>
+        </div>
+      </a>
+
+      <a href="#specs" class="nav-item">
+        <div class="nav-item-left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          <span>Design Tokens</span>
+        </div>
+      </a>
+    </nav>
+
+    <!-- Bottom Profile Completion Card -->
+    <div class="nav-footer-dock">
+      <div class="profile-progress-pill">
+        <div class="progress-circle-wrap">
+          <svg class="progress-svg" width="36" height="36" viewBox="0 0 36 36">
+            <circle class="progress-circle-bg" cx="18" cy="18" r="14"></circle>
+            <circle class="progress-circle-val" cx="18" cy="18" r="14"></circle>
+          </svg>
+          <div style="position:absolute; inset:0; display:grid; place-items:center;">
+            <span class="progress-text">58%</span>
+          </div>
+        </div>
+        <div class="progress-desc">
+          <h4>Match Profile</h4>
+          <p>Add 2 skills to reach 80%</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CENTER STAGE (Main Experience) -->
+  <main class="main-stage">
+    <!-- Omnisearch + Segment Controls -->
+    <div class="top-omni-bar">
+      <div class="search-and-toggles">
+        <div class="search-box-wrap">
+          <svg class="search-icon-pos" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="omni-input" placeholder="Search across verified internships, off-campus 2026/2027 roles, hackathons..." />
+        </div>
+
+        <div class="segmented-control">
+          <button class="segment-btn active">Internships</button>
+          <button class="segment-btn">Early Career</button>
+          <button class="segment-btn">Research</button>
+        </div>
+      </div>
+
+      <!-- Filter Chips Shelf -->
+      <div class="chips-shelf">
+        <button class="filter-chip trigger">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+          </svg>
+          <span>All Filters (3)</span>
+        </button>
+        <button class="filter-chip active">Batch 2027</button>
+        <button class="filter-chip active">Tier-1 ATS Verified</button>
+        <button class="filter-chip">Frontend / Fullstack</button>
+        <button class="filter-chip">Remote Only</button>
+        <button class="filter-chip">Stipend &gt; 50k/mo</button>
+        <button class="filter-chip">No Referral Needed</button>
+      </div>
+    </div>
+
+    <!-- Hero Callout (Contra 'Get Started' Style) -->
+    <section class="hero-onboarding-card">
+      <div class="hero-content">
+        <h2>Live Campus Radar.<br>Verified by TinyFish.</h2>
+        <p>No stale LinkedIn spam. Zero ghost jobs. Autonomous agent verification actively scans ATS endpoints, confirms active application forms, and scores criteria matches against your student profile.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="alert('TinyFish Autonomous Scan Triggered!')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+            <span>Scan Web With TinyFish</span>
+          </button>
+          <button class="btn-secondary">
+            <span>Explore Verification Proofs</span>
+          </button>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+        <span class="tinyfish-badge verified">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Live Engine Active</span>
+        </span>
+        <span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">TTL Cache: 3600s</span>
+      </div>
+    </section>
+
+    <!-- Metrics Deck -->
+    <div class="metrics-deck">
+      <div class="metric-unit">
+        <div class="metric-label">
+          <span>Active Listings</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        </div>
+        <div class="metric-val">42</div>
+        <div class="metric-sub">Updated 8 min ago</div>
+      </div>
+
+      <div class="metric-unit">
+        <div class="metric-label">
+          <span>Verified Live</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        </div>
+        <div class="metric-val" style="color:var(--signal-live);">100%</div>
+        <div class="metric-sub">TinyFish HTTP 200 checks</div>
+      </div>
+
+      <div class="metric-unit">
+        <div class="metric-label">
+          <span>Batch Fit</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </div>
+        <div class="metric-val">94%</div>
+        <div class="metric-sub">Eligible for 2027 grad</div>
+      </div>
+
+      <div class="metric-unit">
+        <div class="metric-label">
+          <span>Avg Response</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        </div>
+        <div class="metric-val">3.2d</div>
+        <div class="metric-sub">Historical ATS velocity</div>
+      </div>
+    </div>
+
+    <!-- Opportunities Feed -->
+    <div class="feed-header">
+      <div class="feed-title-wrap">
+        <h3 class="feed-title">Recommended Opportunities</h3>
+        <span class="feed-count-badge">Displaying 3 verified roles</span>
+      </div>
+      <button class="btn-secondary" style="padding:6px 14px; font-size:12px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="23 4 23 10 17 10"></polyline>
+          <polyline points="1 20 1 14 7 14"></polyline>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
+        <span>Re-rank By Fit</span>
+      </button>
+    </div>
+
+    <div class="feed-grid">
+      <!-- Opportunity Card 1 -->
+      <article class="opp-card">
+        <div class="opp-top-row">
+          <div class="company-brand-group">
+            <div class="company-logo">GO</div>
+            <div class="opp-title-meta">
+              <h3>Software Engineering Intern (Summer 2027)</h3>
+              <div class="opp-company-line">
+                <span>Google</span>
+                <span>·</span>
+                <span>Bengaluru / Hyderabad</span>
+                <span>·</span>
+                <span style="font-weight:600; color:var(--text-primary);">&#8377;1,25,000 / mo</span>
+              </div>
+            </div>
+          </div>
+          <span class="tinyfish-badge verified">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Verified Active</span>
+          </span>
+        </div>
+
+        <div class="opp-tags-row">
+          <span class="tag-pill highlight">98% Fit for Batch 2027</span>
+          <span class="tag-pill">C++ / Java / Python</span>
+          <span class="tag-pill">Algorithms</span>
+          <span class="tag-pill">Direct ATS Portal</span>
+        </div>
+
+        <div class="opp-bottom-row">
+          <div class="opp-stats">
+            <span>Posted 2d ago</span>
+            <span>·</span>
+            <span>Closes in 14 days</span>
+            <span>·</span>
+            <span>Verified via Greenhouse API</span>
+          </div>
+          <div class="card-actions">
+            <button class="icon-btn" title="Save to Application Pipeline">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </button>
+            <button class="btn-primary" style="padding:7px 16px; font-size:12.5px;">
+              <span>Apply Now</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Opportunity Card 2 -->
+      <article class="opp-card">
+        <div class="opp-top-row">
+          <div class="company-brand-group">
+            <div class="company-logo" style="background:#fef3c7; color:#b45309;">UB</div>
+            <div class="opp-title-meta">
+              <h3>Frontend Platform Intern</h3>
+              <div class="opp-company-line">
+                <span>Uber</span>
+                <span>·</span>
+                <span>Remote (India)</span>
+                <span>·</span>
+                <span style="font-weight:600; color:var(--text-primary);">&#8377;95,000 / mo</span>
+              </div>
+            </div>
+          </div>
+          <span class="tinyfish-badge verified">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Verified Active</span>
+          </span>
+        </div>
+
+        <div class="opp-tags-row">
+          <span class="tag-pill highlight">92% Match Profile</span>
+          <span class="tag-pill">React 19</span>
+          <span class="tag-pill">TypeScript</span>
+          <span class="tag-pill">Design Systems</span>
+        </div>
+
+        <div class="opp-bottom-row">
+          <div class="opp-stats">
+            <span>Posted 5h ago</span>
+            <span>·</span>
+            <span>Closes in 9 days</span>
+            <span>·</span>
+            <span>Workday Candidate Portal</span>
+          </div>
+          <div class="card-actions">
+            <button class="icon-btn" title="Save to Application Pipeline">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </button>
+            <button class="btn-primary" style="padding:7px 16px; font-size:12.5px;">
+              <span>Apply Now</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Opportunity Card 3 -->
+      <article class="opp-card">
+        <div class="opp-top-row">
+          <div class="company-brand-group">
+            <div class="company-logo" style="background:#e0f2fe; color:#0369a1;">TF</div>
+            <div class="opp-title-meta">
+              <h3>AI Agentic Systems Fellow</h3>
+              <div class="opp-company-line">
+                <span>TinyFish Research</span>
+                <span>·</span>
+                <span>Hybrid / Bengaluru</span>
+                <span>·</span>
+                <span style="font-weight:600; color:var(--text-primary);">&#8377;1,10,000 / mo</span>
+              </div>
+            </div>
+          </div>
+          <span class="tinyfish-badge warning">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <span>Closes in 48h</span>
+          </span>
+        </div>
+
+        <div class="opp-tags-row">
+          <span class="tag-pill highlight">Top Recommended</span>
+          <span class="tag-pill">LLMs / Agents</span>
+          <span class="tag-pill">MCP Servers</span>
+          <span class="tag-pill">Autonomous Scraping</span>
+        </div>
+
+        <div class="opp-bottom-row">
+          <div class="opp-stats">
+            <span>Posted 1d ago</span>
+            <span>·</span>
+            <span>High Competition</span>
+            <span>·</span>
+            <span>Direct Founder Review</span>
+          </div>
+          <div class="card-actions">
+            <button class="icon-btn" title="Save to Application Pipeline">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </button>
+            <button class="btn-primary" style="padding:7px 16px; font-size:12.5px;">
+              <span>Apply Now</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- SPECIFICATION & TOKENS DECK -->
+    <section class="spec-section" id="specs">
+      <div class="spec-header">
+        <div class="spec-kicker">Architecture Document · Principal Level</div>
+        <h2 class="spec-title">Signal Design Tokens & UX Heuristics</h2>
+        <p style="color:var(--text-secondary); font-size:13.5px; margin-top:4px;">
+          Engineered according to Jakob's Law, Hick's Law, and the Doherty Threshold (&lt;400ms feedback).
+        </p>
+      </div>
+
+      <div class="spec-grid">
+        <div class="spec-card">
+          <h4>01 · Core Color Palette</h4>
+          <div class="swatch-group">
+            <div class="swatch-item" style="background:#1e3a8a;" title="Accent Primary (#1e3a8a)"></div>
+            <div class="swatch-item" style="background:#10b981;" title="Live Signal (#10b981)"></div>
+            <div class="swatch-item" style="background:#f59e0b;" title="Warning Signal (#f59e0b)"></div>
+            <div class="swatch-item" style="background:#ef4444;" title="Danger Signal (#ef4444)"></div>
+            <div class="swatch-item" style="background:#121316;" title="High Contrast Ink (#121316)"></div>
+          </div>
+          <div class="code-snippet">--font-display: 'Bricolage Grotesque';<br>--font-body: 'Hanken Grotesk';<br>--font-mono: 'JetBrains Mono';</div>
+        </div>
+
+        <div class="spec-card">
+          <h4>02 · TinyFish Verification SLA</h4>
+          <p style="font-size:12.5px; color:var(--text-secondary);">
+            Every URL listed passes automated headless DOM inspection via TinyFish API before display.
+          </p>
+          <div class="code-snippet">
+            GET https://api.fetch.tinyfish.ai<br>
+            Authorization: Bearer sk-tinyfish-***<br>
+            Status: 200 OK (Cache-Control: 1h)
+          </div>
+        </div>
+
+        <div class="spec-card">
+          <h4>03 · Cognitive Load Safeguards</h4>
+          <ul style="padding-left:18px; font-size:12px; color:var(--text-secondary); display:flex; flex-direction:column; gap:4px;">
+            <li>Zero emoji pollution: only precision vector glyphs.</li>
+            <li>Miller's Law chunking: max 4 chips per visual cluster.</li>
+            <li>Progressive disclosure: deep ATS specs inside modals.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- RIGHT COLUMN: CO-AGENT ASSISTANT -->
+  <aside class="assistant-rail">
+    <div class="co-agent-header">
+      <div class="co-agent-title">
+        <div class="co-agent-orb"></div>
+        <span>Radar Co-Agent</span>
+      </div>
+      <button class="icon-btn" style="width:28px; height:28px;" title="Reset Agent Thread">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="co-agent-prompt-box">
+      <h4>What should we track next?</h4>
+      <p style="font-size:12px; color:var(--text-secondary);">
+        Autonomous opportunity intelligence trained on student profiles.
+      </p>
+      <div class="prompt-suggestions">
+        <button class="prompt-pill" onclick="handlePromptClick(this)">Show top roles matching Batch 2027</button>
+        <button class="prompt-pill" onclick="handlePromptClick(this)">Verify unlisted off-campus links</button>
+        <button class="prompt-pill" onclick="handlePromptClick(this)">Highlight stipend &gt; &#8377;80,000 / mo</button>
+        <button class="prompt-pill" onclick="handlePromptClick(this)">Run TinyFish live health audit</button>
+      </div>
+    </div>
+
+    <!-- Active Audit Card -->
+    <div style="border:1px solid var(--border-subtle); border-radius:var(--radius-lg); padding:14px; background:var(--bg-subtle);">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+        <span style="font-family:var(--font-mono); font-size:10px; text-transform:uppercase; color:var(--text-muted);">Agent Verification Feed</span>
+        <span class="tinyfish-badge verified" style="font-size:9.5px; padding:2px 6px;">Live</span>
+      </div>
+      <p style="font-size:11.5px; color:var(--text-secondary); line-height:1.4;">
+        TinyFish verified <strong>Google Summer 2027</strong> portal 12m ago. Form input active. No CAPTCHA wall.
+      </p>
+    </div>
+
+    <div class="co-agent-input-wrap">
+      <input type="text" class="co-agent-input" placeholder="Ask Co-Agent or paste link..." />
+      <button class="co-agent-send-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </aside>
+</div>
+
+<!-- Floating Dark / Light Mode Switcher -->
+<button class="theme-switch-floating" id="themeToggleBtn" type="button" aria-label="Toggle Theme">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+  <span id="themeToggleText">Dark Theme</span>
+</button>
+
+<script>
+// Theme Toggle Logic
+const themeBtn = document.getElementById('themeToggleBtn');
+const themeText = document.getElementById('themeToggleText');
+let currentTheme = localStorage.getItem('signal-theme') || 'light';
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('signal-theme', theme);
+  themeText.textContent = theme === 'light' ? 'Dark Theme' : 'Light Theme';
+}
+
+applyTheme(currentTheme);
+
+themeBtn.addEventListener('click', () => {
+  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+  applyTheme(currentTheme);
+});
+
+// Prompt pill interaction
+function handlePromptClick(btn) {
+  const text = btn.textContent;
+  const input = document.querySelector('.co-agent-input');
+  input.value = text;
+  input.focus();
+}
+
+// Filter Chip Active State Toggle
+document.querySelectorAll('.filter-chip:not(.trigger)').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.classList.toggle('active');
+  });
+});
+
+// Segment Control Toggle
+document.querySelectorAll('.segment-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
+

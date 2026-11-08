@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design DNA kit — live swap</title>
+  <meta name="description"
+    content="The same markup rendered in two measured design systems. Switch data-dna and the tokens do the rest.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="design-dna.css">
+  <style>
+    /* Demo chrome only. Every colour, radius, type size and duration below
+     comes from design-dna.css — nothing here hard-codes a system value. */
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    /* VoiceOS needs atmosphere behind the glass. Contra stays paper. */
+    [data-dna="voiceos"] {
+      background:
+        linear-gradient(180deg, #DCEAFA 0%, #EEF4FD 42%, #FBFDFF 72%, #FFFFFF 100%) fixed;
+    }
+
+    .shell {
+      max-width: var(--dna-container);
+      margin: 0 auto;
+      padding-left: var(--dna-gutter);
+      padding-right: var(--dna-gutter);
+    }
+
+    .bar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--dna-bg);
+      border-bottom: 1px solid var(--dna-line);
+    }
+
+    .bar-in {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      height: 60px;
+    }
+
+    .mark {
+      font-family: var(--dna-font-label);
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--dna-ink);
+    }
+
+    .mark span {
+      color: var(--dna-muted);
+    }
+
+    .switch {
+      display: inline-flex;
+      gap: 2px;
+      padding: 3px;
+      border: 1px solid var(--dna-line);
+      border-radius: 999px;
+      background: var(--dna-bg);
+    }
+
+    .switch button {
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--dna-muted);
+      font-family: var(--dna-font-text);
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1;
+      transition: background-color var(--dna-fast) var(--dna-ease), color var(--dna-fast) var(--dna-ease);
+    }
+
+    .switch button[aria-pressed="true"] {
+      background: var(--dna-ink);
+      color: var(--dna-bg);
+    }
+
+    .switch button:focus-visible {
+      outline: 2px solid var(--dna-accent);
+      outline-offset: 2px;
+    }
+
+    .hero {
+      padding-top: calc(var(--dna-section) * 1.15);
+      padding-bottom: var(--dna-section);
+    }
+
+    .hero .dna-eyebrow {
+      margin-bottom: 20px;
+    }
+
+    .hero .dna-lede {
+      margin-top: 20px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .work {
+      padding-bottom: var(--dna-section);
+    }
+
+    .head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .more {
+      font-family: var(--dna-font-text);
+      font-size: 14px;
+      color: var(--dna-ink-2);
+      text-decoration: none;
+      border-bottom: 1px solid var(--dna-line);
+      padding-bottom: 2px;
+      white-space: nowrap;
+    }
+
+    .more:hover {
+      color: var(--dna-ink);
+      border-color: var(--dna-ink);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+      gap: var(--dna-grid-gap);
+    }
+
+    .thumb {
+      aspect-ratio: 1.55 / 1;
+      margin-bottom: 12px;
+      border-radius: calc(var(--dna-radius-card) - 6px);
+    }
+
+    [data-dna="contra"] .thumb {
+      background: linear-gradient(135deg, #DDD8FF 0%, #CD74DD 52%, #242455 100%);
+    }
+
+    [data-dna="voiceos"] .thumb {
+      background: linear-gradient(135deg, #DCEAFA 0%, #A9C8F0 55%, #3B5F8F 100%);
+    }
+
+    .dna-panel .dna-eyebrow {
+      margin-bottom: 9px;
+    }
+
+    .dna-panel .dna-h3 {
+      margin-bottom: 4px;
+    }
+
+    .dna-panel .dna-body {
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .meta {
+      margin-bottom: 10px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 15px 0 17px;
+    }
+
+    .readout {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(165px, 100%), 1fr));
+      gap: 1px;
+      margin-bottom: calc(var(--dna-section) * .8);
+      overflow: hidden;
+      border: 1px solid var(--dna-line);
+      border-radius: var(--dna-radius-panel);
+      background: var(--dna-line);
+    }
+
+    .cell {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding: 16px 18px;
+      background: var(--dna-bg);
+    }
+
+    .cell span {
+      font-family: var(--dna-font-label);
+      font-size: 10px;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--dna-muted);
+    }
+
+    .cell b {
+      font-family: var(--dna-font-text);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--dna-ink);
+    }
+
+    .cell .swatchline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cell i {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, .14);
+      display: inline-block;
+    }
+
+    .foot {
+      max-width: 72ch;
+      padding-bottom: 64px;
+      color: var(--dna-muted);
+      font-family: var(--dna-font-text);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .foot a {
+      color: var(--dna-ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--dna-line);
+    }
+
+    .foot a:hover {
+      border-color: var(--dna-ink);
+    }
+
+    @media (max-width: 560px) {
+      .bar-in {
+        height: 56px;
+      }
+
+      .mark span {
+        display: none;
+      }
+
+      .switch button {
+        padding: 7px 11px;
+        font-size: 12px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition-duration: .001ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body data-dna="contra">
+
+  <header class="bar">
+    <div class="shell bar-in">
+      <div class="mark">Design DNA <span>· kit v1.0</span></div>
+      <div class="switch" role="group" aria-label="Design system">
+        <button type="button" data-set="contra" aria-pressed="true">Contra</button>
+        <button type="button" data-set="voiceos" aria-pressed="false">VoiceOS</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="shell hero">
+      <p class="dna-eyebrow">Same markup · two systems</p>
+      <h1 class="dna-display">Get more creative</h1>
+      <p class="dna-lede">A visual system for a modular camera brand, built around a single geometric mark. Nothing in
+        this section changes except the <code>data-dna</code> attribute.</p>
+      <div class="row">
+        <a class="dna-btn" href="#work">View project</a>
+        <a class="dna-btn dna-btn--ghost" href="contra-voiceos.html">Read the deck</a>
+      </div>
+    </section>
+
+    <section class="shell work" id="work">
+      <div class="head">
+        <h2 class="dna-title">Projects we love</h2>
+        <a class="more" href="#work">View more</a>
+      </div>
+      <div class="grid">
+        <article class="dna-card">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="dna-panel">
+            <p class="dna-eyebrow">Case study</p>
+            <h3 class="dna-h3">Aperture Studio</h3>
+            <p class="dna-body meta">Brand identity · 2026</p>
+            <p class="dna-body">A visual system for a modular camera brand, built around a single geometric mark.</p>
+            <div class="chips">
+              <span class="dna-chip">Brand</span>
+              <span class="dna-chip">Web</span>
+              <span class="dna-chip">2026</span>
+            </div>
+            <a class="dna-btn" href="#work">View project</a>
+          </div>
+        </article>
+
+        <article class="dna-card">
+          <div class="thumb" aria-hidden="true" style="filter:hue-rotate(38deg) saturate(.85)"></div>
+          <div class="dna-panel">
+            <p class="dna-eyebrow">Case study</p>
+            <h3 class="dna-h3">Field Notes</h3>
+            <p class="dna-body meta">Editorial design · 2026</p>
+            <p class="dna-body">A print-first identity for a field research journal, with a variable serif and a
+              two-column grid.</p>
+            <div class="chips">
+              <span class="dna-chip">Editorial</span>
+              <span class="dna-chip">Print</span>
+            </div>
+            <a class="dna-btn" href="#work">View project</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell readout" aria-live="polite" aria-label="Computed tokens">
+      <div class="cell"><span>Display</span><b id="r-font">—</b></div>
+      <div class="cell"><span>Card radius</span><b id="r-radius">—</b></div>
+      <div class="cell"><span>Action</span><b id="r-btn">—</b></div>
+      <div class="cell"><span>Accent</span><b class="swatchline"><i id="r-swatch"></i><span id="r-accent"
+            style="font:inherit;letter-spacing:0;text-transform:none;color:inherit">—</span></b></div>
+    </section>
+
+    <footer class="shell foot">
+      <p>Both cards are the same DOM. The switch only changes <code>data-dna</code> on <code>&lt;body&gt;</code>; every
+        value above is read back from the browser, not typed into the demo. Typefaces resolve to free stand-ins: Inter
+        Tight for Contra, your system UI font for VoiceOS (SF on Apple, Segoe on Windows), and DM Mono for labels.</p>
+      <p style="margin-top:10px"><a href="contra-voiceos.html">Open the full reference</a> · <a
+          href="tokens.json">tokens.json</a> · <a href="SKILL.md">SKILL.md</a></p>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+      var body = document.body;
+      var buttons = Array.prototype.slice.call(document.querySelectorAll('[data-set]'));
+      var display = document.querySelector('.dna-display');
+      var card = document.querySelector('.dna-card');
+      var btn = document.querySelector('.dna-btn');
+      var rFont = document.getElementById('r-font');
+      var rRadius = document.getElementById('r-radius');
+      var rBtn = document.getElementById('r-btn');
+      var rAccent = document.getElementById('r-accent');
+      var rSwatch = document.getElementById('r-swatch');
+
+      function px(v) { return Math.round(parseFloat(v)); }
+
+      function read() {
+        var cs = getComputedStyle(display);
+        var cardCs = getComputedStyle(card);
+        var btnCs = getComputedStyle(btn);
+        var root = getComputedStyle(body);
+        var accent = root.getPropertyValue('--dna-accent').trim();
+        var family = cs.fontFamily.split(',')[0].replace(/["']/g, '');
+        var radius = px(cardCs.borderTopLeftRadius);
+        var btnRadius = px(btnCs.borderTopLeftRadius);
+
+        rFont.textContent = family + ' · ' + px(cs.fontSize) + 'px';
+        rRadius.textContent = radius + 'px';
+        rBtn.textContent = px(btnCs.height) + 'px · ' + (btnRadius > 100 ? 'pill' : btnRadius + 'px');
+        rAccent.textContent = accent.toUpperCase();
+        rSwatch.style.background = accent;
+      }
+
+      function setSystem(name) {
+        body.setAttribute('data-dna', name);
+        buttons.forEach(function (b) {
+          b.setAttribute('aria-pressed', b.getAttribute('data-set') === name ? 'true' : 'false');
+        });
+        requestAnimationFrame(read);
+      }
+
+      buttons.forEach(function (b) {
+        b.addEventListener('click', function () { setSystem(b.getAttribute('data-set')); });
+      });
+
+      // Deep link: demo.html#voiceos opens in that system.
+      var hash = location.hash.replace('#', '');
+      setSystem(hash === 'voiceos' ? 'voiceos' : 'contra');
+    })();
+  </script>
+</body>
+
+</html>

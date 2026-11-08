@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "cmd.exe",
+      "args": [
+        "/c",
+        "shadcn",
+        "mcp"
+      ]
+    }
+  }
+}

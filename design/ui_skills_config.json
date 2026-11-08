@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "ui-skills": {
+      "command": "cmd.exe",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "mcp-remote",
+        "https://www.ui-skills.com/mcp"
+      ]
+    }
+  }
+}

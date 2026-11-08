@@ -1,0 +1,430 @@
+/* ==========================================================================
+   DESIGN DNA KIT — v1.0
+   Measured 2026-10-29 from contra.com and voiceos.com.
+
+   One semantic contract, two systems. Put data-dna on a wrapper (or <body>)
+   and the same markup renders in either visual language:
+
+     <link rel="stylesheet" href="design-dna.css">
+     <body data-dna="contra"> ... </body>
+     <body data-dna="voiceos"> ... </body>
+
+   Fonts: this file does not fetch anything. Load the two free families, or
+   let the stacks fall back to the system:
+     https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap
+
+   Licence note: GT Standard (Grilli Type), Recoleta (Latinotype) and SF Pro
+   (Apple) are not redistributed here. The stacks name free stand-ins only.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CONTRA — monochrome editorial catalogue
+   -------------------------------------------------------------------------- */
+[data-dna="contra"] {
+  color-scheme: light;
+
+  /* colour */
+  --dna-bg: #FFFFFF;
+  --dna-surface: #F2F4F7;
+  --dna-ink: #14171F;
+  --dna-ink-2: #373F51;
+  --dna-muted: #677084;
+  --dna-line: #E5E7EB;
+  --dna-accent: #F0FB96;
+  --dna-accent-ink: #14171F;
+
+  /* type */
+  --dna-font-display: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --dna-font-text: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --dna-font-label: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --dna-display-size: 58px;
+  --dna-display-leading: 1.05;
+  --dna-display-tracking: -0.01em;
+  --dna-display-weight: 500;
+
+  --dna-title-size: 23px;
+  --dna-title-leading: 1.39;
+  --dna-title-tracking: 0.02em;
+  --dna-title-weight: 500;
+
+  --dna-h3-size: 19px;
+  --dna-h3-leading: 1.35;
+  --dna-h3-tracking: 0.01em;
+  --dna-h3-weight: 500;
+
+  --dna-lede-size: 19px;
+  --dna-lede-leading: 1.47;
+  --dna-body-size: 16px;
+  --dna-body-leading: 1.5;
+  --dna-label-size: 12px;
+  --dna-label-tracking: 0.1em;
+
+  /* shape */
+  --dna-radius-card: 16px;
+  --dna-radius-panel: 12px;
+  --dna-radius-btn: 24px;
+  --dna-radius-chip: 32px;
+  --dna-border-width: 1px;
+
+  /* actions */
+  --dna-btn-height: 48px;
+  --dna-btn-pad: 0 24px;
+  --dna-btn-bg: #222834;
+  --dna-btn-ink: #FFFFFF;
+  --dna-btn-size: 16px;
+  --dna-btn-weight: 600;
+  --dna-btn-shadow: none;
+
+  /* surfaces */
+  --dna-card-bg: #FFFFFF;
+  --dna-card-border: 1px solid var(--dna-line);
+  --dna-card-shadow: none;
+  --dna-card-backdrop: none;
+  --dna-card-pad: 12px;
+
+  --dna-panel-bg: #FFFFFF;
+  --dna-panel-border: 1px solid var(--dna-line);
+  --dna-panel-shadow: none;
+  --dna-panel-pad: 18px;
+
+  --dna-chip-pad: 8px 16px;
+  --dna-chip-size: 16px;
+  --dna-chip-weight: 400;
+  --dna-chip-bg: transparent;
+  --dna-chip-border: 1px solid transparent;
+  --dna-chip-ink: var(--dna-muted);
+
+  /* motion */
+  --dna-ease: cubic-bezier(0, 0, .2, 1);
+  --dna-ease-settle: cubic-bezier(0, 0, .2, 1);
+  --dna-fast: 170ms;
+  --dna-slow: 350ms;
+
+  /* layout */
+  --dna-container: 1351px;
+  --dna-gutter: 36px;
+  --dna-section: 64px;
+  --dna-measure: 34em;
+  --dna-grid-gap: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   2. VOICEOS — liquid glass native app
+   -------------------------------------------------------------------------- */
+[data-dna="voiceos"] {
+  color-scheme: light;
+
+  /* colour */
+  --dna-bg: #FFFFFF;
+  --dna-surface: #EEF4FD;
+  --dna-ink: #111827;
+  --dna-ink-2: #171C33;
+  /* measured #6B7280, which falls to 3.96:1 on the lightest sky stop and
+     4.37:1 on the mid stop. Darkened here to hold >=4.5:1 on every stop. */
+  --dna-muted: #5F6878;
+  --dna-line: #E5E7EB;
+  --dna-accent: #0A84FF;
+  --dna-accent-ink: #FFFFFF;
+
+  /* type */
+  --dna-font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Inter", system-ui, sans-serif;
+  --dna-font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Inter", system-ui, sans-serif;
+  --dna-font-label: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --dna-display-size: 76px;
+  --dna-display-leading: 1.25;
+  --dna-display-tracking: -0.03em;
+  --dna-display-weight: 600;
+
+  --dna-title-size: 60px;
+  --dna-title-leading: 1;
+  --dna-title-tracking: -0.025em;
+  --dna-title-weight: 400;
+
+  --dna-h3-size: 24px;
+  --dna-h3-leading: 1.2;
+  --dna-h3-tracking: -0.02em;
+  --dna-h3-weight: 600;
+
+  --dna-lede-size: 18px;
+  --dna-lede-leading: 1.56;
+  --dna-body-size: 16px;
+  --dna-body-leading: 1.5;
+  --dna-label-size: 12px;
+  --dna-label-tracking: 0.06em;
+
+  /* shape */
+  --dna-radius-card: 24px;
+  --dna-radius-panel: 18px;
+  --dna-radius-btn: 999px;
+  --dna-radius-chip: 999px;
+  --dna-border-width: 1px;
+
+  /* actions */
+  --dna-btn-height: 38px;
+  --dna-btn-pad: 0 18px;
+  --dna-btn-bg: #000000;
+  --dna-btn-ink: #FFFFFF;
+  --dna-btn-size: 15px;
+  --dna-btn-weight: 500;
+  --dna-btn-shadow: none;
+
+  /* surfaces — glass needs a background behind it */
+  --dna-card-bg: rgba(255, 255, 255, .55);
+  --dna-card-border: 1px solid rgba(255, 255, 255, .72);
+  --dna-card-backdrop: blur(14px) saturate(1.6);
+  --dna-card-shadow:
+    inset 0 3px 3px rgba(0, 0, 0, .04),
+    inset 0 -3px 3px rgba(255, 255, 255, .7),
+    0 10px 24px -4px rgba(0, 0, 0, .06),
+    inset 0 0 3px 6px rgba(210, 235, 255, .35);
+  --dna-card-pad: 12px;
+
+  --dna-panel-bg: rgba(255, 255, 255, .78);
+  --dna-panel-border: 1px solid rgba(255, 255, 255, .7);
+  --dna-panel-shadow: inset 0 0 0 1px rgba(255, 255, 255, .45);
+  --dna-panel-pad: 18px;
+
+  --dna-chip-pad: 3px 9px;
+  --dna-chip-size: 11px;
+  --dna-chip-weight: 500;
+  --dna-chip-bg: rgba(255, 255, 255, .8);
+  --dna-chip-border: 1px solid rgba(15, 23, 42, .06);
+  --dna-chip-ink: var(--dna-ink);
+
+  /* motion */
+  --dna-ease: cubic-bezier(.4, 0, .2, 1);
+  --dna-ease-settle: cubic-bezier(.25, 1, .5, 1);
+  --dna-fast: 200ms;
+  --dna-slow: 350ms;
+
+  /* layout */
+  --dna-container: 1280px;
+  --dna-gutter: 32px;
+  --dna-section: 96px;
+  --dna-measure: 36em;
+  --dna-grid-gap: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Base scope
+   -------------------------------------------------------------------------- */
+[data-dna] {
+  background: var(--dna-bg);
+  color: var(--dna-ink);
+  font-family: var(--dna-font-text);
+  font-size: var(--dna-body-size);
+  line-height: var(--dna-body-leading);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+[data-dna] ::selection {
+  background: var(--dna-ink);
+  color: var(--dna-bg);
+}
+
+/* --------------------------------------------------------------------------
+   4. Primitives
+   -------------------------------------------------------------------------- */
+
+/* Hero / display */
+[data-dna] .dna-display {
+  margin: 0;
+  font-family: var(--dna-font-display);
+  font-size: clamp(38px, 5.6vw, var(--dna-display-size));
+  line-height: var(--dna-display-leading);
+  letter-spacing: var(--dna-display-tracking);
+  font-weight: var(--dna-display-weight);
+  color: var(--dna-ink);
+  text-wrap: balance;
+}
+
+/* Section heading */
+[data-dna] .dna-title {
+  margin: 0;
+  font-family: var(--dna-font-display);
+  font-size: clamp(24px, 3.2vw, var(--dna-title-size));
+  line-height: var(--dna-title-leading);
+  letter-spacing: var(--dna-title-tracking);
+  font-weight: var(--dna-title-weight);
+  color: var(--dna-ink);
+}
+
+/* Component / card heading */
+[data-dna] .dna-h3 {
+  margin: 0;
+  font-family: var(--dna-font-display);
+  font-size: var(--dna-h3-size);
+  line-height: var(--dna-h3-leading);
+  letter-spacing: var(--dna-h3-tracking);
+  font-weight: var(--dna-h3-weight);
+  color: var(--dna-ink);
+}
+
+/* Lead paragraph */
+[data-dna] .dna-lede {
+  margin: 0;
+  max-width: var(--dna-measure);
+  font-family: var(--dna-font-text);
+  font-size: var(--dna-lede-size);
+  line-height: var(--dna-lede-leading);
+  color: var(--dna-muted);
+}
+
+/* Body / supporting copy */
+[data-dna] .dna-body {
+  margin: 0;
+  max-width: var(--dna-measure);
+  font-family: var(--dna-font-text);
+  font-size: var(--dna-body-size);
+  line-height: var(--dna-body-leading);
+  color: var(--dna-muted);
+}
+
+[data-dna] .dna-body--ink {
+  color: var(--dna-ink);
+}
+
+/* Eyebrow label */
+[data-dna] .dna-eyebrow {
+  margin: 0;
+  font-family: var(--dna-font-label);
+  font-size: var(--dna-label-size);
+  line-height: 1.33;
+  letter-spacing: var(--dna-label-tracking);
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--dna-muted);
+}
+
+/* Action */
+[data-dna] .dna-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: var(--dna-btn-height);
+  padding: var(--dna-btn-pad);
+  border: 1px solid transparent;
+  border-radius: var(--dna-radius-btn);
+  background: var(--dna-btn-bg);
+  color: var(--dna-btn-ink);
+  box-shadow: var(--dna-btn-shadow);
+  font-family: var(--dna-font-text);
+  font-size: var(--dna-btn-size);
+  font-weight: var(--dna-btn-weight);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--dna-fast) var(--dna-ease),
+    color var(--dna-fast) var(--dna-ease),
+    transform var(--dna-fast) var(--dna-ease),
+    box-shadow var(--dna-slow) var(--dna-ease-settle);
+}
+
+[data-dna] .dna-btn:hover {
+  transform: translateY(-1px);
+}
+
+[data-dna] .dna-btn:active {
+  transform: translateY(0);
+}
+
+[data-dna] .dna-btn--ghost {
+  background: transparent;
+  color: var(--dna-ink);
+  border-color: var(--dna-line);
+  box-shadow: none;
+}
+
+/* Card shell — the glass shell in VoiceOS, the bordered card in Contra */
+[data-dna] .dna-card {
+  padding: var(--dna-card-pad);
+  border: var(--dna-card-border);
+  border-radius: var(--dna-radius-card);
+  background: var(--dna-card-bg);
+  box-shadow: var(--dna-card-shadow);
+  -webkit-backdrop-filter: var(--dna-card-backdrop);
+  backdrop-filter: var(--dna-card-backdrop);
+}
+
+/* Inner panel — content surface nested inside a card */
+[data-dna] .dna-panel {
+  padding: var(--dna-panel-pad);
+  border: var(--dna-panel-border);
+  border-radius: var(--dna-radius-panel);
+  background: var(--dna-panel-bg);
+  box-shadow: var(--dna-panel-shadow);
+}
+
+/* Tag / chip */
+[data-dna] .dna-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: var(--dna-chip-pad);
+  border: var(--dna-chip-border);
+  border-radius: var(--dna-radius-chip);
+  background: var(--dna-chip-bg);
+  color: var(--dna-chip-ink);
+  font-family: var(--dna-font-text);
+  font-size: var(--dna-chip-size);
+  font-weight: var(--dna-chip-weight);
+  line-height: 1.2;
+  white-space: nowrap;
+  transition:
+    color var(--dna-fast) var(--dna-ease),
+    border-color var(--dna-fast) var(--dna-ease),
+    background-color var(--dna-fast) var(--dna-ease);
+}
+
+[data-dna] a.dna-chip:hover {
+  color: var(--dna-ink);
+  border-color: var(--dna-line);
+}
+
+/* Two helpers worth having in every project */
+[data-dna] .dna-surface {
+  background: var(--dna-surface);
+  border-radius: var(--dna-radius-card);
+}
+
+[data-dna] .dna-rule {
+  height: 1px;
+  border: 0;
+  background: var(--dna-line);
+}
+
+/* --------------------------------------------------------------------------
+   5. Motion safety
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+
+  [data-dna] .dna-btn,
+  [data-dna] .dna-card,
+  [data-dna] .dna-chip {
+    transition-duration: .001ms;
+  }
+
+  [data-dna] .dna-btn:hover {
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Notes you will need later
+   --------------------------------------------------------------------------
+   • Contra's 16px body was measured at 1.15 leading. That is correct for
+     two-word labels and wrong for prose, so this kit ships 1.5 and documents
+     the original in tokens.json.
+   • VoiceOS's accent (#0A84FF) is 3.65:1 on white. It is an icon signal, not
+     a text colour. Don't use it on paragraphs.
+   • VoiceOS's glass needs atmosphere behind it: put the card on a sky, photo,
+     or gradient. On flat white it reads as a grey box with a fuzzy border.
+   • Contra's lime (#F0FB96) is a surface. It is ~1.1:1 as a foreground on
+     white, so never use it for text, links, or icons.
+   -------------------------------------------------------------------------- */
