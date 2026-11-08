@@ -2564,6 +2564,66 @@ a {
   gap: 20px;
 }
 
+/* Mobile Viewport Optimization for Opportunity Modal */
+@media (max-width: 640px) {
+  .modal-card {
+    padding: 18px 16px;
+    gap: 14px;
+    max-height: 94vh;
+  }
+  .modal-card .t-h2 {
+    font-size: 1.15rem;
+  }
+}
+
+/* Intelligent Outreach Pitch Studio */
+.pitch-studio {
+  background: var(--subtle);
+  border: 1px solid var(--line);
+  border-radius: var(--r-3);
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.pitch-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pitch-tab-btn {
+  padding: 5px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease);
+}
+
+.pitch-tab-btn.active {
+  background: var(--violet);
+  color: #fff;
+  border-color: var(--violet);
+}
+
+.pitch-preview-box {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--fg);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 140px;
+  overflow-y: auto;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

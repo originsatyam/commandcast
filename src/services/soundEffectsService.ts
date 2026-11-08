@@ -262,6 +262,13 @@ class SoundManager {
   }
 
   /**
+   * Alias for success completion chime
+   */
+  public playComplete(): void {
+    this.playSuccess();
+  }
+
+  /**
    * Wispr Voice Recording Start Chime
    * Warm, welcoming two-tone ascending bell (F5 698Hz -> C6 1046Hz)
    */

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import type { OpportunityListing, StudentProfile } from "../../types/campus";
 import { extractCleanDomain } from "../../services/tinyfishVerificationService";
 import {
@@ -6,6 +6,8 @@ import {
   extractJobHighlightsFromMarkdown,
   type FirecrawlScrapeResult
 } from "../../services/firecrawlService";
+import { normalizeCompensation } from "../../utils/compensation";
+import { sounds } from "../../services/soundEffectsService";
 
 interface OpportunityDetailModalProps {
   opportunity: OpportunityListing | null;
@@ -26,15 +28,21 @@ export const OpportunityDetailModal: React.FC<OpportunityDetailModalProps> = ({
   const [firecrawlResult, setFirecrawlResult] = useState<FirecrawlScrapeResult | null>(null);
   const [logoError, setLogoError] = useState(false);
   const [copiedPitch, setCopiedPitch] = useState(false);
+  const [pitchMode, setPitchMode] = useState<"inmail" | "email" | "craft">("inmail");
+  const [isFeasibilityOpen, setIsFeasibilityOpen] = useState(true);
 
   const directApplyUrl = opportunity?.directApplyUrl;
 
   const handleDeepScrape = useCallback(async () => {
     if (!directApplyUrl) return;
+    sounds.playTap();
     setIsScrapingFirecrawl(true);
     try {
       const result = await scrapeUrlWithFirecrawl(directApplyUrl, undefined, true);
       setFirecrawlResult(result);
+      if (result.success) {
+        sounds.playComplete();
+      }
     } catch {
       // handled inside service
     } finally {
@@ -42,13 +50,61 @@ export const OpportunityDetailModal: React.FC<OpportunityDetailModalProps> = ({
     }
   }, [directApplyUrl]);
 
-  const handleCopyIndiaPitch = useCallback(() => {
-    if (!opportunity) return;
-    const pitch = `Hello! I am ${profile.name || "a Product Designer"}, applying for the ${opportunity.title} role. I am based in India and fully set up for global remote work: I maintain 3-5 hours of daily synchronous overlap with US/EU working hours, prioritize asynchronous documentation in Figma, and can onboard seamlessly as an international independent contractor via platforms like Deel or Remote.com (GST/FIRC compliant). I would love to contribute my end-to-end design craft to your team!`;
-    navigator.clipboard.writeText(pitch);
+  // Normalized compensation
+  const comp = useMemo(() => {
+    return normalizeCompensation(opportunity?.stipend);
+  }, [opportunity?.stipend]);
+
+  // Intelligent Outreach Pitch Generation
+  const activePitchText = useMemo(() => {
+    if (!opportunity) return "";
+    const candidateName = profile.name || "Candidate";
+    const roleTitle = opportunity.title;
+    const company = opportunity.company;
+    const reqRef = opportunity.requisitionId ? ` (Req #${opportunity.requisitionId.slice(0, 8)})` : "";
+    const skillsList = opportunity.skills.slice(0, 3).join(", ");
+
+    if (pitchMode === "inmail") {
+      return `Hi ${company} Team,
+
+I noticed your open ${roleTitle} role${reqRef} and wanted to reach out. I am a product builder specializing in ${skillsList}.
+
+I am based in India and fully equipped for synchronous remote collaboration (3-5 hours daily overlap with US/EU hours) with frictionless international contractor onboarding via Deel / Remote.com (GST & FIRC compliant).
+
+I would love to share relevant case studies and explore how I can support ${company}'s current velocity. Are you open to a brief chat?`;
+    }
+
+    if (pitchMode === "email") {
+      return `Subject: Application: ${roleTitle} - ${candidateName}
+
+Dear ${company} Hiring Team,
+
+I recently came across the ${roleTitle} opening${reqRef} and am eager to contribute. 
+
+Having reviewed your requirements, my background strongly aligns with ${skillsList}. As an India-based candidate, I operate seamlessly on international contractor agreements (Deel/Remote.com, Section 44ADA zero-tax export compliance) and maintain dedicated synchronous overlap with your core team.
+
+I have attached my work and verified profile details. Looking forward to hearing your thoughts.
+
+Warm regards,
+${candidateName}`;
+    }
+
+    // Craft Pitch Mode
+    return `Hi! As a designer/engineer focused on high craft, I admire ${company}'s work.
+
+For the ${roleTitle} requisition, I bring hands-on expertise in ${skillsList}, component design systems, and rapid prototyping. I work autonomously with detailed async Figma documentation and loom walk-throughs, while keeping 3-5h live IST/PST overlap.
+
+Let me know if I can walk you through an interactive demo!
+- ${candidateName}`;
+  }, [opportunity, profile.name, pitchMode]);
+
+  const handleCopyPitch = useCallback(() => {
+    if (!activePitchText) return;
+    navigator.clipboard.writeText(activePitchText);
+    sounds.playSparkle();
     setCopiedPitch(true);
     setTimeout(() => setCopiedPitch(false), 2400);
-  }, [opportunity, profile.name]);
+  }, [activePitchText]);
 
   if (!opportunity) return null;
 
@@ -163,11 +219,8 @@ export const OpportunityDetailModal: React.FC<OpportunityDetailModalProps> = ({
         <div className="stage" style={{ display: "grid", gap: 10, padding: 18 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span className="badge ok">
-                <svg className="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M8 12.5l2.7 2.7L16 9.8" />
-                </svg>
+              <span className="badge ok" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <span className="live-pulse-dot" style={{ width: 6, height: 6 }} />
                 Direct ATS Requisition (0 Redirects)
               </span>
               <span className="mono dim" style={{ fontSize: "0.8125rem" }}>
@@ -199,41 +252,95 @@ export const OpportunityDetailModal: React.FC<OpportunityDetailModalProps> = ({
           </div>
         </div>
 
-        {/* Working Remotely from India: Feasibility & Solutions */}
-        <div style={{ padding: "16px", borderRadius: 8, background: "var(--subtle)", border: "1px solid var(--line)", display: "grid", gap: 10 }}>
+        {/* Intelligent Recruiter & Hiring Lead Outreach Studio */}
+        <div className="pitch-studio">
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ fontSize: "1rem" }}>🇮🇳</span>
-              <span className="t-body" style={{ fontWeight: 600 }}>Working Remotely from India (Feasibility & Solutions)</span>
+              <span style={{ fontSize: "1rem" }}>⚡</span>
+              <span className="t-body" style={{ fontWeight: 600 }}>Tailored Outreach & Cold DM Generator</span>
             </div>
+
             <button
               type="button"
-              className="btn btn-ghost btn-sm"
-              onClick={handleCopyIndiaPitch}
-              style={{ fontSize: "0.75rem", padding: "3px 8px" }}
+              className="btn btn-primary btn-sm"
+              onClick={handleCopyPitch}
+              style={{ fontSize: "0.75rem", padding: "4px 10px" }}
             >
-              {copiedPitch ? "✓ Copied Pitch" : "Copy Remote Pitch"}
+              {copiedPitch ? "✓ Copied to Clipboard" : "Copy Outreach Message"}
             </button>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10, fontSize: "0.8125rem" }}>
-            <div style={{ padding: "8px 10px", background: "var(--panel)", borderRadius: 6, border: "1px solid var(--line)" }}>
-              <span className="t-label" style={{ display: "block", marginBottom: 2 }}>Timezone Overlap</span>
-              <span style={{ color: "var(--fg)" }}>
-                {opportunity.remoteIndiaDetails?.timezoneOverlap || "Flexible IST schedule with 3-5 hours daily synchronous overlap with US/EU team."}
-              </span>
-            </div>
-            <div style={{ padding: "8px 10px", background: "var(--panel)", borderRadius: 6, border: "1px solid var(--line)" }}>
-              <span className="t-label" style={{ display: "block", marginBottom: 2 }}>Contract & Payroll</span>
-              <span style={{ color: "var(--fg)" }}>
-                {opportunity.remoteIndiaDetails?.contractType || "Direct Indian entity / Global Contractor via Deel or Remote.com with GST/FIRC."}
-              </span>
-            </div>
+          {/* Mode Switcher Tabs */}
+          <div className="pitch-tabs">
+            <button
+              type="button"
+              className={`pitch-tab-btn ${pitchMode === "inmail" ? "active" : ""}`}
+              onClick={() => { sounds.playTap(); setPitchMode("inmail"); }}
+            >
+              LinkedIn / X InMail
+            </button>
+            <button
+              type="button"
+              className={`pitch-tab-btn ${pitchMode === "email" ? "active" : ""}`}
+              onClick={() => { sounds.playTap(); setPitchMode("email"); }}
+            >
+              Cold Email
+            </button>
+            <button
+              type="button"
+              className={`pitch-tab-btn ${pitchMode === "craft" ? "active" : ""}`}
+              onClick={() => { sounds.playTap(); setPitchMode("craft"); }}
+            >
+              Craft & Portfolio Pitch
+            </button>
           </div>
 
-          <p className="t-small dim" style={{ margin: 0 }}>
-            {opportunity.remoteIndiaDetails?.proofNotes || "Verified authentic: open to remote applicants based in India. Direct requisition confirmed active."}
-          </p>
+          {/* Live Generated Preview Box */}
+          <div className="pitch-preview-box">
+            {activePitchText}
+          </div>
+        </div>
+
+        {/* Working Remotely from India: Feasibility & Solutions (Collapsible Accordion) */}
+        <div style={{ padding: "14px", borderRadius: 8, background: "var(--subtle)", border: "1px solid var(--line)", display: "grid", gap: 8 }}>
+          <div
+            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", userSelect: "none" }}
+            onClick={() => setIsFeasibilityOpen(!isFeasibilityOpen)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setIsFeasibilityOpen(!isFeasibilityOpen); }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: "1rem" }}>🇮🇳</span>
+              <span className="t-body" style={{ fontWeight: 600 }}>Working Remotely from India (Legal & Timezone Feasibility)</span>
+            </div>
+            <span className="dim" style={{ fontSize: "0.8125rem" }}>
+              {isFeasibilityOpen ? "▲ Collapse" : "▼ Expand Details"}
+            </span>
+          </div>
+
+          {isFeasibilityOpen && (
+            <>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10, fontSize: "0.8125rem", marginTop: 4 }}>
+                <div style={{ padding: "8px 10px", background: "var(--panel)", borderRadius: 6, border: "1px solid var(--line)" }}>
+                  <span className="t-label" style={{ display: "block", marginBottom: 2 }}>Timezone Overlap</span>
+                  <span style={{ color: "var(--fg)" }}>
+                    {opportunity.remoteIndiaDetails?.timezoneOverlap || "Flexible IST schedule with 3-5 hours daily synchronous overlap with US/EU team."}
+                  </span>
+                </div>
+                <div style={{ padding: "8px 10px", background: "var(--panel)", borderRadius: 6, border: "1px solid var(--line)" }}>
+                  <span className="t-label" style={{ display: "block", marginBottom: 2 }}>Contract & Payroll</span>
+                  <span style={{ color: "var(--fg)" }}>
+                    {opportunity.remoteIndiaDetails?.contractType || "Direct Indian entity / Global Contractor via Deel or Remote.com with GST/FIRC."}
+                  </span>
+                </div>
+              </div>
+
+              <p className="t-small dim" style={{ margin: 0, marginTop: 2 }}>
+                {opportunity.remoteIndiaDetails?.proofNotes || "Verified authentic: open to remote applicants based in India. Direct requisition confirmed active."}
+              </p>
+            </>
+          )}
         </div>
 
         {/* Live Scraped Intel Preview (Firecrawl) */}
@@ -275,25 +382,31 @@ export const OpportunityDetailModal: React.FC<OpportunityDetailModalProps> = ({
           </div>
         )}
 
-        {/* Fact Grid */}
+        {/* Fact Grid with Normalized Compensation */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: "var(--s-3)", borderBlock: "1px solid var(--line)", paddingBlock: "var(--s-3)" }}>
           <div>
-            <span className="t-label">Stipend</span>
-            <p className="t-body mono" style={{ fontWeight: 600 }}>{opportunity.stipend}</p>
+            <span className="t-label">Stipend / Comp</span>
+            <p className="t-body mono" style={{ fontWeight: 600 }} title={`${comp.annualEstimateFormatted} · ${comp.taxNote}`}>
+              {comp.displayFormatted}
+            </p>
+            <span className="dim" style={{ fontSize: "0.72rem", display: "block" }}>{comp.annualEstimateFormatted}</span>
           </div>
           <div>
             <span className="t-label">Workplace</span>
             <p className="t-body mono" style={{ fontWeight: 600 }}>{opportunity.workplaceType}</p>
+            <span className="dim" style={{ fontSize: "0.72rem", display: "block" }}>{opportunity.location}</span>
           </div>
           <div>
             <span className="t-label">Category</span>
             <p className="t-body mono" style={{ fontWeight: 600 }}>{opportunity.category}</p>
+            <span className="dim" style={{ fontSize: "0.72rem", display: "block" }}>{opportunity.sourcePlatform}</span>
           </div>
           <div>
             <span className="t-label">Deadline</span>
             <p className="t-body mono" style={{ fontWeight: 600 }}>
               {new Date(opportunity.deadline).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
             </p>
+            <span className="dim" style={{ fontSize: "0.72rem", display: "block" }}>Confirmed Active</span>
           </div>
         </div>
 
@@ -332,7 +445,7 @@ export const OpportunityDetailModal: React.FC<OpportunityDetailModalProps> = ({
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => onToggleSave(opportunity)}
+              onClick={() => { sounds.playTap(); onToggleSave(opportunity); }}
             >
               {isSaved ? "Saved in Tracker" : "Save to Tracker"}
             </button>
@@ -360,6 +473,7 @@ export const OpportunityDetailModal: React.FC<OpportunityDetailModalProps> = ({
             target="_blank"
             rel="noopener noreferrer"
             title="Open direct ATS requisition form"
+            onClick={() => sounds.playComplete()}
           >
             Apply direct ATS requisition
             <svg className="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

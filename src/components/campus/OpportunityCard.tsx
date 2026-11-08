@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useCallback } from "react";
 import type { OpportunityListing, StudentProfile } from "../../types/campus";
 import { verifyOpportunityUrl, extractCleanDomain, type LiveVerificationResult } from "../../services/tinyfishVerificationService";
+import { normalizeCompensation } from "../../utils/compensation";
+import { sounds } from "../../services/soundEffectsService";
 
 interface OpportunityCardProps {
   opportunity: OpportunityListing;
@@ -59,6 +61,9 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   );
   const isDirectFit = matchesRole || matchesSkills;
 
+  // Normalized Compensation
+  const comp = useMemo(() => normalizeCompensation(opportunity.stipend), [opportunity.stipend]);
+
   // Verified days ago
   const verifiedDaysAgo = useMemo(() => {
     const verified = new Date(opportunity.verifiedDate).getTime();
@@ -68,12 +73,19 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   // Live TinyFish Verification Trigger
   const handleLiveVerify = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();
+    sounds.playTap();
     setIsVerifying(true);
     try {
       const result = await verifyOpportunityUrl(opportunity.directApplyUrl, undefined, true);
       setLiveVerification(result);
+      if (result.isAlive) {
+        sounds.playComplete();
+      } else {
+        sounds.playTap();
+      }
     } catch (err) {
       console.warn("Live verification failed:", err);
+      sounds.playTap();
     } finally {
       setIsVerifying(false);
     }
@@ -238,7 +250,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
       <dl className="facts">
         <div>
           <dt>Stipend</dt>
-          <dd>{opportunity.stipend}</dd>
+          <dd title={`${comp.annualEstimateFormatted} · ${comp.taxNote}`}>{comp.displayFormatted}</dd>
         </div>
         <div>
           <dt>Location</dt>
@@ -331,16 +343,25 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
         </div>
       </div>
 
-      {/* Proof Line */}
+      {/* Proof Line with Live Health Pulse */}
       <div className="proof">
         <span
           className={`badge ${liveVerification && !liveVerification.isAlive ? "warn" : "ok"} ${liveVerification ? "has-verified-pop" : ""}`}
           title={liveVerification?.verdict || "Direct ATS Requisition verified active with 0 redirects"}
+          style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
         >
-          <svg className="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="9" />
-            <path d="M8 12.5l2.7 2.7L16 9.8" />
-          </svg>
+          <span
+            className="live-pulse-dot"
+            style={{
+              width: 6,
+              height: 6,
+              background: liveVerification && !liveVerification.isAlive ? "var(--crit, #ef4444)" : "var(--ok, #10b981)",
+              boxShadow: liveVerification && !liveVerification.isAlive ? "0 0 6px #ef4444" : "0 0 6px #10b981",
+              borderRadius: "50%",
+              display: "inline-block",
+              flexShrink: 0
+            }}
+          />
           {liveVerification
             ? liveVerification.isAlive
               ? `Direct ATS Requisition (0 redirects · ${liveVerification.latencyMs}ms)`
