@@ -17,7 +17,7 @@ export interface ExtractedJob {
   rawText: string;
 }
 
-const DEFAULT_KEY = "sk-tinyfish-your-api-key-here";
+const DEFAULT_KEY = (import.meta.env?.VITE_TINYFISH_API_KEY as string) || "";
 
 export const getStoredTinyFishKey = (): string => {
   try {

@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-const tfKey = 'sk-tinyfish-your-api-key-here';
+const tfKey = process.env.VITE_TINYFISH_API_KEY || process.env.TINYFISH_API_KEY || 'sk-tinyfish-placeholder';
 
 const mockFile = fs.readFileSync('./src/data/mockOpportunities.ts', 'utf8');
 const urls = [...mockFile.matchAll(/directApplyUrl:\s*["']([^"']+)["']/g)].map(m => m[1]);

@@ -10,8 +10,8 @@ describe("Firecrawl Service", () => {
     vi.restoreAllMocks();
   });
 
-  it("exports a valid default Firecrawl API key", () => {
-    expect(FIRECRAWL_DEFAULT_KEY).toMatch(/^fc-/);
+  it("exports a valid default Firecrawl API key string or empty fallback", () => {
+    expect(typeof FIRECRAWL_DEFAULT_KEY).toBe("string");
   });
 
   it("parses responsibilities and qualifications cleanly from markdown", () => {

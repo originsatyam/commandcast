@@ -5,7 +5,7 @@
  */
 
 export const FIRECRAWL_DEFAULT_KEY =
-  (import.meta.env?.VITE_FIRECRAWL_API_KEY as string) || "fc-your-api-key-here";
+  (import.meta.env?.VITE_FIRECRAWL_API_KEY as string) || "";
 
 export interface FirecrawlScrapeResult {
   url: string;

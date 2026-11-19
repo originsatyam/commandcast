@@ -1,4 +1,4 @@
-const firecrawlKey = 'fc-your-api-key-here';
+const firecrawlKey = process.env.VITE_FIRECRAWL_API_KEY || process.env.FIRECRAWL_API_KEY || 'fc-placeholder';
 
 async function findMoreJobs() {
   const queries = [

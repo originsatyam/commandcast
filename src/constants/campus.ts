@@ -3,7 +3,7 @@
  * Extracted for zero object re-allocation, fast lookups, and clean code principles.
  */
 
-export const TINYFISH_DEFAULT_KEY = "sk-tinyfish-your-api-key-here";
+export const TINYFISH_DEFAULT_KEY = (import.meta.env?.VITE_TINYFISH_API_KEY as string) || "";
 
 export const API_ENDPOINTS = {
   TINYFISH_SEARCH: "https://api.search.tinyfish.ai",
