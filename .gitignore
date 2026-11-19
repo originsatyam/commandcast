@@ -36,3 +36,5 @@ Desktop.ini
 # Scratch and internal telemetry
 .system_generated
 tempmediaStorage
+
+.vercel
