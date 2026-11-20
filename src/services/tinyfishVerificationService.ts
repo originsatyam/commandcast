@@ -129,7 +129,16 @@ export const verifyOpportunityUrl = async (
       textContent.includes("no longer accepting applications") ||
       textContent.includes("position has been filled") ||
       textContent.includes("job is closed") ||
-      textContent.includes("404 not found");
+      textContent.includes("this job has expired") ||
+      textContent.includes("this posting is closed") ||
+      textContent.includes("this opening is no longer active") ||
+      textContent.includes("requisition has been closed") ||
+      textContent.includes("job expired") ||
+      textContent.includes("not currently accepting applications") ||
+      textContent.includes("the page you are looking for does not exist") ||
+      textContent.includes("position filled") ||
+      textContent.includes("404 not found") ||
+      textContent.includes("error 404");
 
     const result: LiveVerificationResult = {
       url: cleanUrl,
@@ -734,10 +743,12 @@ export const searchLiveOpportunities = async (
 
         const cleanTitle = title.replace(/ at .*$/, "").replace(/ - .*$/, "").replace(/[-–|].*Lever.*$/i, "").replace(/@.*Ashby.*$/i, "").replace(/Greenhouse.*$/i, "").trim();
 
-        // Check India eligibility from snippet/title without fabricating
-        const isIndia = /india|bengaluru|bangalore|delhi|gurgaon|pune|mumbai/i.test(snippet) || /india/i.test(cleanTitle);
-        const isWorldwide = /worldwide|anywhere|global remote/i.test(snippet);
-        const isGeoBlockedUS = /us only|united states only|must reside in the us/i.test(snippet);
+        // Check India eligibility from snippet/title with strict negative-keyword protection
+        const isIndia = /india|bengaluru|bangalore|delhi|gurgaon|pune|mumbai|hyderabad|remote - india|india - remote/i.test(snippet) || /india/i.test(cleanTitle);
+        const isWorldwide = /worldwide|anywhere|global remote|open to any location/i.test(snippet);
+        const isGeoBlockedUS =
+          /us only|united states only|must reside in the us|must be located in the us|us citizen(ship)? required|w2 only|no international contractors|security clearance required/i.test(snippet) ||
+          /us only|united states only/i.test(cleanTitle);
         const canWorkIndia = (isIndia || isWorldwide) && !isGeoBlockedUS;
 
         listings.push({

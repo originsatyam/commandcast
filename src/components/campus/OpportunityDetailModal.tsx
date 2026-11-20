@@ -358,6 +358,18 @@ Let me know if I can walk you through an interactive demo!
             {firecrawlResult.success ? (
               <>
                 <p className="t-body" style={{ fontWeight: 600 }}>{firecrawlResult.title}</p>
+                {extracted?.isGeoDisqualified && (
+                  <div className="badge warn" style={{ padding: "6px 10px", fontSize: "0.75rem", display: "flex", gap: 6 }}>
+                    <span>⚠️ Geo-Restriction Flag:</span>
+                    <span>{extracted.geoDisqualificationReason}</span>
+                  </div>
+                )}
+                {extracted?.isClosed && (
+                  <div className="badge crit" style={{ padding: "6px 10px", fontSize: "0.75rem", display: "flex", gap: 6 }}>
+                    <span>🛑 Inactive Notice:</span>
+                    <span>Requisition content indicates this position is closed or no longer accepting applications.</span>
+                  </div>
+                )}
                 {extracted?.overview && (
                   <p className="t-small dim" style={{ fontStyle: "italic" }}>
                     &ldquo;{extracted.overview}&rdquo;

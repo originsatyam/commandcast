@@ -280,11 +280,19 @@ export function extractJobHighlightsFromMarkdown(markdown: string): {
   responsibilities: string[];
   qualifications: string[];
   overview: string;
+  isGeoDisqualified: boolean;
+  geoDisqualificationReason?: string;
+  isClosed: boolean;
 } {
   const lines = markdown.split("\n").map((l) => l.trim()).filter(Boolean);
   const responsibilities: string[] = [];
   const qualifications: string[] = [];
   let overview = "";
+
+  const isGeoDisqualified =
+    /us citizen(ship)? required|must reside in the (us|united states)|must be physically located in the (us|united states)|w2 only|no international contractors|security clearance required/i.test(markdown);
+  const isClosed =
+    /position has been filled|job is no longer available|no longer accepting applications|this job has expired|this posting is closed|requisition has been closed/i.test(markdown);
 
   let currentSection: "none" | "resp" | "qual" = "none";
 
@@ -321,6 +329,9 @@ export function extractJobHighlightsFromMarkdown(markdown: string): {
   return {
     responsibilities,
     qualifications,
-    overview: overview || lines[0] || "Direct career portal opportunity."
+    overview: overview || lines[0] || "Direct career portal opportunity.",
+    isGeoDisqualified,
+    geoDisqualificationReason: isGeoDisqualified ? "Strict US citizen/residency requirement detected in JD" : undefined,
+    isClosed
   };
 }
