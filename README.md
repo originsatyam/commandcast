@@ -1,14 +1,14 @@
 # CommandCast — Autonomous College Opportunity Radar
 
-[![Live Deployment](https://img.shields.io/badge/Live-Vercel%20Production-success.svg)](https://commandcast-satyamuiux-7133s-projects.vercel.app)
-[![Private Repository](https://img.shields.io/badge/Visibility-Private-red.svg)](https://github.com/originsatyam/commandcast)
+[![Live Deployment](https://img.shields.io/badge/Live-commandcast.vercel.app-success.svg)](https://commandcast.vercel.app)
+[![Public Repository](https://img.shields.io/badge/Visibility-Public-success.svg)](https://github.com/originsatyam/commandcast)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8%2B-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19.3-61dafb.svg)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg)](https://vitejs.dev/)
 [![Engine](https://img.shields.io/badge/Engine-TinyFish%20%2B%20Firecrawl-violet.svg)](https://firecrawl.dev)
 [![Tests](https://img.shields.io/badge/Tests-37%20Passed-success.svg)]()
 
-> **Live Production App**: [https://commandcast-satyamuiux-7133s-projects.vercel.app](https://commandcast-satyamuiux-7133s-projects.vercel.app)  
+> **Live Production App**: [https://commandcast.vercel.app](https://commandcast.vercel.app)  
 > **Relevant. Verified. Easy to act on.**  
 > Autonomous College Opportunity Radar engineered with dual-engine headless browser verification, strict India Remote eligibility validation, and continuous voice-directed opportunity discovery.
 
