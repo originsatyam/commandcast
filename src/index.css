@@ -1641,6 +1641,17 @@ a {
   will-change: transform, box-shadow, background-color;
 }
 
+.wispr-pill.icon-only {
+  width: 32px;
+  min-width: 32px;
+  max-width: 32px;
+  height: 32px;
+  padding: 0;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 .wispr-pill:hover {
   background: var(--muted);
   color: var(--ink);
@@ -1653,18 +1664,38 @@ a {
   border-color: var(--violet);
   position: relative;
   box-shadow: 0 0 0 1px var(--violet), 0 2px 10px rgba(91, 71, 224, 0.2);
-  animation: smoothVoicePulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: harmonicAuraPulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-@keyframes smoothVoicePulse {
+@keyframes harmonicAuraPulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(91, 71, 224, 0.4);
+    box-shadow: 0 0 0 0 rgba(91, 71, 224, 0.5), 0 2px 8px rgba(91, 71, 224, 0.2);
   }
   50% {
-    box-shadow: 0 0 0 6px rgba(91, 71, 224, 0);
+    box-shadow: 0 0 0 5px rgba(91, 71, 224, 0), 0 2px 12px rgba(91, 71, 224, 0.25);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(91, 71, 224, 0);
+    box-shadow: 0 0 0 0 rgba(91, 71, 224, 0.5), 0 2px 8px rgba(91, 71, 224, 0.2);
+  }
+}
+
+.wispr-pulse-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid var(--violet);
+  animation: wisprRingPulse 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes wisprRingPulse {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
   }
 }
 
@@ -1776,6 +1807,12 @@ a {
   color: var(--ink);
   resize: vertical;
   box-sizing: border-box;
+  transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.prompt-composer-textarea.is-voice-typing {
+  color: #818cf8 !important; /* Luminous lighter indigo shade during voice dictation */
+  caret-color: #6366f1;
 }
 
 .prompt-composer-textarea::placeholder {

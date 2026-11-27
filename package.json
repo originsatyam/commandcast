@@ -1,5 +1,6 @@
 {
-  "name": "commandcast",
+  "name": "campus-radar",
+  "description": "Autonomous College Opportunity Radar",
   "private": true,
   "version": "0.1.0",
   "type": "module",

@@ -12,6 +12,7 @@ interface OpportunityFilterBarProps {
   filteredCount: number;
   onTriggerTinyFishScan: () => void;
   isScanningLive: boolean;
+  onOpenInstantAlerts?: () => void;
 }
 
 export const OpportunityFilterBar: React.FC<OpportunityFilterBarProps> = ({
@@ -21,7 +22,8 @@ export const OpportunityFilterBar: React.FC<OpportunityFilterBarProps> = ({
   totalCount,
   filteredCount,
   onTriggerTinyFishScan,
-  isScanningLive
+  isScanningLive,
+  onOpenInstantAlerts
 }) => {
   const firstName = profile.name.split(" ")[0];
 
@@ -45,21 +47,45 @@ export const OpportunityFilterBar: React.FC<OpportunityFilterBarProps> = ({
             </p>
           </div>
 
-          {/* Primary High-Impact Live Web Scanner */}
-          <button
-            type="button"
-            className={`btn btn-primary scan-btn-hero ${isScanningLive ? "is-scanning" : ""}`}
-            onClick={onTriggerTinyFishScan}
-            disabled={isScanningLive}
-            title="Scan live web for new unexpired student listings"
-          >
-            <div className="scan-icon-wrap">
-              <svg className="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-              </svg>
-            </div>
-            <span>{isScanningLive ? "Scanning live web..." : "Scan live web"}</span>
-          </button>
+          {/* Action Tools: Instant Alerts & Primary High-Impact Live Web Scanner */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+            {onOpenInstantAlerts && (
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={onOpenInstantAlerts}
+                title="Get real-time 15-minute alerts via Telegram & Email when new matching listings open"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  borderColor: "rgba(91, 71, 224, 0.3)",
+                  color: "var(--violet)",
+                  fontWeight: 600,
+                  fontSize: "0.8125rem",
+                  height: 38
+                }}
+              >
+                <span style={{ fontSize: "0.9375rem" }}>⚡</span>
+                <span>15-Min Instant Alerts</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              className={`btn btn-primary scan-btn-hero ${isScanningLive ? "is-scanning" : ""}`}
+              onClick={onTriggerTinyFishScan}
+              disabled={isScanningLive}
+              title="Scan live web for new unexpired student listings"
+            >
+              <div className="scan-icon-wrap">
+                <svg className="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+              </div>
+              <span>{isScanningLive ? "Scanning live web..." : "Scan live web"}</span>
+            </button>
+          </div>
         </div>
 
         {/* Filter & Matching Controls Row */}
@@ -137,6 +163,7 @@ export const OpportunityFilterBar: React.FC<OpportunityFilterBarProps> = ({
                 }}
                 label=""
                 size="sm"
+                iconOnly
                 title="Speak to filter opportunities (Wispr Flow)"
               />
             )}

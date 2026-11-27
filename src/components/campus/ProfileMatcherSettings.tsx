@@ -28,6 +28,7 @@ export const ProfileMatcherSettings: React.FC<ProfileMatcherSettingsProps> = ({
   const [isParsing, setIsParsing] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
   const [isVoiceListening, setIsVoiceListening] = useState(false);
+  const [justFinalizedVoice, setJustFinalizedVoice] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const basePromptTextRef = useRef("");
 
@@ -65,6 +66,8 @@ export const ProfileMatcherSettings: React.FC<ProfileMatcherSettingsProps> = ({
 
   const handleVoiceEnd = () => {
     setIsVoiceListening(false);
+    setJustFinalizedVoice(true);
+    setTimeout(() => setJustFinalizedVoice(false), 2400);
   };
 
   const handleVoicePromptTranscript = (spokenText: string) => {
@@ -238,7 +241,7 @@ export const ProfileMatcherSettings: React.FC<ProfileMatcherSettingsProps> = ({
         {/* Integrated Composer Box with internal Voice Button & Word Counter */}
         <div className="prompt-composer-card">
           <textarea
-            className="prompt-composer-textarea"
+            className={`prompt-composer-textarea ${isVoiceListening ? "is-voice-typing" : ""}`}
             rows={4}
             value={promptText}
             onChange={handlePromptChange}
@@ -259,6 +262,12 @@ export const ProfileMatcherSettings: React.FC<ProfileMatcherSettingsProps> = ({
                 <span className="voice-live-badge">
                   <span className="live-dot" />
                   <span>Listening...</span>
+                </span>
+              )}
+              {justFinalizedVoice && (
+                <span className="badge ok sm" style={{ padding: "2px 8px", fontSize: "0.75rem", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                  <span>✓</span>
+                  <span>Dictation saved in default shade</span>
                 </span>
               )}
               {promptStatusMsg && (

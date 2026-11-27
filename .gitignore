@@ -36,5 +36,6 @@ Desktop.ini
 # Scratch and internal telemetry
 .system_generated
 tempmediaStorage
+commandcast_dashboard_*.png
 
 .vercel

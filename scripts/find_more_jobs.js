@@ -31,9 +31,9 @@ async function findMoreJobs() {
   const valid = [];
   for (const r of results) {
     const url = r.url || '';
-    const isLever = /jobs\.lever\.co\/([^\/]+)\/([a-f0-9\-]{10,})/i.exec(url);
-    const isGH = /(?:boards|job-boards)\.greenhouse\.io\/([^\/]+)\/jobs\/(\d+)/i.exec(url);
-    const isAshby = /jobs\.ashbyhq\.com\/([^\/]+)\/([a-f0-9\-]{10,})/i.exec(url);
+    const isLever = /jobs\.lever\.co\/([^/]+)\/([a-f0-9-]{10,})/i.exec(url);
+    const isGH = /(?:boards|job-boards)\.greenhouse\.io\/([^/]+)\/jobs\/(\d+)/i.exec(url);
+    const isAshby = /jobs\.ashbyhq\.com\/([^/]+)\/([a-f0-9-]{10,})/i.exec(url);
 
     if (isLever || isGH || isAshby) {
       const clean = (isLever ? `https://jobs.lever.co/${isLever[1]}/${isLever[2]}` :

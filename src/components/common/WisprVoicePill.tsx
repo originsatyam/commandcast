@@ -86,12 +86,16 @@ export const WisprVoicePill: React.FC<WisprVoicePillProps> = ({
         </span>
 
         {isListening ? (
-          <span className="wispr-waves" aria-hidden="true">
-            <span className="bar b1" />
-            <span className="bar b2" />
-            <span className="bar b3" />
-            <span className="bar b4" />
-          </span>
+          iconOnly ? (
+            <span className="wispr-pulse-ring" aria-hidden="true" />
+          ) : (
+            <span className="wispr-waves" aria-hidden="true">
+              <span className="bar b1" />
+              <span className="bar b2" />
+              <span className="bar b3" />
+              <span className="bar b4" />
+            </span>
+          )
         ) : (
           !iconOnly && label && <span className="wispr-label">{label}</span>
         )}

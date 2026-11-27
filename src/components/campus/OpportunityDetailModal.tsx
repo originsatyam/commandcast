@@ -8,6 +8,7 @@ import {
 } from "../../services/firecrawlService";
 import { normalizeCompensation } from "../../utils/compensation";
 import { sounds } from "../../services/soundEffectsService";
+import { PriorityPassModal } from "./PriorityPassModal";
 
 interface OpportunityDetailModalProps {
   opportunity: OpportunityListing | null;
@@ -30,6 +31,7 @@ export const OpportunityDetailModal: React.FC<OpportunityDetailModalProps> = ({
   const [copiedPitch, setCopiedPitch] = useState(false);
   const [pitchMode, setPitchMode] = useState<"inmail" | "email" | "craft">("inmail");
   const [isFeasibilityOpen, setIsFeasibilityOpen] = useState(true);
+  const [isPriorityPassOpen, setIsPriorityPassOpen] = useState(false);
 
   const directApplyUrl = opportunity?.directApplyUrl;
 
@@ -451,6 +453,56 @@ Let me know if I can walk you through an interactive demo!
           </ul>
         </div>
 
+        {/* Priority Radar Pass Value Banner */}
+        <div
+          style={{
+            background: "linear-gradient(135deg, rgba(91, 71, 224, 0.08) 0%, rgba(91, 71, 224, 0.02) 100%)",
+            border: "1px solid rgba(91, 71, 224, 0.25)",
+            borderRadius: "var(--r-3)",
+            padding: "16px 18px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 12
+          }}
+        >
+          <div style={{ display: "grid", gap: 3 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span className="badge violet" style={{ fontSize: "0.75rem", fontWeight: 700 }}>
+                ⚡ PRIORITY RADAR PASS
+              </span>
+              <span className="t-small mono" style={{ color: "var(--violet)", fontWeight: 600 }}>
+                ₹199 / mo
+              </span>
+            </div>
+            <p className="t-body" style={{ margin: 0, fontWeight: 600, fontSize: "0.875rem" }}>
+              Apply within 15 minutes of {opportunity.company}&apos;s requisition opening.
+            </p>
+            <span className="t-small dim">
+              Unlock verified recruiter LinkedIn InMail templates, ATS pre-filter bypass, and instant SMS alerts.
+            </span>
+          </div>
+
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => {
+              sounds.playTap();
+              setIsPriorityPassOpen(true);
+            }}
+            style={{
+              borderColor: "var(--violet)",
+              color: "var(--violet)",
+              fontWeight: 600,
+              fontSize: "0.8125rem",
+              height: 34
+            }}
+          >
+            Upgrade for ₹199
+          </button>
+        </div>
+
         {/* Action Buttons: Dual Working Links */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "var(--s-3)", paddingTop: "var(--s-3)", borderTop: "1px solid var(--line)", flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -494,6 +546,11 @@ Let me know if I can walk you through an interactive demo!
           </a>
         </div>
       </div>
+
+      <PriorityPassModal
+        isOpen={isPriorityPassOpen}
+        onClose={() => setIsPriorityPassOpen(false)}
+      />
     </div>
   );
 };

@@ -16,8 +16,7 @@ import {
   fetchUserProfile,
   fetchUserApplications,
   saveApplicationToSupabase,
-  removeApplicationFromSupabase,
-  getOpportunities
+  removeApplicationFromSupabase
 } from "./services/supabaseClient";
 import { AuthProvider } from "./context/AuthContext";
 import { useAuth } from "./context/useAuth";
@@ -30,6 +29,9 @@ import { OpportunityDetailModal } from "./components/campus/OpportunityDetailMod
 import { ApplicationTracker } from "./components/campus/ApplicationTracker";
 import { GapComparisonView } from "./components/campus/GapComparisonView";
 import { ProfileMatcherSettings } from "./components/campus/ProfileMatcherSettings";
+import { InstantAlertModal } from "./components/campus/InstantAlertModal";
+import { PriorityPassModal } from "./components/campus/PriorityPassModal";
+import { fetchVerifiedOpportunities } from "./services/opportunityService";
 import { sounds } from "./services/soundEffectsService";
 import { scoreOpportunityWithPrompt } from "./services/promptMatcherService";
 
@@ -64,6 +66,8 @@ const CampusRadarContent: React.FC = () => {
   // Dynamic opportunities list
   const [opportunities, setOpportunities] = useState<OpportunityListing[]>(() => MOCK_OPPORTUNITIES);
   const [isScanningLive, setIsScanningLive] = useState(false);
+  const [isInstantAlertOpen, setIsInstantAlertOpen] = useState(false);
+  const [isPriorityPassOpen, setIsPriorityPassOpen] = useState(false);
 
   // Filter state
   const [filters, setFilters] = useState<FilterState>({
@@ -101,7 +105,7 @@ const CampusRadarContent: React.FC = () => {
 
   // Load verified listings from Supabase on start (with mock fallback)
   useEffect(() => {
-    getOpportunities().then((data) => {
+    fetchVerifiedOpportunities().then((data) => {
       if (data && data.length > 0) {
         setOpportunities(data);
       }
@@ -395,6 +399,7 @@ const CampusRadarContent: React.FC = () => {
               filteredCount={filteredOpportunities.length}
               onTriggerTinyFishScan={handleTriggerTinyFishScan}
               isScanningLive={isScanningLive}
+              onOpenInstantAlerts={() => setIsInstantAlertOpen(true)}
             />
 
             {/* Live Scanning Banner & Radar Feedback */}
@@ -586,6 +591,20 @@ const CampusRadarContent: React.FC = () => {
 
       {/* Supabase Authentication Modal */}
       <AuthModal />
+
+      {/* 15-Minute Instant Alert Subscription Modal */}
+      <InstantAlertModal
+        isOpen={isInstantAlertOpen}
+        onClose={() => setIsInstantAlertOpen(false)}
+        targetRole={profile.targetRole}
+        preferredLocation={profile.preferredLocation}
+      />
+
+      {/* Priority Radar Pass Upgrade Modal */}
+      <PriorityPassModal
+        isOpen={isPriorityPassOpen}
+        onClose={() => setIsPriorityPassOpen(false)}
+      />
 
       {/* Toast Feedback */}
       {toast && (
